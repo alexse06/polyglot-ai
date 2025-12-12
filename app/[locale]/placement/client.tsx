@@ -61,7 +61,7 @@ export default function PlacementPage() {
                     <p className="text-xl text-gray-300 mb-12">Quelle langue souhaitez-vous apprendre ?</p>
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                        {Object.values(LANGUAGE_CONFIG).map((lang) => (
+                        {Object.values(LANGUAGE_CONFIG).map((lang: any) => (
                             <button
                                 key={lang.code}
                                 onClick={() => { setLoading(true); setSelectedLanguage(lang.code); }}

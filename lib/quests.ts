@@ -1,123 +1,92 @@
-import { prisma } from './db';
-
-const QUEST_TYPES = [
-    { type: 'CHAT', target: 5, xp: 50, description: 'Send 5 messages in Chat' }, // Send 5 messages
-    { type: 'LESSON', target: 1, xp: 100, description: 'Complete 1 Lesson' }, // Finish 1 lesson
-    { type: 'XP', target: 50, xp: 30, description: 'Earn 50 XP' }, // Earn 50 XP
-    { type: 'STREAK', target: 1, xp: 20, description: 'Maintain your streak' } // Login (auto-complete)
-];
+import { prisma } from '@/lib/db';
+import { addXP } from '@/lib/progress';
 
 export async function generateDailyQuests(userId: string) {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    // Check if quests exist for today
-    const existingQuests = await prisma.dailyQuest.findMany({
+    // Check existing
+    const existing = await prisma.dailyQuest.findMany({
         where: {
-            userId: userId,
-            date: {
-                gte: today
-            }
+            userId,
+            date: { gte: today }
         }
     });
 
-    if (existingQuests.length > 0) {
-        return existingQuests;
-    }
+    if (existing.length > 0) return existing;
 
-    // Generate 3 random quests
-    // Use a simple random selection for now
-    const shuffled = [...QUEST_TYPES].sort(() => 0.5 - Math.random());
-    const selected = shuffled.slice(0, 3);
+    // Generate new ones
+    // 1. Complete a lesson
+    // 2. Chat for 5 messages
+    // 3. Earn 50 XP
+    const newQuests = [
+        { type: 'LESSON', target: 1 },
+        { type: 'CHAT', target: 5 },
+        { type: 'XP', target: 50 }
+    ];
 
-    const newQuests = [];
-    for (const quest of selected) {
-        const created = await prisma.dailyQuest.create({
+    const created = [];
+    for (const q of newQuests) {
+        const quest = await prisma.dailyQuest.create({
             data: {
                 userId,
-                type: quest.type,
-                target: quest.target,
-                progress: quest.type === 'STREAK' ? 1 : 0, // Auto-complete streak on generation (login)
-                completed: quest.type === 'STREAK', // Auto-complete streak
+                type: q.type,
+                target: q.target,
                 date: new Date()
             }
         });
-        newQuests.push(created);
+        created.push(quest);
     }
 
-    return newQuests;
-}
-
-export async function updateQuestProgress(userId: string, type: string, amount: number = 1) {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const quests = await prisma.dailyQuest.findMany({
-        where: {
-            userId,
-            type,
-            date: { gte: today },
-            completed: false
-        }
-    });
-
-    for (const quest of quests) {
-        const newProgress = quest.progress + amount;
-        const isCompleted = newProgress >= quest.target;
-
-        await prisma.dailyQuest.update({
-            where: { id: quest.id },
-            data: {
-                progress: newProgress,
-                completed: isCompleted
-            }
-        });
-    }
+    return created;
 }
 
 export async function claimQuestReward(questId: string, userId: string) {
     const quest = await prisma.dailyQuest.findUnique({
-        where: { id: questId, userId }
+        where: { id: questId }
     });
 
-    if (!quest || !quest.completed || quest.claimed) return null;
+    if (!quest || quest.userId !== userId || !quest.completed || quest.claimed) {
+        return null;
+    }
 
-    // Find reward XP based on type
-    const questDef = QUEST_TYPES.find(q => q.type === quest.type);
-    const xpReward = questDef ? questDef.xp : 20;
-
-    // Update quest as claimed
+    // Mark claimed
     await prisma.dailyQuest.update({
         where: { id: questId },
         data: { claimed: true }
     });
 
-    // Award XP to user (UserLanguageProgress)
-    // Note: We need to know WHICH language to award.
-    // Ideally, award to the *current* learning language or 'User' global XP if we had one.
-    // For now, let's fetch the user's current learning language and award it there.
+    // Add XP
+    const reward = getQuestReward(quest.type);
 
-    const user = await prisma.user.findUnique({
-        where: { id: userId },
-        include: { languageProgress: true }
-    });
+    // We guess language for now as global XP, or fetch user preference.
+    // Ideally quests should be language agnostic or tied to current.
+    // For simplicity, we assume 'ES' or fetch user's generic profile.
+    // But addXP requires language. Let's fetch user.
+    const user = await prisma.user.findUnique({ where: { id: userId } });
+    const lang = user?.learningLanguage || 'ES';
 
-    if (user) {
-        const currentLang = user.learningLanguage || 'EN';
-        const { addXP } = await import('./progress');
-        await addXP(userId, currentLang, xpReward);
+    await addXP(userId, lang, reward);
+
+    return reward;
+}
+
+export function getQuestDescription(type: string, target: number): string {
+    switch (type) {
+        case 'LESSON': return `Terminer ${target} leçon${target > 1 ? 's' : ''}`;
+        case 'CHAT': return `Échanger ${target} messages avec l'IA`;
+        case 'XP': return `Gagner ${target} XP`;
+        case 'STREAK': return `Atteindre une série de ${target} jours`;
+        default: return 'Objectif mystère';
     }
-
-    return xpReward;
 }
 
-export function getQuestDescription(type: string, target: number) {
-    const def = QUEST_TYPES.find(q => q.type === type);
-    if (!def) return 'Unknown Quest';
-    return def.description.replace(def.target.toString(), target.toString());
-}
-
-export function getQuestReward(type: string) {
-    const def = QUEST_TYPES.find(q => q.type === type);
-    return def ? def.xp : 0;
+export function getQuestReward(type: string): number {
+    switch (type) {
+        case 'LESSON': return 20;
+        case 'CHAT': return 15;
+        case 'XP': return 10;
+        case 'STREAK': return 50;
+        default: return 10;
+    }
 }

@@ -77,3 +77,26 @@
 {"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-12 11:59:28:5928"}
 {"expectedText":"Think of smooth, thin things with feathers for Martha.","level":"info","message":"checkPronunciation","targetPhoneme":"TH (soft)","timestamp":"2025-12-12 11:59:56:5956"}
 {"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-12 12:52:19:5219"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-12 14:55:07:557"}
+{"context":"chat","historyLength":1,"level":"info","message":"Generating conversation response","role":"gemini","timestamp":"2025-12-12 15:44:06:446","userMessageLength":15}
+{"duration":1717,"level":"info","message":"Gemini conversation response generated","responseLength":334,"timestamp":"2025-12-12 15:44:08:448","tokens":{"input":236,"output":110,"total":346}}
+{"context":"chat","historyLength":3,"level":"info","message":"Generating conversation response","role":"gemini","timestamp":"2025-12-12 15:44:31:4431","userMessageLength":43}
+{"duration":1690,"level":"info","message":"Gemini conversation response generated","responseLength":341,"timestamp":"2025-12-12 15:44:32:4432","tokens":{"input":263,"output":113,"total":376}}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-12 17:53:04:534"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-12 17:53:22:5322"}
+{"expectedText":"お母さんは、いつも美味しいお茶をあなたに与えます。","level":"info","message":"checkPronunciation","targetPhoneme":"Vowels (a,e,i,o,u)","timestamp":"2025-12-12 17:53:30:5330"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-12 18:15:33:1533"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-12 18:51:34:5134"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-12 18:53:02:532"}
+{"expectedText":"レモン、ミルク、ラベルを冷蔵庫に入れて。","level":"info","message":"checkPronunciation","targetPhoneme":"L","timestamp":"2025-12-12 18:53:18:5318"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-12 18:54:00:540"}
+{"expectedText":"だれが、どこのドアで、どんなデザインのドレスをみつけたんですか。","level":"info","message":"checkPronunciation","targetPhoneme":"D","timestamp":"2025-12-12 18:54:27:5427"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-12 18:55:10:5510"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-12 18:56:14:5614"}
+{"expectedText":"Это окно дома около угла улицы.","level":"info","message":"checkPronunciation","targetPhoneme":"Vowels (a,e,i,o,u)","timestamp":"2025-12-12 18:56:29:5629"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-12 18:57:05:575"}
+{"expectedText":"Летом Лена любила ловить маленьких лягушек.","level":"info","message":"checkPronunciation","targetPhoneme":"L","timestamp":"2025-12-12 18:57:41:5741"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-12 20:03:55:355"}
+{"error":{},"learningLanguage":"PT","level":"error","message":"Failed to generate character data","timestamp":"2025-12-12 23:28:48:2848"}
+{"error":{},"learningLanguage":"PT","level":"error","message":"Failed to generate character data","timestamp":"2025-12-12 23:28:54:2854"}
+{"error":{},"learningLanguage":"PT","level":"error","message":"Failed to generate character data","timestamp":"2025-12-12 23:31:52:3152"}

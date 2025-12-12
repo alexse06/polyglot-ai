@@ -1,97 +1,238 @@
 'use server';
 
-import { getGeminiModel } from '@/lib/gemini';
-import fs from 'fs/promises';
-import path from 'path';
+import { generateCharacterData } from '@/lib/gemini';
 
-export async function getLanguageCharacters(languageCode: string) {
-    const CACHE_DIR = path.join(process.cwd(), 'data', 'characters');
-    const CACHE_FILE = path.join(CACHE_DIR, `${languageCode}.json`);
-
-    // 1. Check Cache
+export async function getLanguageCharacters(lang: string) {
+    // 1. Try to generate fresh data from AI
     try {
-        await fs.access(CACHE_FILE);
-        const cachedData = await fs.readFile(CACHE_FILE, 'utf-8');
-        return JSON.parse(cachedData);
-    } catch (e) {
-        // Cache miss, proceed to generation
-    }
-
-    const model = await getGeminiModel();
-
-    // 2. Refined Prompt
-    const prompt = `
-    I need a structured guide to the writing system (alphabet/syllabary) for the language code "${languageCode}".
-    
-    If the language uses the Latin alphabet (EN, ES, FR, DE, IT, PT):
-    Provide a JSON with "type": "LATIN" and a "groups" array containing "Special Characters" (accents, unique letters like ñ, ß, ç) and their pronunciation.
-    
-    If it is CHINESE (CN/ZH):
-    - "type": "SCRIPT"
-    - "scriptName": "Pinyin & Basics"
-    - Provide 2 Groups: 
-      1. "Initials" (b, p, m, f...) with pronunciation guide.
-      2. "Finals" (a, o, e, i...) with pronunciation guide.
-      3. "Tones" (visual representation if possible, or description).
-      4. "Basic Radicals" (top 10 common radicals like Water, Person, Tree) with their Hanzi and meaning.
-    
-    If it is JAPANESE (JP/JA):
-    - "type": "SCRIPT"
-    - "scriptName": "Kana"
-    - Provide 2 Groups:
-      1. "Hiragana" (Complete basic 46 chart: あ-ん).
-      2. "Katakana" (Complete basic 46 chart: ア-ン).
-      
-    If it is RUSSIAN (RU):
-    - "type": "SCRIPT"
-    - "scriptName": "Cyrillic"
-    - Provide 3 Groups:
-      1. "Vowels" (А, Е, Ё, И, О, У, Ы, Э, Ю, Я) with pronunciation.
-      2. "Consonants" (Б, В, Г, Д, etc.) with pronunciation.
-      3. "Signs" (Soft Sign Ь, Hard Sign Ъ).
-    - ENSURE every character object has "symbol" and "romanization".
-    
-    JSON Format:
-    {
-        "type": "LATIN" | "SCRIPT",
-        "scriptName": "Hiragana/Pinyin/etc",
-        "description": "Brief overview.",
-        "groups": [
-            {
-                "title": "Group Title",
-                "characters": [
-                    { "symbol": "あ", "romanization": "a", "pronunciation": "ah", "name": "optional" }
-                ]
-            }
-        ]
-    }
-    
-    Return ONLY JSON.
-    `;
-
-    try {
-        console.log(`[Characters] Generating for ${languageCode}...`);
-        const result = await model.generateContent(prompt);
-        const text = result.response.text();
-        const jsonMatch = text.match(/\{[\s\S]*\}/);
-
-        if (jsonMatch) {
-            const data = JSON.parse(jsonMatch[0]);
-
-            // 3. Save to Cache
-            try {
-                await fs.mkdir(CACHE_DIR, { recursive: true });
-                await fs.writeFile(CACHE_FILE, JSON.stringify(data, null, 2));
-                console.log(`[Characters] Cached data for ${languageCode}`);
-            } catch (writeError) {
-                console.error("Failed to write cache", writeError);
-            }
-
-            return data;
+        const aiData = await generateCharacterData(lang);
+        if (aiData) {
+            return aiData;
         }
-        return null;
-    } catch (e) {
-        console.error("Character fetch failed", e);
-        return null;
+    } catch (error) {
+        console.error("AI Generation failed for characters, falling back to static data", error);
+    }
+
+    // 2. Fallback to hardcoded data if AI fails
+    switch (lang) {
+        case 'PT':
+            return {
+                type: 'LATIN',
+                scriptName: 'Alfabeto Português',
+                description: 'O alfabeto português tem 26 letras.',
+                groups: [
+                    {
+                        title: 'Acentos & Cedilha',
+                        characters: [
+                            { symbol: 'Ç', pronunciation: 'ss' },
+                            { symbol: 'Ã', pronunciation: 'an' },
+                            { symbol: 'Õ', pronunciation: 'on' },
+                            { symbol: 'Á', pronunciation: 'ah (aberto)' },
+                            { symbol: 'Â', pronunciation: 'ah (fechado)' },
+                            { symbol: 'É', pronunciation: 'eh (aberto)' },
+                            { symbol: 'Ê', pronunciation: 'eh (fechado)' },
+                        ]
+                    }
+                ]
+            };
+        case 'IT':
+            return {
+                type: 'LATIN',
+                scriptName: 'Alfabeto Italiano',
+                description: 'L\'alfabeto italiano ha 21 lettere standard.',
+                groups: [
+                    {
+                        title: 'Lettere',
+                        characters: [
+                            { symbol: 'A', pronunciation: 'a' },
+                            { symbol: 'E', pronunciation: 'e' },
+                            { symbol: 'I', pronunciation: 'i' },
+                            { symbol: 'O', pronunciation: 'o' },
+                            { symbol: 'U', pronunciation: 'u' },
+                        ]
+                    }
+                ]
+            };
+        case 'DE':
+            return {
+                type: 'LATIN',
+                scriptName: 'Deutsches Alphabet',
+                description: 'Das deutsche Alphabet.',
+                groups: [
+                    {
+                        title: 'Umlaute & Eszett',
+                        characters: [
+                            { symbol: 'Ä', pronunciation: 'eh' },
+                            { symbol: 'Ö', pronunciation: 'eu' },
+                            { symbol: 'Ü', pronunciation: 'uw' },
+                            { symbol: 'ß', pronunciation: 'ss' },
+                        ]
+                    }
+                ]
+            };
+        case 'RU':
+            return {
+                type: 'SCRIPT',
+                scriptName: 'Cyrillic',
+                description: 'The Russian alphabet uses the Cyrillic script.',
+                groups: [
+                    {
+                        title: 'Vowels',
+                        characters: [
+                            { symbol: 'А', romanization: 'A', pronunciation: 'a' },
+                            { symbol: 'Е', romanization: 'Ye', pronunciation: 'ye' },
+                            { symbol: 'И', romanization: 'I', pronunciation: 'i' },
+                            { symbol: 'О', romanization: 'O', pronunciation: 'o' },
+                            { symbol: 'У', romanization: 'U', pronunciation: 'u' },
+                        ]
+                    },
+                    {
+                        title: 'Consonants',
+                        characters: [
+                            { symbol: 'Б', romanization: 'B', pronunciation: 'b' },
+                            { symbol: 'В', romanization: 'V', pronunciation: 'v' },
+                            { symbol: 'Г', romanization: 'G', pronunciation: 'g' },
+                            { symbol: 'Д', romanization: 'D', pronunciation: 'd' },
+                        ]
+                    }
+                ]
+            };
+        case 'JP':
+            return {
+                type: 'SCRIPT',
+                scriptName: 'Hiragana',
+                description: 'Hiragana is used for native Japanese words.',
+                groups: [
+                    {
+                        title: 'Basic',
+                        characters: [
+                            { symbol: 'あ', romanization: 'A', pronunciation: 'ah' },
+                            { symbol: 'い', romanization: 'I', pronunciation: 'ee' },
+                            { symbol: 'う', romanization: 'U', pronunciation: 'oo' },
+                            { symbol: 'え', romanization: 'E', pronunciation: 'eh' },
+                            { symbol: 'お', romanization: 'O', pronunciation: 'oh' },
+                        ]
+                    }
+                ]
+            };
+        case 'CN':
+            return {
+                type: 'SCRIPT',
+                scriptName: 'Pinyin',
+                description: 'Mandarin Chinese tones.',
+                groups: [
+                    {
+                        title: 'Tones',
+                        characters: [
+                            { symbol: 'ā', romanization: '1st', pronunciation: 'high' },
+                            { symbol: 'á', romanization: '2nd', pronunciation: 'rising' },
+                            { symbol: 'ǎ', romanization: '3rd', pronunciation: 'dip' },
+                            { symbol: 'à', romanization: '4th', pronunciation: 'falling' },
+                        ]
+                    }
+                ]
+            };
+        case 'FR':
+            return {
+                type: 'LATIN',
+                scriptName: 'Alphabet Français',
+                description: 'L\'alphabet français comprend 26 lettres et plusieurs caractères accentués importants pour la prononciation.',
+                groups: [
+                    {
+                        title: 'Voyelles Accentuées',
+                        characters: [
+                            { symbol: 'é', name: 'e accent aigu', pronunciation: 'ay' },
+                            { symbol: 'è', name: 'e accent grave', pronunciation: 'eh' },
+                            { symbol: 'à', name: 'a accent grave', pronunciation: 'ah' },
+                            { symbol: 'ù', name: 'u accent grave', pronunciation: 'ew' },
+                            { symbol: 'â', name: 'a circonflexe', pronunciation: 'ah' },
+                            { symbol: 'ê', name: 'e circonflexe', pronunciation: 'eh' },
+                            { symbol: 'î', name: 'i circonflexe', pronunciation: 'ee' },
+                            { symbol: 'ô', name: 'o circonflexe', pronunciation: 'oh' },
+                            { symbol: 'û', name: 'u circonflexe', pronunciation: 'ew' },
+                            { symbol: 'ë', name: 'e tréma', pronunciation: 'eh' },
+                            { symbol: 'ï', name: 'i tréma', pronunciation: 'ee' },
+                            { symbol: 'ü', name: 'u tréma', pronunciation: 'ew' },
+                            { symbol: 'ÿ', name: 'y tréma', pronunciation: 'ee' },
+                        ]
+                    },
+                    {
+                        title: 'Consonnes Spéciales',
+                        characters: [
+                            { symbol: 'ç', name: 'c cédille', pronunciation: 'ss' },
+                            { symbol: 'œ', name: 'e dans l\'o', pronunciation: 'eu' },
+                            { symbol: 'æ', name: 'e dans l\'a', pronunciation: 'ay' },
+                        ]
+                    }
+                ]
+            };
+        case 'EN':
+            return {
+                type: 'LATIN',
+                scriptName: 'English Alphabet',
+                description: 'The standard English alphabet with 26 letters.',
+                groups: [
+                    {
+                        title: 'Vowels',
+                        characters: [
+                            { symbol: 'A', pronunciation: 'ei' },
+                            { symbol: 'E', pronunciation: 'i:' },
+                            { symbol: 'I', pronunciation: 'ai' },
+                            { symbol: 'O', pronunciation: 'ou' },
+                            { symbol: 'U', pronunciation: 'ju:' },
+                        ]
+                    },
+                    {
+                        title: 'Consonants (Tricky)',
+                        characters: [
+                            { symbol: 'C', pronunciation: 'si: / k' },
+                            { symbol: 'G', pronunciation: 'dʒi: / g' },
+                            { symbol: 'H', pronunciation: 'eɪtʃ' },
+                            { symbol: 'J', pronunciation: 'dʒeɪ' },
+                            { symbol: 'Q', pronunciation: 'kju:' },
+                            { symbol: 'R', pronunciation: 'ɑːr' },
+                            { symbol: 'W', pronunciation: 'ˈdʌbəljuː' },
+                            { symbol: 'X', pronunciation: 'eks' },
+                            { symbol: 'Y', pronunciation: 'waɪ' },
+                            { symbol: 'Z', pronunciation: 'zi: / zed' },
+                        ]
+                    }
+                ]
+            };
+        case 'ES':
+            return {
+                type: 'LATIN',
+                scriptName: 'Alfabeto Español',
+                description: 'El alfabeto español tiene 27 letras.',
+                groups: [
+                    {
+                        title: 'Letras Especiales',
+                        characters: [
+                            { symbol: 'Ñ', romanization: 'Eñe', pronunciation: 'ny' },
+                            { symbol: 'LL', romanization: 'Elle', pronunciation: 'y / j' },
+                            { symbol: 'CH', romanization: 'Che', pronunciation: 'ch' },
+                        ]
+                    },
+                    {
+                        title: 'Vocales Acentuadas',
+                        characters: [
+                            { symbol: 'Á', name: 'A acentuada' },
+                            { symbol: 'É', name: 'E acentuada' },
+                            { symbol: 'Í', name: 'I acentuada' },
+                            { symbol: 'Ó', name: 'O acentuada' },
+                            { symbol: 'Ú', name: 'U acentuada' },
+                            { symbol: 'Ü', name: 'U diéresis' },
+                        ]
+                    }
+                ]
+            };
+        default:
+            // Fallback to English if unknown, or generic message
+            return {
+                type: 'LATIN',
+                scriptName: lang + ' Characters',
+                description: 'Standard Latin Alphabet',
+                groups: []
+            };
     }
 }

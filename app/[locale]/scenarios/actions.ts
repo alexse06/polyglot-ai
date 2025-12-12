@@ -7,11 +7,18 @@ import { revalidatePath } from 'next/cache';
 import { getGeminiModel } from '@/lib/gemini';
 import { getConfig } from '@/lib/languageConfig';
 
+interface ScenarioSeed {
+    title: string;
+    description: string;
+    objective: string;
+    initialPrompt: string;
+    level: string;
+}
+
 export async function generateNewScenario() {
     const userId = await getUserId();
     if (!userId) return;
 
-    // Get current user level (default A1)
     // Get current user level (default A1)
     const user = await prisma.user.findUnique({
         where: { id: userId },
@@ -91,7 +98,7 @@ export async function getScenarios() {
     // DEBUG: Force EN
     const lang = user?.learningLanguage || "EN";
 
-    console.log(`[getScenarios] User: ${userId}, Lang: ${lang}`);
+
     const scenarios = await prisma.scenario.findMany({
         where: { language: lang },
         orderBy: { order: 'asc' },
@@ -107,10 +114,10 @@ export async function getScenarios() {
         scenarios.forEach(s => fs.appendFileSync('debug.log', ` - Scenario: ${s.id} ${s.title} (${s.language})\n`));
     } catch (e) { }
 
-    console.log(`[getScenarios] Found ${scenarios.length} scenarios for ${lang}`);
+
 
     if (scenarios.length === 0) {
-        console.log(`No scenarios found for ${lang}, seeding...`);
+
         await seedScenarios(lang);
         return await prisma.scenario.findMany({
             where: { language: lang },
@@ -191,7 +198,7 @@ async function seedScenarios(language: string = "ES") {
         }
     ];
 
-    let scenariosToSeed: any[] = [];
+    let scenariosToSeed: ScenarioSeed[] = [];
 
     if (language === 'EN') {
         scenariosToSeed = scenariosEN;
@@ -199,7 +206,7 @@ async function seedScenarios(language: string = "ES") {
         scenariosToSeed = scenariosES;
     } else {
         // Dynamic Bootstrap for other languages
-        console.log(`[seedScenarios] Bootstrapping first scenario for ${language} using AI...`);
+
         try {
             const firstScenario = await generateScenarioProfile('A1', language);
             scenariosToSeed = [{
@@ -228,7 +235,7 @@ async function seedScenarios(language: string = "ES") {
     }
 }
 
-export async function evaluateScenario(scenarioId: string, conversationHistory: any[]) {
+export async function evaluateScenario(scenarioId: string, conversationHistory: { role: string; content: string }[]) {
     const userId = await getUserId();
     if (!userId) return;
 

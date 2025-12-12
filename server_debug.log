@@ -1,0 +1,16 @@
+
+> spanish-learning-app@0.1.0 start
+> next start -H 0.0.0.0 -p 3001 -H 0.0.0.0
+
+   ▲ Next.js 16.0.7
+   - Local:         http://localhost:3001
+   - Network:       http://0.0.0.0:3001
+
+ ✓ Starting...
+ ✓ Ready in 1984ms
+ ⨯ Error: 
+    at aL (.next/server/chunks/2919.js:1:42928)
+    at aP (.next/server/chunks/2919.js:1:45474)
+    at h (.next/server/app/[locale]/dashboard/page.js:1:20145) {
+  digest: '484690773'
+}

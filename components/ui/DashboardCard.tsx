@@ -34,7 +34,7 @@ export function DashboardCard({
             href={href}
             className={twMerge(
                 "block group relative overflow-hidden glass-card p-6 rounded-2xl transition duration-300 hover:scale-[1.02]",
-                borderColorClass ? `hover:${borderColorClass}` : ""
+                borderColorClass
             )}
         >
             <div className="flex justify-between items-start mb-4">

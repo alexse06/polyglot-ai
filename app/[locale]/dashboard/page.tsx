@@ -1,39 +1,29 @@
 import { getOrCreateUser } from '@/lib/auth';
-import { redirect } from '@/navigation';
+import { redirect } from 'next/navigation';
 import { Link } from '@/navigation';
 import { BookOpen, Mic, Sparkles, Trophy, LogOut, BarChart3, User, Flame, MessageCircle, ArrowRight, Brain } from 'lucide-react';
 import { DashboardCard } from '@/components/ui/DashboardCard';
-import { getTranslations } from 'next-intl/server';
+import { getTranslations, getLocale } from 'next-intl/server';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import LearningLanguageToggler from '@/components/LearningLanguageToggler';
 import { RecommendedAction } from '@/components/RecommendedAction';
-import { DailyQuestsWidget } from '@/components/DailyQuestsWidget';
-import { getDashboardQuests } from './actions';
 import { prisma } from '@/lib/db';
 
 export const dynamic = 'force-dynamic'; // Prevent static generation as it relies on cookies
 
-interface Props {
-    params: Promise<{ locale: string }>;
-}
-
-export default async function DashboardPage({ params }: Props) {
-    const { locale } = await params;
+export default async function DashboardPage() {
     const user = await getOrCreateUser();
     const t = await getTranslations('Dashboard');
+    const locale = await getLocale();
 
     if (!user) {
-        // Si pas d'user, rediriger vers le placement
-        redirect({ href: '/placement', locale });
-        return null;
+        // Rediriger vers le placement (standard next redirect)
+        redirect(`/${locale}/placement`);
     }
 
     if (user?.role === 'ADMIN') {
-        redirect({ href: '/admin', locale });
+        redirect(`/${locale}/admin`);
     }
-
-    // Fetch Daily Quests
-    const quests = await getDashboardQuests();
 
     // Get progressfor the current learning language, or default to 0
     const progress = user.languageProgress.find((p: any) => p.language === user.learningLanguage) || { xp: 0, streak: 0, level: 'A1' };
@@ -60,20 +50,25 @@ export default async function DashboardPage({ params }: Props) {
                     <div className="h-8 w-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-indigo-500/20">AI</div>
                     <span className="font-bold text-lg hidden sm:block bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500">Polyglot.ai</span>
                 </div>
-                <div className="flex items-center gap-2 sm:gap-4 overflow-x-auto no-scrollbar max-w-[70vw] sm:max-w-none pb-1 sm:pb-0">
-                    <LanguageSwitcher />
+                <div className="flex items-center gap-2 sm:gap-4">
+                    <div className="hidden sm:block">
+                        <LanguageSwitcher />
+                    </div>
                     <LearningLanguageToggler currentLanguage={user.learningLanguage || 'EN'} />
 
-                    <div className="flex items-center gap-1.5 sm:gap-2 bg-gray-900 px-2 sm:px-3 py-1.5 rounded-full border border-gray-800 shrink-0">
-                        <Flame className="text-orange-500" size={16} fill="currentColor" />
-                        <span className="font-bold text-orange-500 text-sm">{progress.streak}</span>
+                    <div className="flex items-center gap-2 bg-gray-900 px-3 py-1.5 rounded-full border border-gray-800">
+                        <Flame className="text-orange-500" size={18} fill="currentColor" />
+                        <span className="font-bold text-orange-500 text-sm sm:text-base">{progress.streak}</span>
                     </div>
-                    <div className="flex items-center gap-1.5 sm:gap-2 bg-gray-900 px-2 sm:px-3 py-1.5 rounded-full border border-gray-800 shrink-0">
-                        <Trophy className="text-yellow-500" size={16} />
-                        <span className="font-bold text-yellow-500 text-sm">{progress.xp} <span className="hidden sm:inline">XP</span></span>
+                    <div className="hidden sm:flex items-center gap-2 bg-gray-900 px-3 py-1.5 rounded-full border border-gray-800">
+                        <Trophy className="text-yellow-500" size={18} />
+                        <span className="font-bold text-yellow-500">{progress.xp} XP</span>
                     </div>
-                    <Link href="/profile" className="shrink-0">
-                        <div className="w-8 h-8 sm:w-10 sm:h-10 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-black font-bold border-2 border-gray-800 hover:border-yellow-500 transition cursor-pointer text-sm">
+                    <Link href="/characters" className="p-2 rounded-full bg-indigo-500/20 text-indigo-400 hover:bg-indigo-500 hover:text-white transition flex" title="Alphabet">
+                        <BookOpen size={20} />
+                    </Link>
+                    <Link href="/profile">
+                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-black font-bold border-2 border-gray-800 hover:border-yellow-500 transition cursor-pointer">
                             {user.name?.[0]?.toUpperCase() || 'U'}
                         </div>
                     </Link>
@@ -94,20 +89,13 @@ export default async function DashboardPage({ params }: Props) {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                        <div className="lg:col-span-2 space-y-6">
-                            <RecommendedAction
-                                userName={user.name || 'User'}
-                                languageLabel={user.learningLanguage || 'EN'}
-                                streak={progress.streak || 0}
-                                lastLessonTitle={lastLessonTitle}
-                                lessonCount={completedLessonsCount}
-                            />
-                        </div>
-                        <div className="lg:col-span-1">
-                            <DailyQuestsWidget quests={quests} />
-                        </div>
-                    </div>
+                    <RecommendedAction
+                        userName={user.name || 'User'}
+                        languageLabel={user.learningLanguage || 'EN'}
+                        streak={progress.streak || 0}
+                        lastLessonTitle={lastLessonTitle}
+                        lessonCount={completedLessonsCount}
+                    />
                 </section>
 
                 {/* Action Grid */}
@@ -150,6 +138,16 @@ export default async function DashboardPage({ params }: Props) {
 
 
                     <DashboardCard
+                        href="/characters"
+                        title={t('cards.characters.title')}
+                        description={t('cards.characters.desc')}
+                        icon={BookOpen}
+                        iconColorClass="text-indigo-500"
+                        iconBgClass="bg-indigo-500/10"
+                        borderColorClass="hover:border-indigo-500/50"
+                    />
+
+                    <DashboardCard
                         href="/learn"
                         title={t('cards.lessons.title')}
                         description={t('cards.lessons.desc')}
@@ -167,16 +165,6 @@ export default async function DashboardPage({ params }: Props) {
                         iconColorClass="text-pink-400"
                         iconBgClass="bg-pink-500/10"
                         borderColorClass="hover:border-pink-500"
-                    />
-
-                    <DashboardCard
-                        href="/characters"
-                        title={t('cards.characters.title')}
-                        description={t('cards.characters.desc')}
-                        icon={BookOpen}
-                        iconColorClass="text-indigo-400"
-                        iconBgClass="bg-indigo-500/10"
-                        borderColorClass="hover:border-indigo-500"
                     />
 
                     <DashboardCard

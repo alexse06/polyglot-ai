@@ -3,15 +3,13 @@
 import { useState, useEffect } from 'react';
 import { getUserProfile, updateUserLevel, resetUserProgress, logOutAction, updateUserLanguage } from './actions';
 import Link from 'next/link';
-import { redirect, useRouter } from 'next/navigation';
-import { ArrowLeft, Trash2, LogOut, Settings, Award, Globe, Check, Shield } from 'lucide-react';
+import { ArrowLeft, Trash2, LogOut, Settings, Award, Globe, Check } from 'lucide-react';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
 import ActivityHeatmap from '@/components/ui/ActivityHeatmap';
 
 export default function ProfilePage() {
-    const router = useRouter();
     const [user, setUser] = useState<any>(null);
     const [loading, setLoading] = useState(true);
 
@@ -140,10 +138,9 @@ export default function ProfilePage() {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <button
-                            onClick={async () => {
+                            onClick={() => {
                                 setUser((prev: any) => ({ ...prev, learningLanguage: 'ES' }));
-                                await updateUserLanguage('ES');
-                                router.refresh();
+                                updateUserLanguage('ES');
                             }}
                             className={twMerge(
                                 "flex items-center justify-between p-4 rounded-xl border transition-all duration-300 group relative overflow-hidden",
@@ -169,10 +166,9 @@ export default function ProfilePage() {
                         </button>
 
                         <button
-                            onClick={async () => {
+                            onClick={() => {
                                 setUser((prev: any) => ({ ...prev, learningLanguage: 'EN' }));
-                                await updateUserLanguage('EN');
-                                router.refresh();
+                                updateUserLanguage('EN');
                             }}
                             className={twMerge(
                                 "flex items-center justify-between p-4 rounded-xl border transition-all duration-300 group relative overflow-hidden",
@@ -215,17 +211,12 @@ export default function ProfilePage() {
                     </button>
                 </section>
 
-                <div className="grid grid-cols-2 gap-4">
-                    <Link href="/legal" className="py-4 rounded-2xl glass-card text-gray-300 hover:bg-white/10 hover:text-white transition font-bold flex items-center justify-center gap-2">
-                        <Shield size={20} /> Mentions Légales
-                    </Link>
-                    <button
-                        onClick={() => logOutAction()}
-                        className="py-4 rounded-2xl glass-card text-gray-300 hover:bg-white/10 hover:text-white transition font-bold flex items-center justify-center gap-2"
-                    >
-                        <LogOut size={20} /> Déconnexion
-                    </button>
-                </div>
+                <button
+                    onClick={() => logOutAction()}
+                    className="w-full py-4 rounded-2xl glass-card text-gray-300 hover:bg-white/10 hover:text-white transition font-bold flex items-center justify-center gap-2"
+                >
+                    <LogOut size={20} /> Se déconnecter
+                </button>
             </div>
         </div>
     );

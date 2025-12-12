@@ -7,7 +7,7 @@ import { Play, Sparkles, Trophy } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 
 export default async function ScenariosPage() {
-    console.log('[ScenariosPage] Rendering...');
+
     const scenarios = await getScenarios();
 
     return (

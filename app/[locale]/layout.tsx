@@ -44,9 +44,6 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-
-  // Provide all messages to the client
-  // side is the easiest way to get started
   const messages = await getMessages();
 
   return (
@@ -55,9 +52,12 @@ export default async function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <NextIntlClientProvider messages={messages}>
+          <ForceRefresh />
           {children}
         </NextIntlClientProvider>
       </body>
     </html>
   );
 }
+
+import ForceRefresh from '@/components/ForceRefresh';

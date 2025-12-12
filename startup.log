@@ -1,0 +1,11 @@
+
+> spanish-learning-app@0.1.0 start
+> next start -H 0.0.0.0 -p 3001
+
+   ▲ Next.js 16.0.7
+   - Local:         http://localhost:3001
+   - Network:       http://0.0.0.0:3001
+
+ ✓ Starting...
+Error: Could not find a production build in the '.next' directory. Try building your app with 'next build' before starting the production server. https://nextjs.org/docs/messages/production-start-no-build-id
+    at ignore-listed frames

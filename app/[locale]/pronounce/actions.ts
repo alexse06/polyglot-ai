@@ -45,7 +45,7 @@ export async function getPronunciationChallenge(levelOverride?: string) {
 
         const CURRICULUM = lang === 'EN' ? CURRICULUM_EN : CURRICULUM_ES;
 
-        console.log("User level identified:", safeLevel, "Language:", lang);
+
 
         // 1. Analyze weak points from history
         let targetPhoneme = null;
@@ -88,10 +88,10 @@ export async function getPronunciationChallenge(levelOverride?: string) {
             targetPhoneme = "General Pronunciation";
         }
 
-        console.log("Selected Target Phoneme:", targetPhoneme);
+
 
         const challenge = await generatePronunciationSentence(safeLevel, targetPhoneme, lang);
-        console.log("Challenge generated:", challenge);
+
         return { ...challenge, targetPhoneme };
 
     } catch (e) {
@@ -116,9 +116,9 @@ export async function checkPronunciation(audioBase64: string, expectedText: stri
             lang = dbUser?.learningLanguage || "EN";
         }
 
-        console.log("User retrieved, sending to Gemini...");
+
         const result = await evaluatePronunciationWithAudio(audioBase64, expectedText, lang);
-        console.log("Gemini result received:", result);
+
 
         // Save to DB
         // Save to DB

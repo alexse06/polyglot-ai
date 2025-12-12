@@ -48,7 +48,7 @@ export function LanguagePickerModal({ currentLanguage, onClose }: { currentLangu
                 </div>
 
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-                    {Object.values(LANGUAGE_CONFIG).map((lang) => {
+                    {Object.values(LANGUAGE_CONFIG).map((lang: any) => {
                         const isSelected = lang.code === currentLanguage.toUpperCase();
                         return (
                             <button

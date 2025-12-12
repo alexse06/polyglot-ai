@@ -8,7 +8,27 @@ import { twMerge } from 'tailwind-merge';
 import confetti from 'canvas-confetti';
 import { useTTS } from '@/hooks/useTTS';
 
-export default function LessonWizard({ lesson, content }: { lesson: any, content: any }) {
+
+interface Exercise {
+    question: string;
+    type: 'TRANSLATE_TO_TARGET' | 'MULTIPLE_CHOICE' | 'COMPLETE_SENTENCE';
+    correctAnswer: string;
+    correctAdjusted?: string;
+    options?: string[];
+    transliteration?: string;
+}
+
+interface LessonContent {
+    exercises: Exercise[];
+}
+
+interface Lesson {
+    id: string;
+    language: string;
+    level: string;
+}
+
+export default function LessonWizard({ lesson, content }: { lesson: Lesson, content: LessonContent }) {
     const [currentStep, setCurrentStep] = useState(0);
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
     const [inputAnswer, setInputAnswer] = useState('');
@@ -20,11 +40,13 @@ export default function LessonWizard({ lesson, content }: { lesson: any, content
 
     const exercises = content.exercises || [];
     const currentExercise = exercises[currentStep];
-    const progress = ((currentStep) / exercises.length) * 100;
+    const progress = exercises.length > 0 ? ((currentStep) / exercises.length) * 100 : 0;
 
     const { speak, isPlaying } = useTTS();
 
-    // speak function removed, using hook directly.
+    if (!currentExercise) {
+        return <div className="p-8 text-center">Loading lesson or empty...</div>
+    }
 
     const handleExplain = async () => {
         setIsExplaining(true);
@@ -127,23 +149,19 @@ export default function LessonWizard({ lesson, content }: { lesson: any, content
 
                 {currentExercise.type === 'MULTIPLE_CHOICE' && (
                     <div className="grid grid-cols-1 gap-3">
-                        {currentExercise.options.map((opt: string) => (
+                        {currentExercise.options?.map((opt: string) => (
                             <button
                                 key={opt}
                                 onClick={() => !status.startsWith('CORRECT') && setSelectedOption(opt)}
                                 className={twMerge(
-                                    "p-4 rounded-xl border-2 text-left text-lg font-semibold transition group flex flex-col",
+                                    "p-4 rounded-xl border-2 text-left text-lg font-semibold transition",
                                     selectedOption === opt
                                         ? "border-blue-500 bg-blue-500/10 text-blue-400"
                                         : "border-gray-700 hover:bg-gray-800"
                                 )}
                                 disabled={status !== 'IDLE'}
                             >
-                                <span>{opt}</span>
-                                {/* We don't have per-option transliteration in the schema yet, only main exercise transliteration 
-                                    Update: The schema addition was generic "answers in non-Latin scripts". 
-                                    Let's stick to showing the main transliteration in the feedback logic.
-                                */}
+                                {opt}
                             </button>
                         ))}
                     </div>
@@ -153,12 +171,12 @@ export default function LessonWizard({ lesson, content }: { lesson: any, content
                     <div className="space-y-4">
                         {currentExercise.options ? (
                             <div className="flex flex-wrap gap-2">
-                                {currentExercise.options.map((opt: string) => (
+                                {currentExercise.options?.map((opt: string) => (
                                     <button
                                         key={opt}
                                         onClick={() => setSelectedOption(opt)}
                                         className={twMerge(
-                                            "px-4 py-2 rounded-lg border-2 font-bold",
+                                            "px-4 py-2 rounded-lg border-2 font-bold active:scale-95 transition",
                                             selectedOption === opt
                                                 ? "bg-blue-500 text-white border-blue-500"
                                                 : "border-gray-700 hover:bg-gray-800"
@@ -201,11 +219,6 @@ export default function LessonWizard({ lesson, content }: { lesson: any, content
                                 {status === 'WRONG' && (
                                     <span className="text-sm opacity-90">
                                         Réponse : {currentExercise.correctAnswer || currentExercise.correctAdjusted}
-                                    </span>
-                                )}
-                                {currentExercise.transliteration && (status === 'CORRECT' || status === 'WRONG') && (
-                                    <span className="text-yellow-400 italic text-sm mt-1 font-mono">
-                                        ({currentExercise.transliteration})
                                     </span>
                                 )}
                             </div>

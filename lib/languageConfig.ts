@@ -17,12 +17,21 @@ export const LANGUAGE_CONFIG = {
         stt: { lang: 'es-ES' },
         aiPrompt: { targetLanguage: 'Spanish', tutorPersona: 'You are a friendly Spanish tutor.', negativeConstraint: 'Do NOT speak English.' }
     },
+    FR: {
+        code: 'FR',
+        label: 'Français',
+        flag: '🇫🇷',
+        locale: 'fr-FR',
+        tts: { model: 'gemini-2.5-flash-preview-tts', voiceName: 'Fenrir', languageCode: 'fr-FR' },
+        stt: { lang: 'fr-FR' },
+        aiPrompt: { targetLanguage: 'French', tutorPersona: 'You are a friendly French tutor.', negativeConstraint: 'Do NOT speak English.' }
+    },
     DE: {
         code: 'DE',
         label: 'Allemand',
         flag: '🇩🇪',
         locale: 'de-DE',
-        tts: { model: 'gemini-2.5-flash-preview-tts', voiceName: 'Puck', languageCode: 'de-DE' }, // Using accessible voices
+        tts: { model: 'gemini-2.5-flash-preview-tts', voiceName: 'Puck', languageCode: 'de-DE' },
         stt: { lang: 'de-DE' },
         aiPrompt: { targetLanguage: 'German', tutorPersona: 'You are a helpful German tutor.', negativeConstraint: 'Do NOT speak French. Speak German.' }
     },
@@ -40,7 +49,7 @@ export const LANGUAGE_CONFIG = {
         label: 'Portugais',
         flag: '🇵🇹',
         locale: 'pt-PT',
-        tts: { model: 'gemini-2.5-flash-preview-tts', voiceName: 'Puck', languageCode: 'pt-BR' }, // Usually BR is better supported in TTS models
+        tts: { model: 'gemini-2.5-flash-preview-tts', voiceName: 'Puck', languageCode: 'pt-BR' },
         stt: { lang: 'pt-PT' },
         aiPrompt: { targetLanguage: 'Portuguese', tutorPersona: 'You are a helpful Portuguese tutor.', negativeConstraint: 'Speak Portuguese.' }
     },
@@ -67,7 +76,7 @@ export const LANGUAGE_CONFIG = {
         label: 'Russe',
         flag: '🇷🇺',
         locale: 'ru-RU',
-        tts: { model: 'gemini-2.5-flash-preview-tts', voiceName: 'Puck', languageCode: 'ru-RU' },
+        tts: { model: 'gemini-2.5-flash-preview-tts', voiceName: 'Charon', languageCode: 'ru-RU' },
         stt: { lang: 'ru-RU' },
         aiPrompt: { targetLanguage: 'Russian', tutorPersona: 'You are a helpful Russian tutor.', negativeConstraint: 'Speak Russian.' }
     }
@@ -78,7 +87,6 @@ export type LearningLanguage = keyof typeof LANGUAGE_CONFIG;
 export const DEFAULT_LANGUAGE: LearningLanguage = 'EN';
 
 export function getConfig(lang: string) {
-    // Normalize to UpperCase to match keys
     const safeLang = lang?.toUpperCase() || DEFAULT_LANGUAGE;
     return LANGUAGE_CONFIG[safeLang as keyof typeof LANGUAGE_CONFIG] || LANGUAGE_CONFIG[DEFAULT_LANGUAGE];
 }

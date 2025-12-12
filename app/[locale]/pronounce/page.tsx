@@ -41,11 +41,11 @@ export default function PronouncePage() {
         import('@/app/[locale]/profile/actions').then(async (mod) => {
             try {
                 const profile = await mod.getUserProfile();
-                console.log("Profile Loaded:", profile); // DEBUG
+
                 if (profile) {
                     if (profile.level) setUserLevel(profile.level);
                     if (profile.learningLanguage) {
-                        console.log("Setting Language to:", profile.learningLanguage); // DEBUG
+
                         setUserLanguage(profile.learningLanguage);
                     }
                     loadNewChallenge(profile.level);
@@ -80,9 +80,9 @@ export default function PronouncePage() {
                         const base64String = (reader.result as string).split(',')[1];
                         setIsAnalyzing(true);
                         if (challenge) {
-                            console.log("Calling server action...");
+
                             const result = await checkPronunciation(base64String, challenge.sentence, challenge.targetPhoneme);
-                            console.log("Server action returned:", result);
+
                             setAnalysisResult(result);
 
                             // Refresh UI to update XP in header
@@ -122,7 +122,7 @@ export default function PronouncePage() {
 
     const playSentence = () => {
         if (challenge) {
-            console.log("Playing Sentence with Language:", userLanguage); // DEBUG
+
             speak(challenge.sentence, userLanguage);
         }
     };

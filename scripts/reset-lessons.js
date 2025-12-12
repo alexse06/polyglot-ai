@@ -2,22 +2,28 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function main() {
-    console.log('--- RESETTING LESSONS ---');
+    console.log("Starting lesson reset process...");
 
-    // 1. Delete Progress
-    const deletedProgress = await prisma.userLessonProgress.deleteMany({});
-    console.log(`Deleted ${deletedProgress.count} progress records.`);
+    // Check count before
+    const countBefore = await prisma.lesson.count();
+    console.log(`Current lesson count: ${countBefore}`);
 
-    // 2. Delete Lessons
-    const deletedLessons = await prisma.lesson.deleteMany({});
-    console.log(`Deleted ${deletedLessons.count} lessons.`);
+    if (countBefore === 0) {
+        console.log("No lessons to delete.");
+    } else {
+        console.log("Deleting all lessons...");
+        // Deleting lessons will cascade delete UserLessonProgress due to schema configuration
+        const { count } = await prisma.lesson.deleteMany({});
+        console.log(`Successfully deleted ${count} lessons.`);
+    }
 
-    console.log("--- Lessons Wiped. They will be re-seeded on next visit. ---");
+    console.log("Lesson table is now empty.");
+    console.log("Next visit to /learn will automatically seed fresh lessons with corrected content logic.");
 }
 
 main()
-    .catch((e) => {
-        console.error(e);
+    .catch(e => {
+        console.error("Error during reset:", e);
         process.exit(1);
     })
     .finally(async () => {

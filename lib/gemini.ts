@@ -187,6 +187,7 @@ export async function generateLessonContent(topic: string, level: string, langua
     IMPORTANT: The target language is ${targetLang}. All questions and answers must be appropriate for learning ${targetLang}.
     For "TRANSLATE_TO_TARGET", the 'correctAdjusted' MUST be in ${targetLang}.
     For "MULTIPLE_CHOICE", the options MUST be in ${targetLang}.
+    IMPORTANT: The "options" array MUST ALWAYS include the correct answer mixed with distractors.
     MUST include "transliteration" field (phonetic reading) for ALL answers.
     
     Return a VALID JSON object with this structure:
@@ -199,7 +200,7 @@ export async function generateLessonContent(topic: string, level: string, langua
                     "question": "Traduisez : Hello (word in source lang)",
                     "correctAdjusted": "Hola (word in ${targetLang})",
                     "transliteration": "Pronunciation (e.g. 'Oh-lah')",
-                    "options": ["Option1", "Option2", "Option3"]
+                    "options": ["Hola", "WrongOption1", "WrongOption2"]
                 },
                 {
                     "type": "MULTIPLE_CHOICE",
@@ -215,13 +216,33 @@ export async function generateLessonContent(topic: string, level: string, langua
                 }
             ]
 }
-   ONLY RETURN JSON.`;
+    ONLY RETURN JSON.`;
 
     const result = await model.generateContent(prompt);
     const text = result.response.text();
     const jsonMatch = text.match(/\{[\s\S]*\}/);
     if (jsonMatch) {
-        return JSON.parse(jsonMatch[0]);
+        const content = JSON.parse(jsonMatch[0]);
+        // Validate and fix options to ensure correct answer is always included
+        if (content.exercises) {
+            content.exercises.forEach((ex: any) => {
+                const correct = ex.correctAnswer || ex.correctAdjusted;
+                if (correct && Array.isArray(ex.options)) {
+                    // Clean up options (trim whitespace)
+                    ex.options = ex.options.map((o: string) => o.trim());
+
+                    // Check if correct answer is in options (case insensitive check might be safer but stricter is better for display)
+                    const hasCorrect = ex.options.some((o: string) => o.toLowerCase() === correct.toLowerCase());
+
+                    if (!hasCorrect) {
+                        // Replace a random option with the correct answer
+                        const randomIndex = Math.floor(Math.random() * ex.options.length);
+                        ex.options[randomIndex] = correct;
+                    }
+                }
+            });
+        }
+        return content;
     }
     throw new Error("Failed to generate lesson content");
 }
@@ -547,3 +568,60 @@ export async function evaluatePronunciationWithAudio(audioBase64: string, expect
     }
 }
 
+
+export async function generateCharacterData(learningLanguage: string) {
+    if (!apiKey) throw new Error("API Key missing");
+
+    const model = await getGeminiModel();
+    const config = getConfig(learningLanguage);
+
+    const prompt = `
+    You are an expert language tutor.
+    Generate a comprehensive alphabet or character chart for a student learning ${config.aiPrompt.targetLanguage} (${learningLanguage}).
+    
+    The goal is to teach beginner students the writing system, pronunciation, and special characters.
+
+    Return a VALID JSON object matching this structure EXACTLY:
+    {
+        "type": "LATIN" | "SCRIPT" (Use LATIN for languages like English, Spanish, French, German. Use SCRIPT for Japanese, Russian, Chinese, Arabic, etc.),
+        "scriptName": "Name of the script (e.g. 'Hiragana', 'Cyrillic', 'Alphabet Français')",
+        "description": "A brief, encouraging, and educational description of the writing system (approx 2 sentences).",
+        "groups": [
+            {
+                "title": "Name of the group (e.g. 'Vowels', 'Consonants', 'Special Characters', 'Dakuten')",
+                "characters": [
+                    {
+                        "symbol": "The character itself (e.g. 'A', 'ñ', 'あ')",
+                        "romanization": "Romanized reading if applicable (e.g. 'a', 'nye', 'a')",
+                        "pronunciation": "Phonetic guide for a French speaker (e.g. 'ah', 'gn', 'ah')",
+                        "name": "Optional name of character (e.g. 'A acute', 'Tilde') - useful for accents"
+                    }
+                ]
+            }
+        ]
+    }
+
+    REQUIREMENTS:
+    - If the language uses the Latin alphabet (like English/Spanish/French), group by "Vowels", "Consonants", and importantly "Special Characters/Accents".
+    - If the language uses a different script (Japanese), group logically (e.g. "Basic Hiragana", "Dakuten").
+    - Provide at least 2-4 groups.
+    - Include helpful pronunciation tips for a French speaker.
+    - RETURN ONLY JSON.
+    `;
+
+    try {
+        const result = await model.generateContent({
+            contents: [{ role: 'user', parts: [{ text: prompt }] }],
+            generationConfig: {
+                maxOutputTokens: 2000, // Allow enough space for full alphabet
+                responseMimeType: "application/json"
+            }
+        });
+
+        const responseText = result.response.text();
+        return JSON.parse(responseText);
+    } catch (error) {
+        logger.error("Failed to generate character data", { error, learningLanguage });
+        return null; // The caller should handle fallback
+    }
+}
