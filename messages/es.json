@@ -1,0 +1,74 @@
+{
+    "Landing": {
+        "nav": {
+            "login": "Iniciar sesión",
+            "register": "Registrarse"
+        },
+        "hero": {
+            "poweredBy": "✨ Propulsado por Google Gemini",
+            "title": "Aprende <span class=\"text-yellow-400\">Español</span> e <span class=\"text-blue-400\">Inglés</span> con <br /> <span class=\"text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500\">tu IA personal</span>",
+            "subtitle": "Una experiencia inmersiva combinando conversación natural, correcciones en tiempo real y progreso gamificado. Como un tutor nativo, disponible 24/7.",
+            "cta": "Empezar Prueba de Nivel"
+        },
+        "features": {
+            "conversation": {
+                "title": "Conversación Fluida",
+                "description": "Habla de cualquier cosa. La IA se adapta a tu nivel y corrige tus errores sutilmente."
+            },
+            "lessons": {
+                "title": "Lecciones Personalizadas",
+                "description": "Adiós a los cursos genéricos. El contenido se genera a medida para cubrir tus lagunas."
+            },
+            "gamification": {
+                "title": "Progreso Gamificado",
+                "description": "Gana XP, mantén tu racha y desbloquea nuevos niveles del MCER."
+            }
+        }
+    },
+    "Dashboard": {
+        "start": "Comenzar",
+        "welcome": {
+            "hello": "Hola,",
+            "hola": "¡Hola,",
+            "ready": "¿Listo para continuar tu aprendizaje hoy?"
+        },
+        "cards": {
+            "chat": {
+                "title": "Conversación IA",
+                "desc": "Práctica libre con tu tutor personal. Mejora tu fluidez y recibe correcciones.",
+                "badge": "Recomendado"
+            },
+            "scenarios": {
+                "title": "Misiones Roleplay",
+                "desc": "Situaciones reales con objetivos (Café, Hotel, Estación...)."
+            },
+            "flashcards": {
+                "title": "Repaso de Fichas",
+                "desc": "Sistema de repetición espaciada para memorizar vocabulario."
+            },
+            "lessons": {
+                "title": "Lecciones",
+                "desc": "Gramática y vocabulario estructurado."
+            },
+            "pronounce": {
+                "title": "Entrenador Vocal",
+                "desc": "Perfecciona tu acento."
+            },
+            "progress": {
+                "title": "Progreso",
+                "desc": "Detalles de habilidades adquiridas e historial."
+            },
+            "characters": {
+                "title": "Símbolos y Escritura",
+                "desc": "Aprende el alfabeto o caracteres específicos."
+            }
+        }
+    },
+    "Quests": {
+        "title": "Misiones Diarias",
+        "CHAT": "Envía {target} mensajes en el Chat",
+        "LESSON": "Completa {target} Lección",
+        "XP": "Gana {target} XP",
+        "STREAK": "Mantén tu racha"
+    }
+}

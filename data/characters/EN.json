@@ -1,0 +1,142 @@
+{
+  "type": "LATIN",
+  "scriptName": "English Alphabet",
+  "description": "The English language uses the Latin alphabet with 26 letters. It does not have many special characters or accents compared to other Latin-based languages.",
+  "groups": [
+    {
+      "title": "Alphabet",
+      "characters": [
+        {
+          "symbol": "A",
+          "romanization": "A",
+          "pronunciation": "ay"
+        },
+        {
+          "symbol": "B",
+          "romanization": "B",
+          "pronunciation": "bee"
+        },
+        {
+          "symbol": "C",
+          "romanization": "C",
+          "pronunciation": "see"
+        },
+        {
+          "symbol": "D",
+          "romanization": "D",
+          "pronunciation": "dee"
+        },
+        {
+          "symbol": "E",
+          "romanization": "E",
+          "pronunciation": "ee"
+        },
+        {
+          "symbol": "F",
+          "romanization": "F",
+          "pronunciation": "eff"
+        },
+        {
+          "symbol": "G",
+          "romanization": "G",
+          "pronunciation": "jee"
+        },
+        {
+          "symbol": "H",
+          "romanization": "H",
+          "pronunciation": "aitch"
+        },
+        {
+          "symbol": "I",
+          "romanization": "I",
+          "pronunciation": "eye"
+        },
+        {
+          "symbol": "J",
+          "romanization": "J",
+          "pronunciation": "jay"
+        },
+        {
+          "symbol": "K",
+          "romanization": "K",
+          "pronunciation": "kay"
+        },
+        {
+          "symbol": "L",
+          "romanization": "L",
+          "pronunciation": "ell"
+        },
+        {
+          "symbol": "M",
+          "romanization": "M",
+          "pronunciation": "em"
+        },
+        {
+          "symbol": "N",
+          "romanization": "N",
+          "pronunciation": "en"
+        },
+        {
+          "symbol": "O",
+          "romanization": "O",
+          "pronunciation": "oh"
+        },
+        {
+          "symbol": "P",
+          "romanization": "P",
+          "pronunciation": "pee"
+        },
+        {
+          "symbol": "Q",
+          "romanization": "Q",
+          "pronunciation": "queue"
+        },
+        {
+          "symbol": "R",
+          "romanization": "R",
+          "pronunciation": "ar"
+        },
+        {
+          "symbol": "S",
+          "romanization": "S",
+          "pronunciation": "ess"
+        },
+        {
+          "symbol": "T",
+          "romanization": "T",
+          "pronunciation": "tee"
+        },
+        {
+          "symbol": "U",
+          "romanization": "U",
+          "pronunciation": "you"
+        },
+        {
+          "symbol": "V",
+          "romanization": "V",
+          "pronunciation": "vee"
+        },
+        {
+          "symbol": "W",
+          "romanization": "W",
+          "pronunciation": "double-you"
+        },
+        {
+          "symbol": "X",
+          "romanization": "X",
+          "pronunciation": "ex"
+        },
+        {
+          "symbol": "Y",
+          "romanization": "Y",
+          "pronunciation": "why"
+        },
+        {
+          "symbol": "Z",
+          "romanization": "Z",
+          "pronunciation": "zee/zed"
+        }
+      ]
+    }
+  ]
+}

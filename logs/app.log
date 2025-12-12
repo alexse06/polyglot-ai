@@ -1,0 +1,78 @@
+{"level":"info","levelOverride":"A2","message":"getPronunciationChallenge","timestamp":"2025-12-09 15:44:50:4450"}
+{"level":"info","levelOverride":"A2","message":"getPronunciationChallenge","timestamp":"2025-12-09 16:14:44:1444"}
+{"level":"info","levelOverride":"A2","message":"getPronunciationChallenge","timestamp":"2025-12-09 16:16:34:1634"}
+{"level":"info","levelOverride":"A2","message":"getPronunciationChallenge","timestamp":"2025-12-09 16:23:06:236"}
+{"level":"info","levelOverride":"A2","message":"getPronunciationChallenge","timestamp":"2025-12-09 16:26:36:2636"}
+{"level":"info","levelOverride":"A2","message":"getPronunciationChallenge","timestamp":"2025-12-09 16:36:14:3614"}
+{"context":"chat","historyLength":1,"level":"info","message":"Generating conversation response","role":"gemini","timestamp":"2025-12-09 16:53:47:5347","userMessageLength":29}
+{"duration":1218,"level":"info","message":"Gemini conversation response generated","responseLength":221,"timestamp":"2025-12-09 16:53:48:5348","tokens":{"input":156,"output":77,"total":233}}
+{"context":"chat","historyLength":3,"level":"info","message":"Generating conversation response","role":"gemini","timestamp":"2025-12-09 16:54:12:5412","userMessageLength":8}
+{"duration":1122,"level":"info","message":"Gemini conversation response generated","responseLength":187,"timestamp":"2025-12-09 16:54:13:5413","tokens":{"input":176,"output":62,"total":238}}
+{"context":"chat","historyLength":1,"level":"info","message":"Generating conversation response","role":"gemini","timestamp":"2025-12-09 17:05:29:529","userMessageLength":30}
+{"duration":969,"level":"info","message":"Gemini conversation response generated","responseLength":252,"timestamp":"2025-12-09 17:05:30:530","tokens":{"input":197,"output":81,"total":278}}
+{"context":"chat","historyLength":3,"level":"info","message":"Generating conversation response","role":"gemini","timestamp":"2025-12-09 17:06:03:63","userMessageLength":10}
+{"duration":1129,"level":"info","message":"Gemini conversation response generated","responseLength":194,"timestamp":"2025-12-09 17:06:04:64","tokens":{"input":221,"output":65,"total":286}}
+{"level":"info","levelOverride":"A2","message":"getPronunciationChallenge","timestamp":"2025-12-09 20:45:52:4552"}
+{"expectedText":"Para preparar la ensalada, corta primero la pera y el pepino para el verano.","level":"info","message":"checkPronunciation","targetPhoneme":"R (soft)","timestamp":"2025-12-09 20:46:17:4617"}
+{"level":"info","levelOverride":"A2","message":"getPronunciationChallenge","timestamp":"2025-12-09 20:47:15:4715"}
+{"expectedText":"Julián, el joven jardinero, jamás juzgaba a los que viajaban lejos.","level":"info","message":"checkPronunciation","targetPhoneme":"J (Jota)","timestamp":"2025-12-09 20:47:50:4750"}
+{"level":"info","levelOverride":"A2","message":"getPronunciationChallenge","timestamp":"2025-12-09 20:48:19:4819"}
+{"expectedText":"Miguel, ¿consigues guisantes congelados en esa antigua bodega que está en la calle Guernica?","level":"info","message":"checkPronunciation","targetPhoneme":"G (Gue/Gui)","timestamp":"2025-12-09 20:48:42:4842"}
+{"level":"info","levelOverride":"A2","message":"getPronunciationChallenge","timestamp":"2025-12-09 20:49:19:4919"}
+{"expectedText":"Mañana, el niño pequeño diseñará una piñata extraña para celebrar el otoño.","level":"info","message":"checkPronunciation","targetPhoneme":"Ñ","timestamp":"2025-12-09 20:49:48:4948"}
+{"expectedText":"Mañana, el niño pequeño diseñará una piñata extraña para celebrar el otoño.","level":"info","message":"checkPronunciation","targetPhoneme":"Ñ","timestamp":"2025-12-09 20:50:34:5034"}
+{"context":"chat","historyLength":1,"level":"info","message":"Generating conversation response","role":"gemini","timestamp":"2025-12-09 20:55:18:5518","userMessageLength":29}
+{"duration":1144,"level":"info","message":"Gemini conversation response generated","responseLength":256,"timestamp":"2025-12-09 20:55:19:5519","tokens":{"input":161,"output":83,"total":244}}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-10 22:13:59:1359"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-10 22:17:28:1728"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-10 22:17:32:1732"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-10 22:17:44:1744"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-10 22:20:17:2017"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-10 22:28:18:2818"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-10 22:31:40:3140"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-10 22:37:39:3739"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-10 22:41:06:416"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-10 22:41:17:4117"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-10 22:47:42:4742"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-10 22:53:10:5310"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-10 22:55:47:5547"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-10 22:59:21:5921"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-10 23:05:06:56"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-10 23:05:31:531"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-10 23:08:08:88"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-11 10:32:34:3234"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-11 12:07:45:745"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-11 12:11:11:1111"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-11 12:13:15:1315"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-11 12:17:28:1728"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-11 12:20:16:2016"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-11 12:23:10:2310"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-11 12:26:10:2610"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-11 12:28:29:2829"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-11 12:32:24:3224"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-11 12:41:06:416"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-11 12:45:40:4540"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-11 12:46:02:462"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-11 12:58:56:5856"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-11 22:43:48:4348"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-11 22:50:47:5047"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-11 22:54:31:5431"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-11 22:58:45:5845"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-11 22:59:04:594"}
+{"expectedText":"Think through this thoroughly, then thank them thereafter.","level":"info","message":"checkPronunciation","targetPhoneme":"TH (soft)","timestamp":"2025-12-11 22:59:40:5940"}
+{"context":"chat","historyLength":1,"level":"info","message":"Generating conversation response","role":"gemini","timestamp":"2025-12-11 23:15:45:1545","userMessageLength":2}
+{"duration":1311,"level":"info","message":"Gemini conversation response generated","responseLength":349,"timestamp":"2025-12-11 23:15:47:1547","tokens":{"input":210,"output":99,"total":309}}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-11 23:32:42:3242"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-11 23:33:20:3320"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-11 23:41:10:4110"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-11 23:45:37:4537"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-11 23:59:08:598"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-12 00:25:04:254"}
+{"context":"chat","historyLength":1,"level":"info","message":"Generating conversation response","role":"gemini","timestamp":"2025-12-12 00:31:35:3135","userMessageLength":5}
+{"duration":1248,"level":"info","message":"Gemini conversation response generated","responseLength":321,"timestamp":"2025-12-12 00:31:37:3137","tokens":{"input":210,"output":133,"total":343}}
+{"context":"chat","historyLength":1,"level":"info","message":"Generating conversation response","role":"gemini","timestamp":"2025-12-12 08:49:30:4930","userMessageLength":4}
+{"duration":1670,"level":"info","message":"Gemini conversation response generated","responseLength":507,"timestamp":"2025-12-12 08:49:32:4932","tokens":{"input":233,"output":198,"total":431}}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-12 08:53:54:5354"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-12 09:59:21:5921"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-12 11:59:28:5928"}
+{"expectedText":"Think of smooth, thin things with feathers for Martha.","level":"info","message":"checkPronunciation","targetPhoneme":"TH (soft)","timestamp":"2025-12-12 11:59:56:5956"}

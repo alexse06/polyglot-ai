@@ -1,0 +1,14 @@
+-- CreateTable
+CREATE TABLE "UserFlashcard" (
+    "id" TEXT NOT NULL PRIMARY KEY,
+    "userId" TEXT NOT NULL,
+    "front" TEXT NOT NULL,
+    "back" TEXT NOT NULL,
+    "interval" INTEGER NOT NULL DEFAULT 0,
+    "repetition" INTEGER NOT NULL DEFAULT 0,
+    "easeFactor" REAL NOT NULL DEFAULT 2.5,
+    "nextReview" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "createdAt" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" DATETIME NOT NULL,
+    CONSTRAINT "UserFlashcard_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);

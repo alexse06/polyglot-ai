@@ -1,0 +1,189 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String   @id @default(cuid())
+  email         String?  @unique
+  password      String?  // Hashed password
+  name          String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  // Progression - NOW DEPRECATED on User directly, moved to UserLanguageProgress
+  // Keeping specific fields for backward compatibility if needed, or migrating.
+  // xp            Int      @default(0) 
+  // level         String   @default("A1") 
+  // streak        Int      @default(0)
+  // lastStudyDate DateTime?
+
+  // Global User fields
+  lastActive    DateTime @default(now()) 
+  role          String   @default("USER") 
+  learningLanguage String @default("EN") 
+
+  languageProgress UserLanguageProgress[]
+
+  conversations Conversation[]
+  lessonProgress UserLessonProgress[]
+  scenarioProgress UserScenarioProgress[]
+  flashcards       UserFlashcard[]
+  pronunciationAttempts PronunciationAttempt[]
+  dailyQuests      DailyQuest[]
+}
+
+model UserLanguageProgress {
+  id            String   @id @default(uuid())
+  userId        String
+  language      String   // "ES", "EN"
+  
+  xp            Int      @default(0)
+  level         String   @default("A1")
+  streak        Int      @default(0)
+  lastStudyDate DateTime?
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, language])
+}
+
+model Lesson {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  level       String   
+  category    String   
+  language    String   @default("ES")
+  content     String   
+  order       Int      @default(0)
+  
+  progress    UserLessonProgress[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model UserLessonProgress {
+  id          String   @id @default(uuid())
+  userId      String
+  lessonId    String
+  language    String   @default("ES") // Added
+  completed   Boolean  @default(false)
+  score       Int      @default(0)
+  completedAt DateTime @default(now())
+  
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  lesson Lesson @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, lessonId])
+}
+
+model Scenario {
+  id            String   @id @default(uuid())
+  title         String
+  description   String
+  objective     String   
+  initialPrompt String   
+  language      String   @default("ES")
+  level         String   
+  order         Int      @default(0)
+  
+  progress      UserScenarioProgress[]
+}
+
+model UserScenarioProgress {
+  id          String   @id @default(uuid())
+  userId      String
+  scenarioId  String
+  language    String   @default("ES") // Added
+  completed   Boolean  @default(false)
+  score       Int      @default(0) 
+  feedback    String?  
+  completedAt DateTime @default(now())
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  scenario Scenario @relation(fields: [scenarioId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, scenarioId])
+}
+
+model UserFlashcard {
+  id          String   @id @default(uuid())
+  userId      String
+  front       String   
+  back        String   
+  language    String   @default("ES") // Added
+  
+  interval    Int      @default(0)   
+  repetition  Int      @default(0)   
+  easeFactor  Float    @default(2.5) 
+  nextReview  DateTime @default(now())
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt 
+
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Conversation {
+  id        String    @id @default(cuid())
+  userId    String
+  language  String    @default("ES")
+  user      User      @relation(fields: [userId], references: [id])
+  messages  Message[]
+  
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  
+  startTime DateTime  @default(now())
+}
+
+model Message {
+  id             String       @id @default(cuid())
+  conversationId String
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+  
+  role           String       
+  content        String
+  transliteration String? // Add persistence for phonetic guides
+  audioUrl       String?      
+  
+  createdAt      DateTime     @default(now())
+}
+
+model DailyQuest {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  type      String   // LESSON, CHAT, XP, STREAK
+  target    Int      // e.g. 1, 5, 20
+  progress  Int      @default(0)
+  completed Boolean  @default(false)
+  claimed   Boolean  @default(false)
+  date      DateTime @default(now()) // To identify "today's" quests
+
+  @@index([userId, date])
+}
+
+model PronunciationAttempt {
+  id             String   @id @default(cuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  language       String   @default("ES") // Added
+  
+  sentence       String
+  targetPhoneme  String?  
+  score          Int      
+  feedback       String?  
+  transcription  String?  
+  
+  createdAt      DateTime @default(now())
+}

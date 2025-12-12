@@ -1,0 +1,307 @@
+{
+  "type": "SCRIPT",
+  "scriptName": "Pinyin & Basics",
+  "description": "Pinyin is the official romanization system for Standard Mandarin Chinese. It uses Latin letters to represent the sounds of Chinese characters.",
+  "groups": [
+    {
+      "title": "Initials",
+      "characters": [
+        {
+          "symbol": "b",
+          "romanization": "b",
+          "pronunciation": "like 'b' in 'ball', but unaspirated"
+        },
+        {
+          "symbol": "p",
+          "romanization": "p",
+          "pronunciation": "like 'p' in 'pill', aspirated (with a puff of air)"
+        },
+        {
+          "symbol": "m",
+          "romanization": "m",
+          "pronunciation": "like 'm' in 'man'"
+        },
+        {
+          "symbol": "f",
+          "romanization": "f",
+          "pronunciation": "like 'f' in 'fan'"
+        },
+        {
+          "symbol": "d",
+          "romanization": "d",
+          "pronunciation": "like 'd' in 'dog', but unaspirated"
+        },
+        {
+          "symbol": "t",
+          "romanization": "t",
+          "pronunciation": "like 't' in 'tall', aspirated"
+        },
+        {
+          "symbol": "n",
+          "romanization": "n",
+          "pronunciation": "like 'n' in 'nose'"
+        },
+        {
+          "symbol": "l",
+          "romanization": "l",
+          "pronunciation": "like 'l' in 'lip'"
+        },
+        {
+          "symbol": "g",
+          "romanization": "g",
+          "pronunciation": "like 'g' in 'go', but unaspirated"
+        },
+        {
+          "symbol": "k",
+          "romanization": "k",
+          "pronunciation": "like 'k' in 'kill', aspirated"
+        },
+        {
+          "symbol": "h",
+          "romanization": "h",
+          "pronunciation": "like 'h' in 'hat'"
+        },
+        {
+          "symbol": "j",
+          "romanization": "j",
+          "pronunciation": "like 'j' in 'jeep', but with the tongue further back"
+        },
+        {
+          "symbol": "q",
+          "romanization": "q",
+          "pronunciation": "like 'ch' in 'cheese', aspirated"
+        },
+        {
+          "symbol": "x",
+          "romanization": "x",
+          "pronunciation": "like 'sh' in 'she'"
+        },
+        {
+          "symbol": "zh",
+          "romanization": "zh",
+          "pronunciation": "retroflex 'j' sound, curl the tongue back"
+        },
+        {
+          "symbol": "ch",
+          "romanization": "ch",
+          "pronunciation": "retroflex 'ch' sound, curl the tongue back, aspirated"
+        },
+        {
+          "symbol": "sh",
+          "romanization": "sh",
+          "pronunciation": "retroflex 'sh' sound, curl the tongue back"
+        },
+        {
+          "symbol": "r",
+          "romanization": "r",
+          "pronunciation": "retroflex 'r' sound, curl the tongue back"
+        },
+        {
+          "symbol": "z",
+          "romanization": "z",
+          "pronunciation": "like 'ds' in 'beds', unaspirated"
+        },
+        {
+          "symbol": "c",
+          "romanization": "c",
+          "pronunciation": "like 'ts' in 'cats', aspirated"
+        },
+        {
+          "symbol": "s",
+          "romanization": "s",
+          "pronunciation": "like 's' in 'sun'"
+        },
+        {
+          "symbol": "y",
+          "romanization": "y",
+          "pronunciation": "like 'y' in 'yes', used before finals starting with i or ü"
+        },
+        {
+          "symbol": "w",
+          "romanization": "w",
+          "pronunciation": "like 'w' in 'water', used before finals starting with u"
+        }
+      ]
+    },
+    {
+      "title": "Finals",
+      "characters": [
+        {
+          "symbol": "a",
+          "romanization": "a",
+          "pronunciation": "like 'a' in 'father'"
+        },
+        {
+          "symbol": "o",
+          "romanization": "o",
+          "pronunciation": "like 'o' in 'more'"
+        },
+        {
+          "symbol": "e",
+          "romanization": "e",
+          "pronunciation": "like 'uh' in 'but'"
+        },
+        {
+          "symbol": "i",
+          "romanization": "i",
+          "pronunciation": "like 'ee' in 'see'"
+        },
+        {
+          "symbol": "u",
+          "romanization": "u",
+          "pronunciation": "like 'oo' in 'moon'"
+        },
+        {
+          "symbol": "ü",
+          "romanization": "ü",
+          "pronunciation": "like 'u' in German 'über' or French 'tu'"
+        },
+        {
+          "symbol": "ai",
+          "romanization": "ai",
+          "pronunciation": "like 'eye'"
+        },
+        {
+          "symbol": "ei",
+          "romanization": "ei",
+          "pronunciation": "like 'ay' in 'day'"
+        },
+        {
+          "symbol": "ao",
+          "romanization": "ao",
+          "pronunciation": "like 'ow' in 'cow'"
+        },
+        {
+          "symbol": "ou",
+          "romanization": "ou",
+          "pronunciation": "like 'oh' in 'go'"
+        },
+        {
+          "symbol": "an",
+          "romanization": "an",
+          "pronunciation": "like 'ahn'"
+        },
+        {
+          "symbol": "en",
+          "romanization": "en",
+          "pronunciation": "like 'uhn'"
+        },
+        {
+          "symbol": "ang",
+          "romanization": "ang",
+          "pronunciation": "like 'ahng'"
+        },
+        {
+          "symbol": "eng",
+          "romanization": "eng",
+          "pronunciation": "like 'uhng'"
+        },
+        {
+          "symbol": "ong",
+          "romanization": "ong",
+          "pronunciation": "like 'oong'"
+        },
+        {
+          "symbol": "er",
+          "romanization": "er",
+          "pronunciation": "retroflex 'er' sound, curl the tongue back"
+        }
+      ]
+    },
+    {
+      "title": "Tones",
+      "characters": [
+        {
+          "symbol": "ā",
+          "romanization": "1st tone",
+          "pronunciation": "high-level tone (55)"
+        },
+        {
+          "symbol": "á",
+          "romanization": "2nd tone",
+          "pronunciation": "rising tone (35)"
+        },
+        {
+          "symbol": "ǎ",
+          "romanization": "3rd tone",
+          "pronunciation": "low-dipping tone (214)"
+        },
+        {
+          "symbol": "à",
+          "romanization": "4th tone",
+          "pronunciation": "falling tone (51)"
+        },
+        {
+          "symbol": "a",
+          "romanization": "neutral tone",
+          "pronunciation": "short, unstressed syllable"
+        }
+      ]
+    },
+    {
+      "title": "Basic Radicals",
+      "characters": [
+        {
+          "symbol": "水",
+          "romanization": "shuǐ",
+          "pronunciation": "shway (3rd tone)",
+          "meaning": "Water"
+        },
+        {
+          "symbol": "人",
+          "romanization": "rén",
+          "pronunciation": "ren (2nd tone)",
+          "meaning": "Person"
+        },
+        {
+          "symbol": "木",
+          "romanization": "mù",
+          "pronunciation": "moo (4th tone)",
+          "meaning": "Tree"
+        },
+        {
+          "symbol": "火",
+          "romanization": "huǒ",
+          "pronunciation": "hwaw (3rd tone)",
+          "meaning": "Fire"
+        },
+        {
+          "symbol": "土",
+          "romanization": "tǔ",
+          "pronunciation": "too (3rd tone)",
+          "meaning": "Earth"
+        },
+        {
+          "symbol": "金",
+          "romanization": "jīn",
+          "pronunciation": "jeen (1st tone)",
+          "meaning": "Gold, Metal"
+        },
+        {
+          "symbol": "手",
+          "romanization": "shǒu",
+          "pronunciation": "show (3rd tone)",
+          "meaning": "Hand"
+        },
+        {
+          "symbol": "口",
+          "romanization": "kǒu",
+          "pronunciation": "ko (3rd tone)",
+          "meaning": "Mouth"
+        },
+        {
+          "symbol": "心",
+          "romanization": "xīn",
+          "pronunciation": "sheen (1st tone)",
+          "meaning": "Heart"
+        },
+        {
+          "symbol": "女",
+          "romanization": "nǚ",
+          "pronunciation": "nu (3rd tone)",
+          "meaning": "Woman"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,477 @@
+{
+  "type": "SCRIPT",
+  "scriptName": "Kana",
+  "description": "Japanese uses two syllabaries, Hiragana and Katakana, alongside Kanji (borrowed Chinese characters). This outlines the Hiragana and Katakana charts.",
+  "groups": [
+    {
+      "title": "Hiragana",
+      "characters": [
+        {
+          "symbol": "あ",
+          "romanization": "a",
+          "pronunciation": "ah"
+        },
+        {
+          "symbol": "い",
+          "romanization": "i",
+          "pronunciation": "ee"
+        },
+        {
+          "symbol": "う",
+          "romanization": "u",
+          "pronunciation": "oo"
+        },
+        {
+          "symbol": "え",
+          "romanization": "e",
+          "pronunciation": "eh"
+        },
+        {
+          "symbol": "お",
+          "romanization": "o",
+          "pronunciation": "oh"
+        },
+        {
+          "symbol": "か",
+          "romanization": "ka",
+          "pronunciation": "kah"
+        },
+        {
+          "symbol": "き",
+          "romanization": "ki",
+          "pronunciation": "kee"
+        },
+        {
+          "symbol": "く",
+          "romanization": "ku",
+          "pronunciation": "koo"
+        },
+        {
+          "symbol": "け",
+          "romanization": "ke",
+          "pronunciation": "keh"
+        },
+        {
+          "symbol": "こ",
+          "romanization": "ko",
+          "pronunciation": "koh"
+        },
+        {
+          "symbol": "さ",
+          "romanization": "sa",
+          "pronunciation": "sah"
+        },
+        {
+          "symbol": "し",
+          "romanization": "shi",
+          "pronunciation": "shee"
+        },
+        {
+          "symbol": "す",
+          "romanization": "su",
+          "pronunciation": "soo"
+        },
+        {
+          "symbol": "せ",
+          "romanization": "se",
+          "pronunciation": "seh"
+        },
+        {
+          "symbol": "そ",
+          "romanization": "so",
+          "pronunciation": "soh"
+        },
+        {
+          "symbol": "た",
+          "romanization": "ta",
+          "pronunciation": "tah"
+        },
+        {
+          "symbol": "ち",
+          "romanization": "chi",
+          "pronunciation": "chee"
+        },
+        {
+          "symbol": "つ",
+          "romanization": "tsu",
+          "pronunciation": "tsoo"
+        },
+        {
+          "symbol": "て",
+          "romanization": "te",
+          "pronunciation": "teh"
+        },
+        {
+          "symbol": "と",
+          "romanization": "to",
+          "pronunciation": "toh"
+        },
+        {
+          "symbol": "な",
+          "romanization": "na",
+          "pronunciation": "nah"
+        },
+        {
+          "symbol": "に",
+          "romanization": "ni",
+          "pronunciation": "nee"
+        },
+        {
+          "symbol": "ぬ",
+          "romanization": "nu",
+          "pronunciation": "noo"
+        },
+        {
+          "symbol": "ね",
+          "romanization": "ne",
+          "pronunciation": "neh"
+        },
+        {
+          "symbol": "の",
+          "romanization": "no",
+          "pronunciation": "noh"
+        },
+        {
+          "symbol": "は",
+          "romanization": "ha",
+          "pronunciation": "hah"
+        },
+        {
+          "symbol": "ひ",
+          "romanization": "hi",
+          "pronunciation": "hee"
+        },
+        {
+          "symbol": "ふ",
+          "romanization": "fu",
+          "pronunciation": "foo"
+        },
+        {
+          "symbol": "へ",
+          "romanization": "he",
+          "pronunciation": "heh"
+        },
+        {
+          "symbol": "ほ",
+          "romanization": "ho",
+          "pronunciation": "hoh"
+        },
+        {
+          "symbol": "ま",
+          "romanization": "ma",
+          "pronunciation": "mah"
+        },
+        {
+          "symbol": "み",
+          "romanization": "mi",
+          "pronunciation": "mee"
+        },
+        {
+          "symbol": "む",
+          "romanization": "mu",
+          "pronunciation": "moo"
+        },
+        {
+          "symbol": "め",
+          "romanization": "me",
+          "pronunciation": "meh"
+        },
+        {
+          "symbol": "も",
+          "romanization": "mo",
+          "pronunciation": "moh"
+        },
+        {
+          "symbol": "や",
+          "romanization": "ya",
+          "pronunciation": "yah"
+        },
+        {
+          "symbol": "ゆ",
+          "romanization": "yu",
+          "pronunciation": "yoo"
+        },
+        {
+          "symbol": "よ",
+          "romanization": "yo",
+          "pronunciation": "yoh"
+        },
+        {
+          "symbol": "ら",
+          "romanization": "ra",
+          "pronunciation": "rah"
+        },
+        {
+          "symbol": "り",
+          "romanization": "ri",
+          "pronunciation": "ree"
+        },
+        {
+          "symbol": "る",
+          "romanization": "ru",
+          "pronunciation": "roo"
+        },
+        {
+          "symbol": "れ",
+          "romanization": "re",
+          "pronunciation": "reh"
+        },
+        {
+          "symbol": "ろ",
+          "romanization": "ro",
+          "pronunciation": "roh"
+        },
+        {
+          "symbol": "わ",
+          "romanization": "wa",
+          "pronunciation": "wah"
+        },
+        {
+          "symbol": "を",
+          "romanization": "wo",
+          "pronunciation": "woh (usually pronounced 'o')"
+        },
+        {
+          "symbol": "ん",
+          "romanization": "n",
+          "pronunciation": "nn"
+        }
+      ]
+    },
+    {
+      "title": "Katakana",
+      "characters": [
+        {
+          "symbol": "ア",
+          "romanization": "a",
+          "pronunciation": "ah"
+        },
+        {
+          "symbol": "イ",
+          "romanization": "i",
+          "pronunciation": "ee"
+        },
+        {
+          "symbol": "ウ",
+          "romanization": "u",
+          "pronunciation": "oo"
+        },
+        {
+          "symbol": "エ",
+          "romanization": "e",
+          "pronunciation": "eh"
+        },
+        {
+          "symbol": "オ",
+          "romanization": "o",
+          "pronunciation": "oh"
+        },
+        {
+          "symbol": "カ",
+          "romanization": "ka",
+          "pronunciation": "kah"
+        },
+        {
+          "symbol": "キ",
+          "romanization": "ki",
+          "pronunciation": "kee"
+        },
+        {
+          "symbol": "ク",
+          "romanization": "ku",
+          "pronunciation": "koo"
+        },
+        {
+          "symbol": "ケ",
+          "romanization": "ke",
+          "pronunciation": "keh"
+        },
+        {
+          "symbol": "コ",
+          "romanization": "ko",
+          "pronunciation": "koh"
+        },
+        {
+          "symbol": "サ",
+          "romanization": "sa",
+          "pronunciation": "sah"
+        },
+        {
+          "symbol": "シ",
+          "romanization": "shi",
+          "pronunciation": "shee"
+        },
+        {
+          "symbol": "ス",
+          "romanization": "su",
+          "pronunciation": "soo"
+        },
+        {
+          "symbol": "セ",
+          "romanization": "se",
+          "pronunciation": "seh"
+        },
+        {
+          "symbol": "ソ",
+          "romanization": "so",
+          "pronunciation": "soh"
+        },
+        {
+          "symbol": "タ",
+          "romanization": "ta",
+          "pronunciation": "tah"
+        },
+        {
+          "symbol": "チ",
+          "romanization": "chi",
+          "pronunciation": "chee"
+        },
+        {
+          "symbol": "ツ",
+          "romanization": "tsu",
+          "pronunciation": "tsoo"
+        },
+        {
+          "symbol": "テ",
+          "romanization": "te",
+          "pronunciation": "teh"
+        },
+        {
+          "symbol": "ト",
+          "romanization": "to",
+          "pronunciation": "toh"
+        },
+        {
+          "symbol": "ナ",
+          "romanization": "na",
+          "pronunciation": "nah"
+        },
+        {
+          "symbol": "ニ",
+          "romanization": "ni",
+          "pronunciation": "nee"
+        },
+        {
+          "symbol": "ヌ",
+          "romanization": "nu",
+          "pronunciation": "noo"
+        },
+        {
+          "symbol": "ネ",
+          "romanization": "ne",
+          "pronunciation": "neh"
+        },
+        {
+          "symbol": "ノ",
+          "romanization": "no",
+          "pronunciation": "noh"
+        },
+        {
+          "symbol": "ハ",
+          "romanization": "ha",
+          "pronunciation": "hah"
+        },
+        {
+          "symbol": "ヒ",
+          "romanization": "hi",
+          "pronunciation": "hee"
+        },
+        {
+          "symbol": "フ",
+          "romanization": "fu",
+          "pronunciation": "foo"
+        },
+        {
+          "symbol": "ヘ",
+          "romanization": "he",
+          "pronunciation": "heh"
+        },
+        {
+          "symbol": "ホ",
+          "romanization": "ho",
+          "pronunciation": "hoh"
+        },
+        {
+          "symbol": "マ",
+          "romanization": "ma",
+          "pronunciation": "mah"
+        },
+        {
+          "symbol": "ミ",
+          "romanization": "mi",
+          "pronunciation": "mee"
+        },
+        {
+          "symbol": "ム",
+          "romanization": "mu",
+          "pronunciation": "moo"
+        },
+        {
+          "symbol": "メ",
+          "romanization": "me",
+          "pronunciation": "meh"
+        },
+        {
+          "symbol": "モ",
+          "romanization": "mo",
+          "pronunciation": "moh"
+        },
+        {
+          "symbol": "ヤ",
+          "romanization": "ya",
+          "pronunciation": "yah"
+        },
+        {
+          "symbol": "ユ",
+          "romanization": "yu",
+          "pronunciation": "yoo"
+        },
+        {
+          "symbol": "ヨ",
+          "romanization": "yo",
+          "pronunciation": "yoh"
+        },
+        {
+          "symbol": "ラ",
+          "romanization": "ra",
+          "pronunciation": "rah"
+        },
+        {
+          "symbol": "リ",
+          "romanization": "ri",
+          "pronunciation": "ree"
+        },
+        {
+          "symbol": "ル",
+          "romanization": "ru",
+          "pronunciation": "roo"
+        },
+        {
+          "symbol": "レ",
+          "romanization": "re",
+          "pronunciation": "reh"
+        },
+        {
+          "symbol": "ロ",
+          "romanization": "ro",
+          "pronunciation": "roh"
+        },
+        {
+          "symbol": "ワ",
+          "romanization": "wa",
+          "pronunciation": "wah"
+        },
+        {
+          "symbol": "ヲ",
+          "romanization": "wo",
+          "pronunciation": "woh (usually pronounced 'o')"
+        },
+        {
+          "symbol": "ン",
+          "romanization": "n",
+          "pronunciation": "nn"
+        }
+      ]
+    }
+  ]
+}
