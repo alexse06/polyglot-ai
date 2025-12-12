@@ -45,7 +45,11 @@ export async function getLanguageCharacters(languageCode: string) {
     If it is RUSSIAN (RU):
     - "type": "SCRIPT"
     - "scriptName": "Cyrillic"
-    - Group by "Vowels", "Consonants", "Signs".
+    - Provide 3 Groups:
+      1. "Vowels" (А, Е, Ё, И, О, У, Ы, Э, Ю, Я) with pronunciation.
+      2. "Consonants" (Б, В, Г, Д, etc.) with pronunciation.
+      3. "Signs" (Soft Sign Ь, Hard Sign Ъ).
+    - ENSURE every character object has "symbol" and "romanization".
     
     JSON Format:
     {
