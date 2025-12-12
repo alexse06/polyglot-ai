@@ -1,0 +1,187 @@
+{
+  "type": "SCRIPT",
+  "scriptName": "Cyrillic",
+  "description": "The Russian alphabet is based on the Cyrillic script. It consists of 33 letters: 11 vowels, 20 consonants, and 2 signs (soft and hard).",
+  "groups": [
+    {
+      "title": "Vowels",
+      "characters": [
+        {
+          "symbol": "А",
+          "romanization": "A",
+          "pronunciation": "ah"
+        },
+        {
+          "symbol": "Е",
+          "romanization": "Ye",
+          "pronunciation": "yeh (or eh after vowels and ь, ъ)"
+        },
+        {
+          "symbol": "Ё",
+          "romanization": "Yo",
+          "pronunciation": "yo"
+        },
+        {
+          "symbol": "И",
+          "romanization": "I",
+          "pronunciation": "ee"
+        },
+        {
+          "symbol": "О",
+          "romanization": "O",
+          "pronunciation": "oh"
+        },
+        {
+          "symbol": "У",
+          "romanization": "U",
+          "pronunciation": "oo"
+        },
+        {
+          "symbol": "Ы",
+          "romanization": "Y",
+          "pronunciation": "similar to 'i' in 'bit'"
+        },
+        {
+          "symbol": "Э",
+          "romanization": "E",
+          "pronunciation": "eh"
+        },
+        {
+          "symbol": "Ю",
+          "romanization": "Yu",
+          "pronunciation": "yoo"
+        },
+        {
+          "symbol": "Я",
+          "romanization": "Ya",
+          "pronunciation": "yah"
+        }
+      ]
+    },
+    {
+      "title": "Consonants",
+      "characters": [
+        {
+          "symbol": "Б",
+          "romanization": "B",
+          "pronunciation": "b"
+        },
+        {
+          "symbol": "В",
+          "romanization": "V",
+          "pronunciation": "v"
+        },
+        {
+          "symbol": "Г",
+          "romanization": "G",
+          "pronunciation": "g (hard)"
+        },
+        {
+          "symbol": "Д",
+          "romanization": "D",
+          "pronunciation": "d"
+        },
+        {
+          "symbol": "Ж",
+          "romanization": "Zh",
+          "pronunciation": "similar to 's' in 'measure'"
+        },
+        {
+          "symbol": "З",
+          "romanization": "Z",
+          "pronunciation": "z"
+        },
+        {
+          "symbol": "Й",
+          "romanization": "J",
+          "pronunciation": "y (as in 'yes')"
+        },
+        {
+          "symbol": "К",
+          "romanization": "K",
+          "pronunciation": "k"
+        },
+        {
+          "symbol": "Л",
+          "romanization": "L",
+          "pronunciation": "l"
+        },
+        {
+          "symbol": "М",
+          "romanization": "M",
+          "pronunciation": "m"
+        },
+        {
+          "symbol": "Н",
+          "romanization": "N",
+          "pronunciation": "n"
+        },
+        {
+          "symbol": "П",
+          "romanization": "P",
+          "pronunciation": "p"
+        },
+        {
+          "symbol": "Р",
+          "romanization": "R",
+          "pronunciation": "rolled r"
+        },
+        {
+          "symbol": "С",
+          "romanization": "S",
+          "pronunciation": "s"
+        },
+        {
+          "symbol": "Т",
+          "romanization": "T",
+          "pronunciation": "t"
+        },
+        {
+          "symbol": "Ф",
+          "romanization": "F",
+          "pronunciation": "f"
+        },
+        {
+          "symbol": "Х",
+          "romanization": "Kh",
+          "pronunciation": "similar to 'ch' in Scottish 'loch'"
+        },
+        {
+          "symbol": "Ц",
+          "romanization": "Ts",
+          "pronunciation": "ts"
+        },
+        {
+          "symbol": "Ч",
+          "romanization": "Ch",
+          "pronunciation": "ch"
+        },
+        {
+          "symbol": "Ш",
+          "romanization": "Sh",
+          "pronunciation": "sh"
+        },
+        {
+          "symbol": "Щ",
+          "romanization": "Shch",
+          "pronunciation": "a longer, harsher 'sh' sound"
+        }
+      ]
+    },
+    {
+      "title": "Signs",
+      "characters": [
+        {
+          "symbol": "Ь",
+          "romanization": "'",
+          "pronunciation": "soft sign - softens the preceding consonant"
+        },
+        {
+          "symbol": "Ъ",
+          "romanization": "\"",
+          "pronunciation": "hard sign - separates syllables, making them pronounced separately"
+        }
+      ]
+    }
+  ]
+}

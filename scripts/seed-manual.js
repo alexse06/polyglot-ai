@@ -2,103 +2,99 @@ const { PrismaClient } = require('@prisma/client');
 const prisma = new PrismaClient();
 
 async function main() {
-    console.log('--- Seeding Scenarios Manually ---');
+    console.log('🌱 Seeding Learning Path data...');
 
-    await seedScenarios("ES");
-    await seedScenarios("EN");
+    // 1. Clear existing data (optional, but good for testing)
+    await prisma.lesson.deleteMany({});
+    await prisma.scenario.deleteMany({});
 
-    console.log("--- Seeding Complete ---");
-}
+    // --- UNIT 1: BASICS (Salutations & First Steps) ---
 
-async function seedScenarios(language = "ES") {
-    console.log(`Seeding Scenarios for ${language}...`);
-
-    // Check if exists
-    const count = await prisma.scenario.count({ where: { language } });
-    if (count > 0) {
-        console.log(`Scenarios for ${language} already exist. Skipping.`);
-        return;
-    }
-
-    const scenariosES = [
-        {
-            title: "Commander un Café",
-            description: "Apprenez à commander votre boisson préférée à Madrid.",
-            objective: "Commander un café con leche et demander l'addition.",
-            initialPrompt: "You are a friendly waiter at a cafe in Madrid. The user is a customer. Wait for them to order. If they make mistakes, gently correct them in Spanish.",
-            level: "A1"
-        },
-        {
-            title: "Réserver un Hôtel",
-            description: "Assurez votre hébergement pour les vacances.",
-            objective: "Réserver une chambre double pour deux nuits.",
-            initialPrompt: "You are a receptionist at a hotel in Barcelona. The user wants to book a room. Ask for dates and ID. Speak Spanish.",
-            level: "A1"
-        },
-        {
-            title: "Demander son Chemin",
-            description: "Ne vous perdez plus jamais en ville.",
-            objective: "Demander où se trouve la gare la plus proche.",
-            initialPrompt: "You are a local in Seville. The user is lost and asking for directions. Use simple directions in Spanish.",
-            level: "A1"
-        },
-        {
-            title: "Au Marché",
-            description: "Achetez des produits frais comme un local.",
-            objective: "Acheter 1kg de pommes et demander le prix.",
-            initialPrompt: "You are a fruit vendor at a market in Valencia. Negotiate prices slightly in Spanish.",
-            level: "A2"
+    // Lesson 1: Hola!
+    await prisma.lesson.create({
+        data: {
+            title: "Hola!",
+            description: "Learn basic greetings.",
+            level: "A1",
+            category: "Basics",
+            language: "ES",
+            order: 10,
+            content: "Hola, Buenos días, Buenas tardes, Buenas noches."
         }
-    ];
+    });
 
-    const scenariosEN = [
-        {
-            title: "Commander un Café (London)",
-            description: "Apprenez à commander votre boisson préférée à Londres.",
-            objective: "Commander un latte et un muffin.",
-            initialPrompt: "You are a barista at a coffee shop in London. The user is a customer. Wait for them to order. Speak only English.",
-            level: "A1"
-        },
-        {
-            title: "Check-in à l'Hôtel",
-            description: "Arrivée à l'hôtel à New York.",
-            objective: "Faire le check-in et demander le wifi.",
-            initialPrompt: "You are a hotel receptionist in New York. Welcome the user, ask for reservation name and credit card. Speak only English.",
-            level: "A1"
-        },
-        {
-            title: "Demander son Chemin (NYC)",
-            description: "Retrouver son chemin à Manhattan.",
-            objective: "Demander comment aller à Central Park.",
-            initialPrompt: "You are a New Yorker. The user asks for directions to Central Park. Give clear directions in English. Speak only English.",
-            level: "A1"
-        },
-        {
-            title: "Rencontre Amicale",
-            description: "Faire connaissance avec un nouveau collègue.",
-            objective: "Se présenter et poser des questions basiques.",
-            initialPrompt: "You are a new colleague from Australia. You are friendly and chatty. Ask the user about their job and hobbies. Speak only English.",
-            level: "A2"
+    // Lesson 2: Introductions
+    await prisma.lesson.create({
+        data: {
+            title: "Introductions",
+            description: "How to say your name.",
+            level: "A1",
+            category: "Basics",
+            language: "ES",
+            order: 20,
+            content: "Me llamo Juan. Soy de España."
         }
-    ];
+    });
 
-    const scenarios = language === "EN" ? scenariosEN : scenariosES;
+    // Scenario 1: First Meeting
+    await prisma.scenario.create({
+        data: {
+            title: "Meeting a New Friend",
+            description: "Practice saying hello in a park.",
+            objective: "Introduce yourself and ask for their name.",
+            initialPrompt: "You are in a park in Madrid. Someone sits on the bench next to you.",
+            language: "ES",
+            level: "A1",
+            order: 30
+        }
+    });
 
-    for (let i = 0; i < scenarios.length; i++) {
-        const s = scenarios[i];
-        await prisma.scenario.create({
-            data: {
-                ...s,
-                language: language,
-                order: i
-            }
-        });
-        console.log(`Created: ${s.title}`);
-    }
+    // --- UNIT 2: TRAVEL (Ordering & Directions) ---
+
+    // Lesson 3: Numbers & Money
+    await prisma.lesson.create({
+        data: {
+            title: "Numbers & Money",
+            description: "Counting from 1 to 100.",
+            level: "A1",
+            category: "Travel",
+            language: "ES",
+            order: 40,
+            content: "Uno, dos, tres, cuatro, cinco..."
+        }
+    });
+
+    // Scenario 2: Ordering Coffee
+    await prisma.scenario.create({
+        data: {
+            title: "Ordering Coffee",
+            description: "Order a drink at a café.",
+            objective: "Order a café con leche and pay.",
+            initialPrompt: "You are at a café in Barcelona. The waiter approaches you.",
+            language: "ES",
+            level: "A1",
+            order: 50
+        }
+    });
+
+    // Scenario 3: Asking Directions
+    await prisma.scenario.create({
+        data: {
+            title: "Lost in the City",
+            description: "Ask for directions to the museum.",
+            objective: "Find out where the Prado Museum is.",
+            initialPrompt: "You are lost in Madrid. You ask a police officer for help.",
+            language: "ES",
+            level: "A1",
+            order: 60
+        }
+    });
+
+    console.log('✅ Seeding complete: 2 Units, 3 Lessons, 3 Scenarios.');
 }
 
 main()
-    .catch((e) => {
+    .catch(e => {
         console.error(e);
         process.exit(1);
     })
