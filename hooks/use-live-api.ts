@@ -139,7 +139,7 @@ export function useLiveAPI(apiKey: string, onMessage?: (data: any) => void) {
             };
 
             ws.onclose = (event) => {
-                console.log("WebSocket Closed", event.code, event.reason);
+                console.log("WebSocket Closed", event.code, event.reason, "Clean:", event.wasClean);
                 setStatus("disconnected");
                 cleanup();
             };
@@ -155,32 +155,52 @@ export function useLiveAPI(apiKey: string, onMessage?: (data: any) => void) {
         const source = ctx.createMediaStreamSource(stream);
         const worklet = new AudioWorkletNode(ctx, 'pcm-processor');
 
+        let inputBuffer: Float32Array[] = [];
+        let bufferSize = 0;
+        const BUFFER_THRESHOLD = 4096; // Send ~250ms chunks
+
         worklet.port.onmessage = (event) => {
-            // Received float32 data from worklet
-            // We need to convert to PCM16 and resample if necessary (though getUserMedia asked for 16k)
-            // Ideally we do this efficiently. For now, assuming context matches or simple downsample.
-            // Actually, we must send base64 encoded PCM.
+            const float32Data = event.data; // usually 128 samples
+            if (!float32Data) return;
 
-            const float32Data = event.data;
-            const pcm16 = floatTo16BitPCM(float32Data);
-            const base64Audio = arrayBufferToBase64(pcm16);
+            inputBuffer.push(float32Data);
+            bufferSize += float32Data.length;
 
-            if (ws.readyState === WebSocket.OPEN) {
-                const msg = {
-                    realtimeInput: {
-                        mediaChunks: [{
-                            mimeType: "audio/pcm",
-                            data: base64Audio
-                        }]
-                    }
-                };
-                ws.send(JSON.stringify(msg));
+            if (bufferSize >= BUFFER_THRESHOLD) {
+                // Merge and Send
+                const merged = new Float32Array(bufferSize);
+                let offset = 0;
+                for (const chunk of inputBuffer) {
+                    merged.set(chunk, offset);
+                    offset += chunk.length;
+                }
+
+                const pcm16 = floatTo16BitPCM(merged);
+                const base64Audio = arrayBufferToBase64(pcm16);
+
+                if (ws.readyState === WebSocket.OPEN) {
+                    const msg = {
+                        realtimeInput: {
+                            mediaChunks: [{
+                                mimeType: "audio/pcm",
+                                data: base64Audio
+                            }]
+                        }
+                    };
+                    ws.send(JSON.stringify(msg));
+                }
+
+                // Reset
+                inputBuffer = [];
+                bufferSize = 0;
             }
         };
 
         source.connect(worklet);
         workletNodeRef.current = worklet;
     };
+
+    // ... (rest of file)
 
     const queueAudio = (base64Data: string) => {
         const binaryString = window.atob(base64Data);

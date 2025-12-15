@@ -6,9 +6,8 @@ import { Mic, MicOff, Volume2, XCircle } from 'lucide-react';
 
 // ... (imports)
 
-const getRoles = (targetLang: string, sourceLang: string, ui: any) => {
-    // 1. Source Language (Base): Support ANY Interface Language (FR, ES, EN, RU, etc.)
-    // Use Intl.DisplayNames to get the English name of the Source Language for the prompt
+const getRoles = (targetLang: string, sourceLang: string, ui: any, immersionMode: boolean) => {
+    // 1. Source Language (Base)
     let source = sourceLang;
     try {
         const displayName = new Intl.DisplayNames(['en'], { type: 'language' });
@@ -17,16 +16,59 @@ const getRoles = (targetLang: string, sourceLang: string, ui: any) => {
         source = sourceLang === 'fr' ? 'French' : sourceLang === 'es' ? 'Spanish' : 'English';
     }
 
-    // 2. Target Language (Learning): Support ANY language code (e.g., DE, IT, PT, RU, JA)
-    // Use Intl.DisplayNames to get the full English name for the System Instruction
+    // 2. Target Language (Learning)
     let target = targetLang;
     try {
         const displayName = new Intl.DisplayNames(['en'], { type: 'language' });
         target = displayName.of(targetLang) || targetLang;
     } catch (e) {
-        // Fallback to simpler map or raw code if Intl fails (rare)
         const fallbackMap: Record<string, string> = { 'ES': 'Spanish', 'EN': 'English', 'FR': 'French', 'DE': 'German', 'IT': 'Italian', 'PT': 'Portuguese', 'RU': 'Russian', 'JA': 'Japanese', 'ZH': 'Chinese' };
         target = fallbackMap[targetLang] || targetLang;
+    }
+
+    if (immersionMode) {
+        return [
+            {
+                id: 'tutor',
+                label: `${ui.tutor} (${target})`,
+                voice: 'Aoede',
+                uiLabel: ui.choose,
+                prompt: `SYSTEM INSTRUCTION: You are a strict Language Tutor.
+Current Goal: Immerse the user completely in ${target}.
+Your Rules:
+1. Speak ONLY in ${target}. NEVER switch to ${source}.
+2. Speak clearly and slowly.
+3. If the user struggles, explain using simpler words in ${target}.
+4. Correct mistakes gently in ${target}.
+5. Start by welcoming the student in ${target}.`
+            },
+            {
+                id: 'barista',
+                label: ui.barista,
+                voice: 'Puck',
+                uiLabel: ui.choose,
+                prompt: `SYSTEM INSTRUCTION: Roleplay. You are a Barista.
+User Context: Customer ordering coffee.
+Your Rules:
+1. Speak ONLY in ${target}.
+2. Be friendly and fast.
+3. If confused, ask clarifying questions in ${target}.
+4. Start by asking for their order.`
+            },
+            {
+                id: 'doctor',
+                label: ui.doctor,
+                voice: 'Fenrir',
+                uiLabel: ui.choose,
+                prompt: `SYSTEM INSTRUCTION: Roleplay. You are a Doctor.
+User Context: Patient consultation.
+Your Rules:
+1. Speak ONLY in ${target}.
+2. be professional and empathetic.
+3. Use simple medical terms in ${target}.
+4. Start by asking what brings them in.`
+            }
+        ];
     }
 
     return [
@@ -116,7 +158,8 @@ export default function LiveCoachClient({
     };
 
     const { connect, disconnect, status, isSpeaking, analyser } = useLiveAPI(apiKey, handleMessage);
-    const roles = getRoles(targetLang, sourceLang, ui);
+    const [immersionMode, setImmersionMode] = useState(false);
+    const roles = getRoles(targetLang, sourceLang, ui, immersionMode);
 
     // Initialize with first role, but update when props change
     const [selectedRoleId, setSelectedRoleId] = useState<string>(roles[0].id);
@@ -219,9 +262,18 @@ export default function LiveCoachClient({
                 <div className="mb-8 w-full max-w-md">
                     <div className="flex justify-between items-center mb-2">
                         <label className="text-gray-400 text-sm block">{(roles[0] as any).uiLabel}</label>
-                        <span className="text-xs font-mono px-2 py-0.5 rounded bg-white/10 text-gray-400 border border-white/5">
-                            Target: {roles[0].label.replace(/.*\((.*)\)/, '$1')}
-                        </span>
+                        <div className="flex items-center gap-2">
+                            <span className="text-xs font-mono px-2 py-0.5 rounded bg-white/10 text-gray-400 border border-white/5">
+                                Target: {roles[0].label.replace(/.*\((.*)\)/, '$1')}
+                            </span>
+                            <button
+                                onClick={() => status === 'disconnected' && setImmersionMode(!immersionMode)}
+                                className={`text-xs px-2 py-0.5 rounded border transition-colors ${immersionMode ? 'bg-red-900/50 border-red-500 text-red-200' : 'bg-gray-800 border-gray-700 text-gray-400'}`}
+                                title="Force Target Language Only"
+                            >
+                                🔥 Immersion
+                            </button>
+                        </div>
                     </div>
                     <div className="grid grid-cols-3 gap-2">
                         {roles.map(role => (
