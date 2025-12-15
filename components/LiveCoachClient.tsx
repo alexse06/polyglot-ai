@@ -698,12 +698,10 @@ DIRETRIZES:
                 model: MODEL_NAME,
                 config: {
                     responseModalities: ["AUDIO"] as any,
-                    generationConfig: {
-                        speechConfig: {
-                            voiceConfig: {
-                                prebuiltVoiceConfig: {
-                                    voiceName: currentRole.voiceName || 'Aoede'
-                                }
+                    speechConfig: {
+                        voiceConfig: {
+                            prebuiltVoiceConfig: {
+                                voiceName: currentRole.voiceName || 'Aoede'
                             }
                         }
                     },
