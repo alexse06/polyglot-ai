@@ -398,7 +398,9 @@ export default function LiveCoachClient({ language, targetLanguageName, userNati
                 // Double check connected state to avoid "WebSocket is already in CLOSING or CLOSED state"
                 try {
                     // if (Math.random() < 0.01) console.log("🎤 Sending >> RMS:", rms.toFixed(4));
-                    wsSessionRef.current.sendRealtimeInput([{ mimeType: "audio/pcm;rate=16000", data: base64 }]);
+                    // Try sending as 'media' (Blob) as per JSDoc, or 'audio' as per types. Sending both to cover SDK variances.
+                    const blob = { mimeType: "audio/pcm;rate=16000", data: base64 };
+                    wsSessionRef.current.sendRealtimeInput({ media: blob, audio: blob });
                 } catch (e) {
                     // Silent fail if socket closed mid-frame
                     console.debug("Socket send failed", e);
