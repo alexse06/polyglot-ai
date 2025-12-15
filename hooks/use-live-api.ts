@@ -291,11 +291,15 @@ export function useLiveAPI(apiKey: string, onMessage?: (data: any) => void) {
             workletNodeRef.current = null;
         }
         if (audioContextRef.current) {
-            audioContextRef.current.close();
+            // Check state before closing to avoid warnings
+            if (audioContextRef.current.state !== 'closed') {
+                audioContextRef.current.close().catch(e => console.warn("Error closing context", e));
+            }
             audioContextRef.current = null;
         }
         nextStartTimeRef.current = 0;
         setIsSpeaking(false);
+        audioQueueRef.current = [];
     };
 
     useEffect(() => {
