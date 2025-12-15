@@ -6,8 +6,9 @@
 
 ## 🚀 Key Features
 
-### 🗣️ Universal Live Coach (Gemini 2.0 Flash)
-- **Real-time Voice Conversation**: Talk naturally with an AI tutor with ultra-low latency.
+### 🗣️ Universal Live Coach (Powered by Gemini 2.5 Flash)
+- **Model**: Uses the latest `gemini-2.5-flash-native-audio-preview-12-2025` for ultra-low latency multimodal interaction.
+- **Audio Stability**: Custom WebSocket buffering mechanism (~250ms chunks) prevents connection flooding and ensures fluid drops-free audio.
 - **Universal Language Support**: 
   - **Source Agnostic**: The interface adapts to your native language (English, French, Spanish).
   - **Target Limitless**: Learn *any* language (Russian, Japanese, German, etc.). The AI adapts its persona and teaching style dynamically.
