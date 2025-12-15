@@ -125,10 +125,6 @@ export default function CareerPage({ userNativeLanguageName, apiKey }: CareerPag
 
                     <LiveCoachClient
                         apiKey={apiKey}
-                        language="EN"
-                        targetLanguageName="Professional English"
-                        userNativeLanguageName={userNativeLanguageName}
-                        initialMessage="Hello candidate, I have reviewed your CV. Let's start."
                         customSystemInstruction={briefing}
                         hideRoleSelector={true}
                         onTranscriptUpdate={handleTranscriptUpdate}

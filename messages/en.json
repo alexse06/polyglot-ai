@@ -100,6 +100,12 @@
         "XP": "Earn {target} XP",
         "STREAK": "Maintain your streak"
     },
+    "Live": {
+        "choose": "Choose your conversation partner:",
+        "tutor": "Tutor",
+        "barista": "Barista",
+        "doctor": "Doctor"
+    },
     "Chat": {
         "listen": "Listen"
     }

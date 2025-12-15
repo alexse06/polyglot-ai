@@ -61,9 +61,11 @@ export default async function DashboardPage() {
                     </div>
                     <div>
                         <h1 className="text-xl sm:text-3xl font-extrabold text-white tracking-tight">
-                            <span className="hidden sm:inline">Español </span>AI
+                            <span className="hidden sm:inline">{user.learningLanguage === 'ES' ? 'Español' : user.learningLanguage === 'FR' ? 'Français' : user.learningLanguage === 'EN' ? 'English' : user.learningLanguage} </span>AI
                         </h1>
-                        <p className="text-xs sm:text-sm text-gray-400 font-medium hidden sm:block">Master Spanish</p>
+                        <p className="text-xs sm:text-sm text-gray-400 font-medium hidden sm:block">
+                            {user.learningLanguage === 'ES' ? 'Master Spanish' : user.learningLanguage === 'FR' ? 'Maîtriser le Français' : `Master ${user.learningLanguage}`}
+                        </p>
                     </div>
                 </div>
 

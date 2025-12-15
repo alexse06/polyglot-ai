@@ -4,6 +4,7 @@ import { prisma } from '@/lib/db';
 import { getUserId, logout } from '@/lib/auth';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { cookies } from 'next/headers'; // Added import
 
 // Profile Stats
 export async function getUserProfile() {
@@ -84,12 +85,20 @@ export async function updateUserLevel(level: string) {
 
 export async function updateUserLanguage(language: string) {
     const userId = await getUserId();
+    console.log(`[updateUserLanguage] User: ${userId}, Language: ${language}`);
+
     if (!userId) return;
 
     await prisma.user.update({
         where: { id: userId },
         data: { learningLanguage: language }
     });
+
+    // Update Cookie so middleware and other pages see the change immediately
+    const cookieStore = await cookies();
+    cookieStore.set('learningLanguage', language, { path: '/' });
+    console.log(`[updateUserLanguage] Cookie set to: ${language}`);
+
     revalidatePath('/', 'layout');
 }
 
