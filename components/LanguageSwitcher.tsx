@@ -10,6 +10,9 @@ export function LanguageSwitcher() {
     const pathname = usePathname();
 
     const handleLocaleChange = (newLocale: string) => {
+        // Explicitly set cookie to ensure persistence across sessions/refreshes
+        document.cookie = `NEXT_LOCALE=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
+
         // usePathname from @/navigation returns the path WITHOUT the locale prefix
         // router.replace handles adding it back automatically
         router.replace(pathname, { locale: newLocale });

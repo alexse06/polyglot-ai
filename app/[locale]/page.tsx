@@ -8,27 +8,32 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-950 text-white selection:bg-yellow-500 selection:text-black">
-      {/* Navbar */}
-      <nav className="border-b border-gray-800 backdrop-blur-md fixed w-full z-10 top-0">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16 items-center">
+      {/* Navbar - Fixed mobile layout */}
+      <nav
+        className="border-b border-gray-800 backdrop-blur-md fixed w-full z-50 top-0 flex items-center transition-all bg-gray-950/90"
+        style={{ paddingTop: 'max(1rem, env(safe-area-inset-top))', paddingBottom: '1rem' }}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+          <div className="flex justify-between items-center">
             <div className="flex items-center gap-2">
               <div className="h-8 w-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center transform rotate-3 shadow-lg shadow-indigo-500/20">
                 <span className="text-white font-bold text-xl">AI</span>
               </div>
-              <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500">
+              <span className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500 hidden sm:inline">
                 Polyglot.ai
               </span>
             </div>
 
-            <div className="flex gap-4 items-center">
+            <div className="flex gap-3 sm:gap-4 items-center">
               <LanguageSwitcher />
+
               <Link href="/login">
-                <button className="text-gray-300 hover:text-white px-4 py-2 text-sm font-semibold transition">
+                <button className="text-gray-300 hover:text-white px-2 sm:px-3 py-2 text-sm font-semibold transition">
                   {t('nav.login')}
                 </button>
               </Link>
-              <Link href="/register">
+
+              <Link href="/register" className="hidden sm:block">
                 <button className="bg-white text-black px-4 py-2 rounded-full text-sm font-semibold hover:bg-gray-200 transition">
                   {t('nav.register')}
                 </button>

@@ -1,7 +1,7 @@
 import { getOrCreateUser } from '@/lib/auth';
-import { redirect } from 'next/navigation';
+import { redirect } from '@/navigation';
 import { Link } from '@/navigation';
-import { BookOpen, Mic, Sparkles, Trophy, LogOut, BarChart3, User, Flame, MessageCircle, ArrowRight, Brain } from 'lucide-react';
+import { Play, MessageCircle, Trophy, Target, Calendar, Flame, Lock, BookOpen, Mic, ArrowRight, Sparkles, Brain, BarChart3, User, Briefcase } from 'lucide-react';
 import { DashboardCard } from '@/components/ui/DashboardCard';
 import { getTranslations, getLocale } from 'next-intl/server';
 import { LanguageSwitcher } from '@/components/LanguageSwitcher';
@@ -18,11 +18,17 @@ export default async function DashboardPage() {
 
     if (!user) {
         // Rediriger vers le placement (standard next redirect)
-        redirect(`/${locale}/placement`);
+        redirect({ href: '/placement', locale });
+        return null;
     }
 
     if (user?.role === 'ADMIN') {
-        redirect(`/${locale}/admin`);
+        redirect({ href: '/admin', locale });
+        return null;
+    }
+
+    if (!user || !user.languageProgress) {
+        return null;
     }
 
     // Get progressfor the current learning language, or default to 0
@@ -43,33 +49,48 @@ export default async function DashboardPage() {
     const lastLessonTitle = lastProgress?.lesson.title || "Introduction";
 
     return (
-        <div className="min-h-screen text-white pb-20">
-            {/* Top Bar */}
-            <header className="p-4 flex justify-between items-center sticky top-0 glass-panel z-10 mx-4 mt-4 rounded-2xl mb-6">
-                <div className="flex items-center gap-2">
-                    <div className="h-8 w-8 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-lg flex items-center justify-center text-white font-bold shadow-lg shadow-indigo-500/20">AI</div>
-                    <span className="font-bold text-lg hidden sm:block bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-500">Polyglot.ai</span>
-                </div>
-                <div className="flex items-center gap-2 sm:gap-4">
-                    <div className="hidden sm:block">
-                        <LanguageSwitcher />
+        <div className="min-h-screen text-white pb-20 pt-6 px-4 sm:pt-8 sm:px-6">
+            {/* Header */}
+            <header className="flex items-center justify-between mb-8 sm:mb-12">
+                <div className="flex items-center gap-3">
+                    <div className="relative">
+                        <div className="absolute inset-0 bg-yellow-500 blur-lg opacity-20 rounded-full"></div>
+                        <div className="relative bg-gradient-to-br from-yellow-400 to-orange-600 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center transform rotate-3 border border-yellow-300/30 shadow-xl">
+                            <span className="text-xl sm:text-2xl font-black text-white">AI</span>
+                        </div>
                     </div>
+                    <div>
+                        <h1 className="text-xl sm:text-3xl font-extrabold text-white tracking-tight">
+                            <span className="hidden sm:inline">Español </span>AI
+                        </h1>
+                        <p className="text-xs sm:text-sm text-gray-400 font-medium hidden sm:block">Master Spanish</p>
+                    </div>
+                </div>
+
+                <div className="flex items-center gap-2 sm:gap-4">
+                    <LanguageSwitcher />
+
+                    {/* Compact Mobile Language Toggler */}
                     <LearningLanguageToggler currentLanguage={user.learningLanguage || 'EN'} />
 
-                    <div className="flex items-center gap-2 bg-gray-900 px-3 py-1.5 rounded-full border border-gray-800">
-                        <Flame className="text-orange-500" size={18} fill="currentColor" />
-                        <span className="font-bold text-orange-500 text-sm sm:text-base">{progress.streak}</span>
+                    {/* Streak Badge - Compact on mobile */}
+                    <div className="flex items-center gap-1.5 sm:gap-2 bg-gray-900/80 backdrop-blur-md px-2.5 py-1.5 sm:px-3 rounded-full border border-gray-800/50">
+                        <Flame className="text-orange-500 w-4 h-4 sm:w-[18px] sm:h-[18px]" fill="currentColor" />
+                        <span className="font-bold text-orange-500 text-sm">{progress.streak}</span>
                     </div>
-                    <div className="hidden sm:flex items-center gap-2 bg-gray-900 px-3 py-1.5 rounded-full border border-gray-800">
-                        <Trophy className="text-yellow-500" size={18} />
-                        <span className="font-bold text-yellow-500">{progress.xp} XP</span>
+
+                    {/* XP Badge - Hide on mobile to save space */}
+                    <div className="hidden sm:flex items-center gap-1.5 sm:gap-2 bg-gray-900/80 backdrop-blur-md px-3 py-1.5 rounded-full border border-gray-800/50">
+                        <Trophy className="text-yellow-500 w-4 h-4 sm:w-[18px] sm:h-[18px]" />
+                        <span className="font-bold text-yellow-500 text-sm">{progress.xp} XP</span>
                     </div>
-                    <Link href="/characters" className="p-2 rounded-full bg-indigo-500/20 text-indigo-400 hover:bg-indigo-500 hover:text-white transition flex" title="Alphabet">
-                        <BookOpen size={20} />
-                    </Link>
+
+                    <div className="w-px h-8 bg-gray-800 hidden sm:block"></div>
+
                     <Link href="/profile">
-                        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-yellow-400 to-orange-500 flex items-center justify-center text-black font-bold border-2 border-gray-800 hover:border-yellow-500 transition cursor-pointer">
-                            {user.name?.[0]?.toUpperCase() || 'U'}
+                        <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 flex items-center justify-center hover:border-yellow-500/50 transition shadow-lg relative group">
+                            <div className="absolute inset-0 bg-yellow-500/10 rounded-full opacity-0 group-hover:opacity-100 transition duration-300"></div>
+                            <User className="text-gray-300 w-5 h-5 sm:w-6 sm:h-6" />
                         </div>
                     </Link>
                 </div>
@@ -114,6 +135,33 @@ export default async function DashboardPage() {
                         footerIcon={ArrowRight}
                     />
 
+                    <DashboardCard
+                        href="/live"
+                        title={t('cards.live.title')}
+                        description={t('cards.live.desc')}
+                        icon={Sparkles}
+                        iconColorClass="text-red-500"
+                        iconBgClass="bg-red-500/10"
+                        borderColorClass="group-hover:border-red-500/50"
+                        footerText={t('start')}
+                        footerIcon={ArrowRight}
+                        badgeText={t('cards.live.badge')}
+                        badgeColorClass="bg-red-500 text-white"
+                    />
+
+                    <DashboardCard
+                        href="/career"
+                        title={t('cards.career.title')}
+                        description={t('cards.career.desc')}
+                        icon={Briefcase}
+                        iconColorClass="text-blue-500"
+                        iconBgClass="bg-blue-500/10"
+                        borderColorClass="group-hover:border-blue-500/50"
+                        footerText={t('start')}
+                        footerIcon={ArrowRight}
+                        badgeText="Beta"
+                        badgeColorClass="bg-blue-500 text-white"
+                    />
 
                     <DashboardCard
                         href="/scenarios"

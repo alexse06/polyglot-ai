@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { getUserProfile, updateUserLevel, resetUserProgress, logOutAction, updateUserLanguage } from './actions';
+import { LANGUAGE_CONFIG } from '@/lib/languageConfig';
 import Link from 'next/link';
 import { ArrowLeft, Trash2, LogOut, Settings, Award, Globe, Check } from 'lucide-react';
 import { clsx } from 'clsx';
@@ -136,63 +137,42 @@ export default function ProfilePage() {
                         <Globe className="text-blue-400" /> Langue d'Apprentissage
                     </h2>
 
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <button
-                            onClick={() => {
-                                setUser((prev: any) => ({ ...prev, learningLanguage: 'ES' }));
-                                updateUserLanguage('ES');
-                            }}
-                            className={twMerge(
-                                "flex items-center justify-between p-4 rounded-xl border transition-all duration-300 group relative overflow-hidden",
-                                user.learningLanguage === 'ES'
-                                    ? "bg-yellow-500/20 border-yellow-500/50 text-yellow-100 shadow-[0_0_30px_rgba(234,179,8,0.15)]"
-                                    : "bg-gray-800/30 border-gray-700/50 text-gray-400 hover:bg-gray-800/60 hover:text-gray-200"
-                            )}
-                        >
-                            <div className="flex items-center gap-4 relative z-10">
-                                <span className="text-4xl drop-shadow-md grayscale group-hover:grayscale-0 transition-all duration-300">🇪🇸</span>
-                                <div className="text-left">
-                                    <span className={twMerge("block font-bold text-lg", user.learningLanguage === 'ES' ? "text-yellow-400" : "text-gray-300")}>Espagnol</span>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                        {Object.values(LANGUAGE_CONFIG).map((lang) => (
+                            <button
+                                key={lang.code}
+                                onClick={() => {
+                                    setUser((prev: any) => ({ ...prev, learningLanguage: lang.code }));
+                                    updateUserLanguage(lang.code);
+                                }}
+                                className={twMerge(
+                                    "flex items-center gap-4 p-4 rounded-xl border transition-all duration-300 group relative overflow-hidden text-left",
+                                    user.learningLanguage === lang.code
+                                        ? "bg-indigo-600/20 border-indigo-500/50 text-indigo-100 shadow-[0_0_20px_rgba(99,102,241,0.2)]"
+                                        : "bg-gray-800/30 border-gray-700/50 text-gray-400 hover:bg-gray-800/60 hover:text-gray-200"
+                                )}
+                            >
+                                <span className="text-3xl drop-shadow-md grayscale group-hover:grayscale-0 transition-all duration-300 transform group-hover:scale-110">
+                                    {lang.flag}
+                                </span>
+                                <div className="z-10 relative">
+                                    <span className={twMerge("block font-bold", user.learningLanguage === lang.code ? "text-indigo-400" : "text-gray-300")}>
+                                        {lang.label}
+                                    </span>
+                                    {user.learningLanguage === lang.code && (
+                                        <span className="text-xs text-indigo-300 opacity-80">Actif</span>
+                                    )}
                                 </div>
-                            </div>
-                            {user.learningLanguage === 'ES' && (
-                                <div className="bg-yellow-500/20 p-1.5 rounded-full border border-yellow-500/30">
-                                    <Check size={18} className="text-yellow-400" />
-                                </div>
-                            )}
-                            {user.learningLanguage === 'ES' && (
-                                <div className="absolute inset-0 bg-yellow-500/5 blur-xl group-hover:bg-yellow-500/10 transition-colors"></div>
-                            )}
-                        </button>
-
-                        <button
-                            onClick={() => {
-                                setUser((prev: any) => ({ ...prev, learningLanguage: 'EN' }));
-                                updateUserLanguage('EN');
-                            }}
-                            className={twMerge(
-                                "flex items-center justify-between p-4 rounded-xl border transition-all duration-300 group relative overflow-hidden",
-                                (user.learningLanguage === 'EN' || !user.learningLanguage)
-                                    ? "bg-blue-500/20 border-blue-500/50 text-blue-100 shadow-[0_0_30px_rgba(59,130,246,0.15)]"
-                                    : "bg-gray-800/30 border-gray-700/50 text-gray-400 hover:bg-gray-800/60 hover:text-gray-200"
-                            )}
-                        >
-                            <div className="flex items-center gap-4 relative z-10">
-                                <span className="text-4xl drop-shadow-md grayscale group-hover:grayscale-0 transition-all duration-300">🇬🇧</span>
-                                <div className="text-left">
-                                    <span className={twMerge("block font-bold text-lg", (user.learningLanguage === 'EN' || !user.learningLanguage) ? "text-blue-400" : "text-gray-300")}>Anglais</span>
-                                    <span className="text-xs opacity-60">Langue par défaut</span>
-                                </div>
-                            </div>
-                            {(user.learningLanguage === 'EN' || !user.learningLanguage) && (
-                                <div className="bg-blue-500/20 p-1.5 rounded-full border border-blue-500/30">
-                                    <Check size={18} className="text-blue-400" />
-                                </div>
-                            )}
-                            {(user.learningLanguage === 'EN' || !user.learningLanguage) && (
-                                <div className="absolute inset-0 bg-blue-500/5 blur-xl group-hover:bg-blue-500/10 transition-colors"></div>
-                            )}
-                        </button>
+                                {user.learningLanguage === lang.code && (
+                                    <div className="absolute top-2 right-2 bg-indigo-500/20 p-1 rounded-full border border-indigo-500/30">
+                                        <Check size={12} className="text-indigo-400" />
+                                    </div>
+                                )}
+                                {user.learningLanguage === lang.code && (
+                                    <div className="absolute inset-0 bg-indigo-500/5 blur-xl group-hover:bg-indigo-500/10 transition-colors"></div>
+                                )}
+                            </button>
+                        ))}
                     </div>
                 </section>
 

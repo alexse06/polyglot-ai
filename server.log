@@ -7,13 +7,10 @@
    - Network:       http://0.0.0.0:3001
 
  ✓ Starting...
- ✓ Ready in 3.3s
+ ✓ Ready in 3.5s
 prisma:info Starting a sqlite pool with 5 connections.
 prisma:query SELECT `main`.`User`.`id`, `main`.`User`.`email`, `main`.`User`.`password`, `main`.`User`.`name`, `main`.`User`.`createdAt`, `main`.`User`.`updatedAt`, `main`.`User`.`lastActive`, `main`.`User`.`role`, `main`.`User`.`learningLanguage` FROM `main`.`User` WHERE (`main`.`User`.`id` = ? AND 1=1) LIMIT ? OFFSET ?
 prisma:query SELECT `main`.`UserLanguageProgress`.`id`, `main`.`UserLanguageProgress`.`userId`, `main`.`UserLanguageProgress`.`language`, `main`.`UserLanguageProgress`.`xp`, `main`.`UserLanguageProgress`.`level`, `main`.`UserLanguageProgress`.`streak`, `main`.`UserLanguageProgress`.`lastStudyDate`, `main`.`UserLanguageProgress`.`createdAt`, `main`.`UserLanguageProgress`.`updatedAt` FROM `main`.`UserLanguageProgress` WHERE `main`.`UserLanguageProgress`.`userId` IN (?) LIMIT ? OFFSET ?
 prisma:query SELECT 1
 prisma:query SELECT `main`.`User`.`id`, `main`.`User`.`email`, `main`.`User`.`password`, `main`.`User`.`name`, `main`.`User`.`createdAt`, `main`.`User`.`updatedAt`, `main`.`User`.`lastActive`, `main`.`User`.`role`, `main`.`User`.`learningLanguage` FROM `main`.`User` WHERE (`main`.`User`.`id` = ? AND 1=1) LIMIT ? OFFSET ?
 prisma:query SELECT `main`.`UserLanguageProgress`.`id`, `main`.`UserLanguageProgress`.`userId`, `main`.`UserLanguageProgress`.`language`, `main`.`UserLanguageProgress`.`xp`, `main`.`UserLanguageProgress`.`level`, `main`.`UserLanguageProgress`.`streak`, `main`.`UserLanguageProgress`.`lastStudyDate`, `main`.`UserLanguageProgress`.`createdAt`, `main`.`UserLanguageProgress`.`updatedAt` FROM `main`.`UserLanguageProgress` WHERE `main`.`UserLanguageProgress`.`userId` IN (?) LIMIT ? OFFSET ?
-prisma:query SELECT COUNT(*) FROM (SELECT `main`.`UserLessonProgress`.`id` FROM `main`.`UserLessonProgress` WHERE (`main`.`UserLessonProgress`.`userId` = ? AND `main`.`UserLessonProgress`.`completed` = ?) LIMIT ? OFFSET ?) AS `sub`
-prisma:query SELECT `main`.`UserLessonProgress`.`id`, `main`.`UserLessonProgress`.`userId`, `main`.`UserLessonProgress`.`lessonId`, `main`.`UserLessonProgress`.`language`, `main`.`UserLessonProgress`.`completed`, `main`.`UserLessonProgress`.`score`, `main`.`UserLessonProgress`.`completedAt` FROM `main`.`UserLessonProgress` WHERE (`main`.`UserLessonProgress`.`userId` = ? AND `main`.`UserLessonProgress`.`completed` = ?) ORDER BY `main`.`UserLessonProgress`.`completedAt` DESC LIMIT ? OFFSET ?
-prisma:query SELECT `main`.`Lesson`.`id`, `main`.`Lesson`.`title`, `main`.`Lesson`.`description`, `main`.`Lesson`.`level`, `main`.`Lesson`.`category`, `main`.`Lesson`.`language`, `main`.`Lesson`.`content`, `main`.`Lesson`.`order`, `main`.`Lesson`.`createdAt`, `main`.`Lesson`.`updatedAt` FROM `main`.`Lesson` WHERE `main`.`Lesson`.`id` IN (?) LIMIT ? OFFSET ?

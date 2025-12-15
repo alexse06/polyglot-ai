@@ -2,7 +2,12 @@
 
 import { useFormStatus } from 'react-dom';
 
-export function SubmitButton() {
+interface SubmitButtonProps {
+    label: string;
+    loadingLabel: string;
+}
+
+export function SubmitButton({ label, loadingLabel }: SubmitButtonProps) {
     const { pending } = useFormStatus();
     return (
         <button
@@ -10,7 +15,7 @@ export function SubmitButton() {
             disabled={pending}
             className="w-full bg-yellow-500 text-black font-bold py-3 rounded-lg hover:bg-yellow-400 transition disabled:opacity-50"
         >
-            {pending ? 'Traitement en cours...' : 'Continuer'}
+            {pending ? loadingLabel : label}
         </button>
     );
 }

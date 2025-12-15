@@ -1,4 +1,23 @@
 {
+    "Auth": {
+        "login": {
+            "title": "Welcome back! 👋",
+            "noAccount": "No account yet?",
+            "signUp": "Sign up"
+        },
+        "register": {
+            "title": "Start the adventure 🚀",
+            "hasAccount": "Already have an account?",
+            "signIn": "Sign in"
+        },
+        "form": {
+            "name": "Name",
+            "email": "Email",
+            "password": "Password",
+            "submit": "Continue",
+            "processing": "Processing..."
+        }
+    },
     "Landing": {
         "nav": {
             "login": "Login",
@@ -6,7 +25,7 @@
         },
         "hero": {
             "poweredBy": "✨ Powered by Google Gemini",
-            "title": "Learn <span class=\"text-yellow-400\">Spanish</span> & <span class=\"text-blue-400\">English</span> with <br /> <span class=\"text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500\">your personal AI</span>",
+            "title": "Learn <span class=\"text-yellow-400\">any language</span> with <br /> <span class=\"text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500\">your personal AI</span>",
             "subtitle": "An immersive experience combining natural conversation, real-time corrections, and gamified progress tracking. Like a native tutor, available 24/7.",
             "cta": "Start Placement Test"
         },
@@ -33,6 +52,16 @@
             "ready": "Ready to continue your learning today?"
         },
         "cards": {
+            "live": {
+                "title": "Live Coach",
+                "desc": "Real-time voice conversation with AI tutors.",
+                "badge": "Live"
+            },
+            "career": {
+                "title": "Career Coach",
+                "desc": "Simulate job interviews with AI recruiters.",
+                "badge": "Beta"
+            },
             "chat": {
                 "title": "AI Conversation",
                 "desc": "Free practice with your personal tutor. Improve fluency and get corrections.",
@@ -70,5 +99,8 @@
         "LESSON": "Complete {target} Lesson",
         "XP": "Earn {target} XP",
         "STREAK": "Maintain your streak"
+    },
+    "Chat": {
+        "listen": "Listen"
     }
 }

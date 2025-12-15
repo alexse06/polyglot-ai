@@ -1,4 +1,23 @@
 {
+    "Auth": {
+        "login": {
+            "title": "¡Bienvenido de nuevo! 👋",
+            "noAccount": "¿Aún no tienes cuenta?",
+            "signUp": "Regístrate"
+        },
+        "register": {
+            "title": "Empieza la aventura 🚀",
+            "hasAccount": "¿Ya tienes una cuenta?",
+            "signIn": "Inicia sesión"
+        },
+        "form": {
+            "name": "Nombre",
+            "email": "Correo electrónico",
+            "password": "Contraseña",
+            "submit": "Continuar",
+            "processing": "Procesando..."
+        }
+    },
     "Landing": {
         "nav": {
             "login": "Iniciar sesión",
@@ -6,7 +25,7 @@
         },
         "hero": {
             "poweredBy": "✨ Propulsado por Google Gemini",
-            "title": "Aprende <span class=\"text-yellow-400\">Español</span> e <span class=\"text-blue-400\">Inglés</span> con <br /> <span class=\"text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500\">tu IA personal</span>",
+            "title": "Aprende <span class=\"text-yellow-400\">cualquier idioma</span> con <br /> <span class=\"text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500\">tu IA personal</span>",
             "subtitle": "Una experiencia inmersiva combinando conversación natural, correcciones en tiempo real y progreso gamificado. Como un tutor nativo, disponible 24/7.",
             "cta": "Empezar Prueba de Nivel"
         },
@@ -33,6 +52,16 @@
             "ready": "¿Listo para continuar tu aprendizaje hoy?"
         },
         "cards": {
+            "live": {
+                "title": "Tutor en Vivo",
+                "desc": "Habla en tiempo real con la IA. Modo bilingüe y correcciones vocales.",
+                "badge": "Premium"
+            },
+            "career": {
+                "title": "Entrenador Profesional",
+                "desc": "Simula entrevistas de trabajo con reclutadores de IA.",
+                "badge": "Beta"
+            },
             "chat": {
                 "title": "Conversación IA",
                 "desc": "Práctica libre con tu tutor personal. Mejora tu fluidez y recibe correcciones.",

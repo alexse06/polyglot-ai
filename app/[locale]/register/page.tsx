@@ -4,10 +4,12 @@ import { register } from '@/app/auth/actions';
 import Link from 'next/link';
 import { SubmitButton } from '@/app/auth/submit-button';
 import { useState } from 'react';
+import { useTranslations } from 'next-intl';
 
 
 
 export default function RegisterPage() {
+    const t = useTranslations('Auth');
     const [error, setError] = useState<string | null>(null);
 
     async function handleSubmit(formData: FormData) {
@@ -20,11 +22,11 @@ export default function RegisterPage() {
     return (
         <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
             <div className="max-w-md w-full bg-gray-900 p-8 rounded-2xl border border-gray-800">
-                <h1 className="text-2xl font-bold text-white mb-6 text-center">Commencer l'aventure 🚀</h1>
+                <h1 className="text-2xl font-bold text-white mb-6 text-center">{t('register.title')}</h1>
 
                 <form action={handleSubmit} className="space-y-4">
                     <div>
-                        <label className="block text-gray-400 text-sm mb-1">Nom</label>
+                        <label className="block text-gray-400 text-sm mb-1">{t('form.name')}</label>
                         <input
                             name="name"
                             type="text"
@@ -34,7 +36,7 @@ export default function RegisterPage() {
                     </div>
 
                     <div>
-                        <label className="block text-gray-400 text-sm mb-1">Email</label>
+                        <label className="block text-gray-400 text-sm mb-1">{t('form.email')}</label>
                         <input
                             name="email"
                             type="email"
@@ -44,7 +46,7 @@ export default function RegisterPage() {
                     </div>
 
                     <div>
-                        <label className="block text-gray-400 text-sm mb-1">Mot de passe</label>
+                        <label className="block text-gray-400 text-sm mb-1">{t('form.password')}</label>
                         <input
                             name="password"
                             type="password"
@@ -55,11 +57,11 @@ export default function RegisterPage() {
 
                     {error && <p className="text-red-500 text-sm text-center">{error}</p>}
 
-                    <SubmitButton />
+                    <SubmitButton label={t('form.submit')} loadingLabel={t('form.processing')} />
                 </form>
 
                 <p className="mt-6 text-center text-gray-400 text-sm">
-                    Déjà un compte ? <Link href="/login" className="text-yellow-500 hover:underline">Se connecter</Link>
+                    {t('register.hasAccount')} <Link href="/login" className="text-yellow-500 hover:underline">{t('register.signIn')}</Link>
                 </p>
             </div>
         </div>

@@ -1,4 +1,23 @@
 {
+    "Auth": {
+        "login": {
+            "title": "Bon retour ! 👋",
+            "noAccount": "Pas encore de compte ?",
+            "signUp": "S'inscrire"
+        },
+        "register": {
+            "title": "Commencer l'aventure 🚀",
+            "hasAccount": "Déjà un compte ?",
+            "signIn": "Se connecter"
+        },
+        "form": {
+            "name": "Nom",
+            "email": "Email",
+            "password": "Mot de passe",
+            "submit": "Continuer",
+            "processing": "Traitement en cours..."
+        }
+    },
     "Landing": {
         "nav": {
             "login": "Se connecter",
@@ -6,7 +25,7 @@
         },
         "hero": {
             "poweredBy": "✨ Propulsé par Google Gemini",
-            "title": "Apprenez <span class=\"text-yellow-400\">l'Espagnol</span> & <span class=\"text-blue-400\">l'Anglais</span> avec <br /> <span class=\"text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500\">votre IA personnelle</span>",
+            "title": "Apprenez <span class=\"text-yellow-400\">n'importe quelle langue</span> avec <br /> <span class=\"text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-purple-500\">votre IA personnelle</span>",
             "subtitle": "Une expérience immersive combinant conversation naturelle, corrections en temps réel et suivi de progression gamifié. Comme un tuteur natif, disponible 24/7.",
             "cta": "Commencer le Test de Niveau"
         },
@@ -33,6 +52,16 @@
             "ready": "Prêt à continuer ton apprentissage aujourd'hui ?"
         },
         "cards": {
+            "live": {
+                "title": "Coach en Direct",
+                "desc": "Parlez en temps réel avec l'IA. Mode bilingue et corrections vocales.",
+                "badge": "Premium"
+            },
+            "career": {
+                "title": "Coach Carrière",
+                "desc": "Simulez des entretiens d'embauche avec des recruteurs IA.",
+                "badge": "Bêta"
+            },
             "chat": {
                 "title": "Conversation IA",
                 "desc": "Pratique libre avec ton tuteur personnel. Améliore ta fluidité et reçois des corrections.",
@@ -70,5 +99,8 @@
         "LESSON": "Complétez {target} Leçon",
         "XP": "Gagnez {target} XP",
         "STREAK": "Maintenez votre série"
+    },
+    "Chat": {
+        "listen": "Écouter"
     }
 }
