@@ -8,6 +8,7 @@ import { LanguageSwitcher } from '@/components/LanguageSwitcher';
 import LearningLanguageToggler from '@/components/LearningLanguageToggler';
 import { RecommendedAction } from '@/components/RecommendedAction';
 import { prisma } from '@/lib/db';
+import PodcastCard from './PodcastCard';
 
 export const dynamic = 'force-dynamic'; // Prevent static generation as it relies on cookies
 
@@ -123,6 +124,11 @@ export default async function DashboardPage() {
 
                 {/* Action Grid */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Daily Podcast - Full Width on Mobile */}
+                    <div className="md:col-span-2">
+                        <PodcastCard language={user.learningLanguage || 'EN'} />
+                    </div>
+
                     <DashboardCard
                         href="/chat"
                         title={t('cards.chat.title')}

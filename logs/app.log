@@ -105,3 +105,16 @@
 {"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-15 08:40:05:405"}
 {"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-15 08:40:06:406"}
 {"expectedText":"This thick thread through that thornbush threatens this thin leather.","level":"info","message":"checkPronunciation","targetPhoneme":"TH (hard)","timestamp":"2025-12-15 08:40:28:4028"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-16 11:48:58:4858"}
+{"expectedText":"Ông Ba mua ô tô cũ ở chợ và em bé ăn lê to.","level":"info","message":"checkPronunciation","targetPhoneme":"Vowels (a,e,i,o,u)","timestamp":"2025-12-16 11:49:58:4958"}
+{"expectedText":"Ông Ba mua ô tô cũ ở chợ và em bé ăn lê to.","level":"info","message":"checkPronunciation","targetPhoneme":"Vowels (a,e,i,o,u)","timestamp":"2025-12-16 11:50:49:5049"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-16 11:51:11:5111"}
+{"expectedText":"Linh lười làm lều lớn lúc lâu, lại lén lấy lá liễu.","level":"info","message":"checkPronunciation","targetPhoneme":"L","timestamp":"2025-12-16 11:51:56:5156"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-16 11:52:00:520"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-16 11:52:13:5213"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-16 11:52:59:5259"}
+{"expectedText":"Đi đâu đó, Dũng đừng đợi đến đêm, đường đất dễ đổ dốc đấy!","level":"info","message":"checkPronunciation","targetPhoneme":"D","timestamp":"2025-12-16 11:54:30:5430"}
+{"expectedText":"Đi đâu đó, Dũng đừng đợi đến đêm, đường đất dễ đổ dốc đấy!","level":"info","message":"checkPronunciation","targetPhoneme":"D","timestamp":"2025-12-16 11:55:42:5542"}
+{"level":"info","levelOverride":"A1","message":"getPronunciationChallenge","timestamp":"2025-12-16 11:56:52:5652"}
+{"expectedText":"Tôi thích tập thể thao tại trung tâm thể chất tốt.","level":"info","message":"checkPronunciation","targetPhoneme":"T","timestamp":"2025-12-16 11:57:34:5734"}
+{"error":{},"learningLanguage":"VI","level":"error","message":"Failed to generate character data","timestamp":"2025-12-16 12:02:51:251"}

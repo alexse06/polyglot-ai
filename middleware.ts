@@ -38,7 +38,16 @@ export function middleware(request: NextRequest) {
         }
     }
 
-    return intlMiddleware(request);
+    const response = intlMiddleware(request);
+
+    // Security Hardening: Force Secure attribute on cookies set by next-intl
+    const setCookie = response.headers.get('set-cookie');
+    if (setCookie && !setCookie.includes('Secure') && process.env.NODE_ENV === 'production') {
+        // Simple append if not present (simplified logic)
+        response.headers.set('set-cookie', setCookie.replace(/; path=\//gi, '; path=/; Secure'));
+    }
+
+    return response;
 }
 
 export const config = {

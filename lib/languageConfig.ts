@@ -79,6 +79,15 @@ export const LANGUAGE_CONFIG = {
         tts: { model: 'gemini-2.5-flash-preview-tts', voiceName: 'Charon', languageCode: 'ru-RU' },
         stt: { lang: 'ru-RU' },
         aiPrompt: { targetLanguage: 'Russian', tutorPersona: 'You are a helpful Russian tutor.', negativeConstraint: 'Speak Russian.' }
+    },
+    VI: {
+        code: 'VI',
+        label: 'Vietnamien',
+        flag: '🇻🇳',
+        locale: 'vi-VN',
+        tts: { model: 'gemini-2.5-flash-preview-tts', voiceName: 'Aoede', languageCode: 'vi-VN' },
+        stt: { lang: 'vi-VN' },
+        aiPrompt: { targetLanguage: 'Vietnamese', tutorPersona: 'You are a helpful Vietnamese tutor.', negativeConstraint: 'Speak Vietnamese.' }
     }
 } as const;
 

@@ -96,7 +96,7 @@ export async function updateUserLanguage(language: string) {
 
     // Update Cookie so middleware and other pages see the change immediately
     const cookieStore = await cookies();
-    cookieStore.set('learningLanguage', language, { path: '/' });
+    cookieStore.set('learningLanguage', language, { path: '/', secure: true, sameSite: 'lax' });
     console.log(`[updateUserLanguage] Cookie set to: ${language}`);
 
     revalidatePath('/', 'layout');

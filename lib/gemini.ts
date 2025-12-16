@@ -625,3 +625,57 @@ export async function generateCharacterData(learningLanguage: string) {
         return null; // The caller should handle fallback
     }
 }
+
+export async function generateSystemInstruction(topic: string, language: string = "ES") {
+    if (!apiKey) throw new Error("API Key missing");
+    const model = await getGeminiModel();
+    const config = getConfig(language);
+    const targetLang = config.aiPrompt.targetLanguage;
+
+    const prompt = `You are an expert language tutor configuration engine.
+    The user wants to roleplay a specific scenario: "${topic}".
+    The user is learning ${targetLang}.
+    
+    Generate a concise SYSTEM INSTRUCTION for the AI character.
+    The instruction must:
+    1. Define a specific persona relevant to the topic (e.g., Shopkeeper, Interviewer, Friend).
+    2. Set the goal: "Immerse the user in ${targetLang}."
+    3. Enforce the rule: "Speak ONLY ${targetLang}. If the user struggles, explain simply in ${targetLang}."
+    4. Start the conversation with a relevant opening line in ${targetLang}.
+
+    Return ONLY the raw string of the system instruction. Do not wrap in JSON.`;
+
+    const result = await model.generateContent(prompt);
+    return result.response.text();
+}
+
+export async function generateNewsScript(headlines: { title: string, snippet: string }[], language: string = "ES") {
+    if (!apiKey) throw new Error("API Key missing");
+    const model = await getGeminiModel();
+    const config = getConfig(language);
+    const targetLang = config.aiPrompt.targetLanguage;
+
+    const headlinesText = headlines.map(h => `- ${h.title}: ${h.snippet}`).join("\n");
+
+    const prompt = `You are a professional News Anchor for a podcast called "Polyglot Daily".
+    The listener is learning ${targetLang} (Level A2/B1 - Intermediate).
+    
+    Task: Create a short 2-minute news briefing script based on these real headlines:
+    ${headlinesText}
+
+    Guidelines:
+    1. Language: Speak ONLY in ${targetLang}.
+    2. Tone: Professional, clear, engaging, slighty simplified vocabulary for learners.
+    3. Structure:
+       - Intro: "Welcome to Polyglot Daily. Here represents the world news for today."
+       - Body: Cover the 3 most important stories from the list. Summarize them in 2-3 sentences each.
+       - Outro: "That's all for today. Keep learning!"
+    4. Do not include "[Scene start]" or other stage directions. Just the spoken text.
+
+    Return ONLY the raw spoken text.`;
+
+    const result = await model.generateContent(prompt);
+    return result.response.text();
+}
+
+

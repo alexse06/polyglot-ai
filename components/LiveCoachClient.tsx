@@ -2,7 +2,8 @@
 
 import { useState, useRef, useEffect } from 'react';
 import { useLiveAPI } from '@/hooks/use-live-api';
-import { Mic, MicOff, Volume2, XCircle } from 'lucide-react';
+import { createCustomScenario } from '@/app/[locale]/live/actions';
+import { Loader2, Mic, MicOff, Volume2, XCircle } from 'lucide-react';
 
 // ... (imports)
 
@@ -22,7 +23,7 @@ const getRoles = (targetLang: string, sourceLang: string, ui: any, immersionMode
         const displayName = new Intl.DisplayNames(['en'], { type: 'language' });
         target = displayName.of(targetLang) || targetLang;
     } catch (e) {
-        const fallbackMap: Record<string, string> = { 'ES': 'Spanish', 'EN': 'English', 'FR': 'French', 'DE': 'German', 'IT': 'Italian', 'PT': 'Portuguese', 'RU': 'Russian', 'JA': 'Japanese', 'ZH': 'Chinese' };
+        const fallbackMap: Record<string, string> = { 'ES': 'Spanish', 'EN': 'English', 'FR': 'French', 'DE': 'German', 'IT': 'Italian', 'PT': 'Portuguese', 'RU': 'Russian', 'JA': 'Japanese', 'ZH': 'Chinese', 'VI': 'Vietnamese' };
         target = fallbackMap[targetLang] || targetLang;
     }
 
@@ -113,6 +114,13 @@ Your Rules:
 3. Use precise medical terminology in ${target}, but if the user seems confused, explain it simply in ${target} (or ${source} only as a last resort).
 4. Ask clarifying questions about their symptoms (pain level, duration, history).
 5. Start by politely asking the patient not to worry and to describe what brings them in today.`
+        },
+        {
+            id: 'custom',
+            label: '✨ Custom',
+            voice: 'Puck',
+            uiLabel: ui.choose,
+            prompt: '' // Dynamic
         }
     ];
 };
@@ -239,12 +247,41 @@ export default function LiveCoachClient({
         };
     }, [status, analyser]);
 
+    const [customTopic, setCustomTopic] = useState('');
+    const [isGenerating, setIsGenerating] = useState(false);
+    const [generatedPrompt, setGeneratedPrompt] = useState('');
+
+    const handleGenerateScenario = async () => {
+        if (!customTopic.trim()) return;
+        setIsGenerating(true);
+        try {
+            const result = await createCustomScenario(customTopic, targetLang);
+            if (result.success && result.instruction) {
+                setGeneratedPrompt(result.instruction);
+            }
+        } catch (e) {
+            console.error(e);
+        } finally {
+            setIsGenerating(false);
+        }
+    };
+
     const toggleConnection = () => {
         if (status === 'connected' || status === 'connecting') {
             disconnect();
         } else {
-            const systemInstruction = customSystemInstruction || selectedRole.prompt;
+            // Use generated prompt if Custom role is selected
+            const systemInstruction = selectedRoleId === 'custom'
+                ? (generatedPrompt || customSystemInstruction || selectedRole.prompt)
+                : (customSystemInstruction || selectedRole.prompt);
+
             const voice = customSystemInstruction ? 'Fenrir' : selectedRole.voice;
+
+            if (selectedRoleId === 'custom' && !systemInstruction) {
+                // Should not happen if UI is blocked, but safety check
+                alert("Please generate a scenario first.");
+                return;
+            }
 
             connect({
                 model: 'gemini-2.5-flash-native-audio-preview-12-2025',
@@ -275,13 +312,13 @@ export default function LiveCoachClient({
                             </button>
                         </div>
                     </div>
-                    <div className="grid grid-cols-3 gap-2">
+                    <div className="grid grid-cols-4 gap-2">
                         {roles.map(role => (
                             <button
                                 key={role.id}
                                 onClick={() => status === 'disconnected' && setSelectedRoleId(role.id)}
                                 disabled={status !== 'disconnected'}
-                                className={`p-3 rounded-lg border text-sm transition-all
+                                className={`p-3 rounded-lg border text-sm transition-all flex flex-col items-center justify-center gap-1
                                     ${selectedRole.id === role.id
                                         ? 'bg-indigo-600 border-indigo-500 text-white'
                                         : 'bg-gray-800 border-gray-700 text-gray-400 hover:bg-gray-700'
@@ -293,6 +330,35 @@ export default function LiveCoachClient({
                             </button>
                         ))}
                     </div>
+
+                    {/* Custom Scenario Input */}
+                    {selectedRoleId === 'custom' && status === 'disconnected' && (
+                        <div className="mt-4 p-4 bg-gray-800/50 rounded-lg border border-gray-700 animate-in fade-in slide-in-from-top-2">
+                            <label className="text-xs text-gray-400 mb-2 block">What scenario do you want to practice?</label>
+                            <div className="flex gap-2">
+                                <input
+                                    type="text"
+                                    value={customTopic}
+                                    onChange={(e) => setCustomTopic(e.target.value)}
+                                    placeholder="e.g. Buying a train ticket in Tokyo..."
+                                    className="flex-1 bg-gray-900 border border-gray-600 rounded-md px-3 py-2 text-sm text-white focus:ring-2 focus:ring-indigo-500 outline-none"
+                                />
+                                <button
+                                    onClick={handleGenerateScenario}
+                                    disabled={!customTopic.trim() || isGenerating}
+                                    className="px-4 py-2 bg-indigo-600 rounded-md text-white text-sm font-bold disabled:opacity-50 flex items-center gap-2"
+                                >
+                                    {isGenerating ? <Loader2 className="w-4 h-4 animate-spin" /> : 'Generate'}
+                                </button>
+                            </div>
+                            {generatedPrompt && (
+                                <div className="mt-2 text-xs text-green-400 flex items-center gap-1">
+                                    <div className="w-2 h-2 rounded-full bg-green-500" />
+                                    Scenario Ready! Click Start below.
+                                </div>
+                            )}
+                        </div>
+                    )}
                 </div>
             )}
 
