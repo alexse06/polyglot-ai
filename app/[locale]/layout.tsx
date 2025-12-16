@@ -15,17 +15,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Español AI Learning",
-  description: "Maîtrisez l'espagnol avec l'IA.",
-  manifest: "/manifest.json",
+  title: "Polyglot AI",
+  description: "Maîtrisez les langues avec l'IA.",
+  manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Español AI",
+    title: "Polyglot AI",
   },
   icons: {
-    icon: "/icon.png",
-    apple: "/icon-512.png",
+    icon: "/polyglot-icon.png",
+    apple: "/polyglot-icon-512.png",
   },
 };
 

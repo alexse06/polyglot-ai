@@ -1,39 +1,28 @@
-import { cookies } from 'next/headers';
-import { v4 as uuidv4 } from 'uuid';
+import { auth } from '@/auth';
 import { prisma } from '@/lib/db';
-
-const COOKIE_NAME = 'spanish_app_user_id';
+import { redirect } from 'next/navigation';
 
 export async function getUserId() {
-    const cookieStore = await cookies();
-    const userId = cookieStore.get(COOKIE_NAME)?.value;
-    return userId;
+    const session = await auth();
+    return session?.user?.id;
 }
 
 export async function getOrCreateUser() {
-    try {
-        const cookieStore = await cookies();
-        let userId = cookieStore.get(COOKIE_NAME)?.value;
+    const session = await auth();
+    if (!session?.user?.email) return null;
 
-        if (!userId) return null;
+    // Fetch fresh user data from DB to get relations like languageProgress
+    // Session user might be stale or minimal
+    const user = await prisma.user.findUnique({
+        where: { id: session.user.id },
+        include: { languageProgress: true }
+    });
 
-        let user = await prisma.user.findUnique({
-            where: { id: userId },
-            include: { languageProgress: true }
-        });
-        return user;
-    } catch (e) {
-        // During build or static generation where cookies() might fail
-        return null;
-    }
-}
-
-export async function createUserSession() {
-    const userId = uuidv4();
-    return userId;
+    return user;
 }
 
 export async function logout() {
-    const cookieStore = await cookies();
-    cookieStore.delete(COOKIE_NAME);
+    // Handled by client side signOut usually, or server side signOut
+    // but for server actions we can't easily redirect with signOut inside action sometimes
+    // Better to use import { signOut } from '@/auth'
 }

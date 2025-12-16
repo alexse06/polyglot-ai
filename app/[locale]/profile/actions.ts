@@ -124,7 +124,10 @@ export async function resetUserProgress() {
     revalidatePath('/profile');
 }
 
+import { signOut } from '@/auth'; // Add detailed import
+
+// ...
+
 export async function logOutAction() {
-    await logout();
-    redirect('/login');
+    await signOut({ redirectTo: '/login' });
 }

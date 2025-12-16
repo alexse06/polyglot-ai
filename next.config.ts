@@ -2,9 +2,9 @@ import type { NextConfig } from "next";
 
 const withPWA = require("@ducanh2912/next-pwa").default({
   dest: "public",
-  disable: true, // Temporarily disabled to force cache clear
+  disable: process.env.NODE_ENV === "development",
   register: true,
-  scope: "/app",
+  scope: "/",
   sw: "service-worker.js",
   cacheOnFrontEndNav: false,
   aggressiveFrontEndNavCaching: false,
