@@ -3,6 +3,7 @@ import { getMessages } from 'next-intl/server';
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
+import { SFXProvider } from "@/hooks/use-sfx";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,13 +16,13 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Polyglot AI",
+  title: "MyCanadaRP",
   description: "Maîtrisez les langues avec l'IA.",
   manifest: "/manifest.webmanifest",
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "Polyglot AI",
+    title: "MyCanadaRP",
   },
   icons: {
     icon: "/polyglot-icon.png",
@@ -36,6 +37,7 @@ export const viewport: Viewport = {
   maximumScale: 1,
 };
 
+
 export default async function RootLayout({
   children,
   params
@@ -44,20 +46,17 @@ export default async function RootLayout({
   params: Promise<{ locale: string }>;
 }) {
   const { locale } = await params;
-  const messages = await getMessages();
+  const messages = await getMessages(); // Keep getMessages for server component
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <NextIntlClientProvider messages={messages}>
-          <ForceRefresh />
-          {children}
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-950 text-white transition-colors duration-300`} suppressHydrationWarning>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <SFXProvider>
+            {children}
+          </SFXProvider>
         </NextIntlClientProvider>
       </body>
     </html>
   );
 }
-
-import ForceRefresh from '@/components/ForceRefresh';

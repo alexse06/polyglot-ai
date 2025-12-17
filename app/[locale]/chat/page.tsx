@@ -2,12 +2,13 @@
 
 import { useState, useRef, useEffect, use } from 'react';
 import { sendMessage, getChatHistory, clearChatHistory, getUserLanguage } from './actions';
-import { RefreshCw, PlayCircle, StopCircle, ArrowLeft, Send, Mic, Trash2 } from 'lucide-react';
+import { RefreshCw, PlayCircle, StopCircle, ArrowLeft, Send, Mic, Trash2, Globe, Sparkles } from 'lucide-react';
 import { twMerge } from 'tailwind-merge';
 import { useTTS } from '@/hooks/useTTS';
 import { ClickableSentence } from '@/components/ClickableWord';
 import { Link } from '@/navigation';
 import { getConfig } from '@/lib/languageConfig';
+import { useTranslations } from 'next-intl';
 
 type Message = {
     role: 'user' | 'model';
@@ -17,17 +18,14 @@ type Message = {
     suggestions?: string[];
 };
 
-// Added ChatPageProps type definition
 type ChatPageProps = {
     params: Promise<{
         locale: string;
     }>;
 };
 
-import { useTranslations } from 'next-intl';
-
 export default function ChatPage({ params }: ChatPageProps) {
-    const { locale } = use(params); // Added this line
+    const { locale } = use(params);
     const t = useTranslations('Chat');
     const [messages, setMessages] = useState<Message[]>([]);
     const [input, setInput] = useState('');
@@ -116,7 +114,7 @@ export default function ChatPage({ params }: ChatPageProps) {
 
     const handleSend = async (textOverride?: string) => {
         const textToSend = textOverride || input;
-        if (!textToSend.trim()) return; // Prevent sending empty manually, but allow clicking empty suggestion (which wont happen due to type)
+        if (!textToSend.trim()) return;
 
         const userMsg: Message = { role: 'user', content: textToSend };
         setMessages(prev => [...prev, userMsg]);
@@ -128,20 +126,17 @@ export default function ChatPage({ params }: ChatPageProps) {
             parts: [{ text: m.content }]
         }));
 
-        // Call server action expecting structured object
         const response = await sendMessage(history, textToSend);
 
         setMessages(prev => [...prev, {
             role: 'model',
-            content: response.text, // Display natural text
-            transliteration: response.transliteration, // Display transliteration
-            correction: response.correction, // Display correction if any
-            suggestions: response.suggestions // Show suggestions
+            content: response.text,
+            transliteration: response.transliteration,
+            correction: response.correction,
+            suggestions: response.suggestions
         }]);
-        setLoading(false);
 
         setLoading(false);
-
         speak(response.text, learningLanguage);
     };
 
@@ -150,105 +145,114 @@ export default function ChatPage({ params }: ChatPageProps) {
             setLoading(true);
             await clearChatHistory();
             setMessages([]);
-            setLoading(false);
-            // Optional: Add initial greeting back
-            setMessages([]);
-            setLoading(false);
-            // Optional: Add initial greeting back
+
             setMessages([{
                 role: 'model',
                 content: getConfig(learningLanguage)?.code === 'EN'
                     ? 'Hello! Shall we start over? What do you want to talk about?'
                     : (learningLanguage === 'ES' ? '¡Hola! ¿Empezamos de nuevo?' : 'Ready to start over!')
             }]);
+            setLoading(false);
         }
     };
 
     return (
-        <div className="flex flex-col h-screen text-white">
+        <div className="flex flex-col h-screen overflow-hidden text-white bg-black">
+            {/* Ambient Background */}
+            <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10 pointer-events-none"></div>
+            <div className="absolute top-0 right-0 w-full h-96 bg-indigo-900/10 blur-[100px] pointer-events-none"></div>
+
             {/* Header */}
-            <header className="p-4 glass-panel flex justify-between items-center sticky top-0 z-10 m-2 rounded-xl">
+            <header className="px-4 py-4 md:px-6 flex justify-between items-center z-10 bg-gradient-to-b from-gray-900 via-gray-900/90 to-transparent">
                 <div className="flex items-center gap-3">
-                    <Link href="/dashboard" className="p-2 text-gray-400 hover:text-white hover:bg-white/10 rounded-lg transition">
+                    <Link href="/dashboard" className="p-2 -ml-2 text-gray-400 hover:text-white hover:bg-white/5 rounded-full transition">
                         <ArrowLeft size={24} />
                     </Link>
-                    <h1 className="text-xl font-bold flex items-center gap-2">
-                        <div className="h-8 w-8 bg-yellow-500 rounded-full flex items-center justify-center text-black font-bold text-sm">
-                            {getConfig(learningLanguage).code}
-                        </div>
-                        Chat IA ({getConfig(learningLanguage).label})
-                    </h1>
-                </div>
-                <div className="flex items-center gap-3">
-                    <div className="text-sm text-gray-400 flex items-center gap-2 hidden md:flex">
-                        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"></div>
-                        IA Connectée
+                    <div>
+                        <h1 className="text-lg font-bold flex items-center gap-2">
+                            Chat IA
+                            <span className="px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-400 text-xs border border-indigo-500/20">
+                                {getConfig(learningLanguage).label}
+                            </span>
+                        </h1>
+                        <p className="text-xs text-gray-500 flex items-center gap-1">
+                            <span className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_5px_#22c55e]"></span>
+                            Online & Ready
+                        </p>
                     </div>
-                    <button
-                        onClick={handleClear}
-                        className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-500/10 rounded-lg transition"
-                        title="Nouvelle Conversation"
-                    >
-                        <Trash2 size={20} />
-                    </button>
                 </div>
+                <button
+                    onClick={handleClear}
+                    className="p-2 text-gray-500 hover:text-red-400 hover:bg-red-500/10 rounded-full transition"
+                    title="Nouvelle Conversation"
+                >
+                    <Trash2 size={20} />
+                </button>
             </header>
 
             {/* Messages Area */}
-            <main className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-gray-800">
+            <main className="flex-1 overflow-y-auto px-4 py-2 space-y-6 scrollbar-thin scrollbar-thumb-gray-800 scrollbar-track-transparent">
                 {messages.map((msg, idx) => (
                     <div
                         key={idx}
                         className={twMerge(
-                            "flex flex-col w-full mb-4",
+                            "flex flex-col w-full animate-in slide-in-from-bottom-2 duration-300",
                             msg.role === 'user' ? "items-end" : "items-start"
                         )}
                     >
                         <div
                             className={twMerge(
-                                "max-w-[80%] p-4 rounded-2xl shadow-sm text-lg leading-relaxed relative border-none",
+                                "max-w-[85%] sm:max-w-[70%] p-4 sm:p-5 rounded-2xl shadow-lg relative border backdrop-blur-sm",
                                 msg.role === 'user'
-                                    ? "bg-yellow-500 text-black rounded-tr-none shadow-lg shadow-yellow-500/20"
-                                    : "glass-card bg-gray-900/80 text-white rounded-tl-none border border-gray-700/50 shadow-md"
+                                    ? "bg-gradient-to-br from-indigo-600 to-indigo-700 text-white rounded-tr-none border-indigo-500/30"
+                                    : "bg-gray-900/80 text-gray-100 rounded-tl-none border-white/10"
                             )}
                         >
-                            <div className="prose prose-invert max-w-none text-sm leading-relaxed">
+                            <div className="prose prose-invert max-w-none text-base leading-relaxed">
                                 <ClickableSentence text={msg.content} userLocale={locale} contentLocale={learningLanguage} />
                             </div>
+
                             {msg.transliteration && (
-                                <p className="text-sm text-yellow-500/80 italic mt-1 font-mono">{msg.transliteration}</p>
+                                <p className="text-xs text-indigo-200/50 italic mt-2 font-mono flex items-center gap-1">
+                                    <Globe size={10} /> {msg.transliteration}
+                                </p>
                             )}
+
                             {msg.role === 'model' && (
-                                <button
-                                    onClick={() => speak(msg.content, learningLanguage)}
-                                    disabled={loading || isTTSLoading}
-                                >
-                                    {isTTSLoading ? <RefreshCw size={16} className="animate-spin" /> : <PlayCircle size={20} />}
-                                    <span className="text-xs">{t('listen')}</span>
-                                </button>
+                                <div className="mt-3 flex items-center gap-2">
+                                    <button
+                                        onClick={() => speak(msg.content, learningLanguage)}
+                                        disabled={loading || isTTSLoading}
+                                        className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-white/5 hover:bg-white/10 text-xs font-medium text-indigo-300 transition-colors"
+                                    >
+                                        {isTTSLoading ? <RefreshCw size={12} className="animate-spin" /> : <PlayCircle size={14} />}
+                                        Listen
+                                    </button>
+                                </div>
                             )}
                         </div>
 
                         {/* Correction Display */}
                         {msg.role === 'model' && msg.correction && (
-                            <div className="mt-2 max-w-[80%] bg-red-900/20 border border-red-500/30 p-2 rounded-lg flex items-start gap-2 text-sm text-red-200 animate-in slide-in-from-top-2">
-                                <span className="text-lg">💡</span>
+                            <div className="mt-3 ml-2 max-w-[80%] bg-red-900/10 border border-red-500/20 p-3 rounded-xl flex items-start gap-3 text-sm text-red-200 animate-in fade-in slide-in-from-left-2">
+                                <span className="text-lg bg-red-500/20 rounded-full p-1">🪄</span>
                                 <div>
-                                    <span className="font-bold text-red-400 text-xs uppercase tracking-wide">Correction :</span>
-                                    <p className="italic">"{msg.correction}"</p>
+                                    <span className="font-bold text-red-400 text-xs uppercase tracking-wide">Better way to say it:</span>
+                                    <p className="italic text-gray-300 mt-0.5">"{msg.correction}"</p>
                                 </div>
                             </div>
                         )}
 
                         {/* Suggestions Buttons */}
                         {msg.role === 'model' && msg.suggestions && msg.suggestions.length > 0 && idx === messages.length - 1 && (
-                            <div className="flex flex-wrap gap-2 mt-4 max-w-[80%] animate-in fade-in duration-500">
+                            <div className="flex flex-wrap gap-2 mt-4 ml-2 animate-in fade-in duration-500">
                                 {msg.suggestions.map((suggestion, sIdx) => (
                                     <button
                                         key={sIdx}
                                         onClick={() => handleSend(suggestion)}
-                                        className="glass-button text-gray-300 hover:text-yellow-500 text-sm py-1.5 px-3 rounded-full transition text-left"
+                                        className="group flex items-center gap-2 px-4 py-2 rounded-full border border-indigo-500/30 bg-indigo-500/5 hover:bg-indigo-500/20 text-indigo-300 hover:text-indigo-200 text-sm transition-all"
                                     >
+                                        <Sparkles size={12} className="opacity-50 group-hover:opacity-100" />
                                         {suggestion}
                                     </button>
                                 ))}
@@ -256,56 +260,58 @@ export default function ChatPage({ params }: ChatPageProps) {
                         )}
                     </div>
                 ))}
+
                 {loading && (
-                    <div className="flex flex-col w-full mb-4 items-start animate-in fade-in slide-in-from-bottom-2 duration-300">
-                        <div className="glass-card bg-gray-900/80 p-4 rounded-2xl rounded-tl-none border border-gray-700/50 shadow-md flex items-center gap-2">
-                            <span className="text-xs text-gray-500 font-bold mr-2 uppercase tracking-wide">L'IA réfléchit</span>
+                    <div className="flex flex-col w-full items-start animate-pulse">
+                        <div className="bg-gray-900/50 p-4 rounded-2xl rounded-tl-none border border-white/5 flex items-center gap-3">
                             <div className="flex space-x-1">
-                                <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full animate-bounce delay-0"></div>
-                                <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full animate-bounce delay-150"></div>
-                                <div className="w-1.5 h-1.5 bg-yellow-500 rounded-full animate-bounce delay-300"></div>
+                                <div className="w-2 h-2 bg-indigo-500 rounded-full animate-bounce [animation-delay:-0.3s]"></div>
+                                <div className="w-2 h-2 bg-indigo-500 rounded-full animate-bounce [animation-delay:-0.15s]"></div>
+                                <div className="w-2 h-2 bg-indigo-500 rounded-full animate-bounce"></div>
                             </div>
+                            <span className="text-xs text-gray-500 font-medium uppercase tracking-wide">Writing...</span>
                         </div>
                     </div>
                 )}
-                <div ref={messagesEndRef} />
+                <div ref={messagesEndRef} className="h-4" />
             </main>
 
             {/* Input Area */}
-            <footer className="p-4 glass-panel m-2 rounded-xl">
-                <div className="max-w-4xl mx-auto flex gap-2 items-center">
+            <div className="p-4 md:p-6 bg-black/60 backdrop-blur-xl border-t border-white/5">
+                <div className="max-w-4xl mx-auto flex gap-3 items-center relative">
                     <button
                         onClick={handleMicClick}
                         className={twMerge(
-                            "p-3 rounded-full transition duration-300",
+                            "p-3.5 rounded-full transition-all duration-300 shadow-lg",
                             isRecording
-                                ? "bg-red-500 text-white animate-pulse"
-                                : "glass-button text-yellow-500"
+                                ? "bg-red-500 text-white animate-pulse shadow-red-500/30 scale-110"
+                                : "bg-white/5 text-gray-400 hover:bg-white/10 hover:text-white"
                         )}
-                        title="Parler (Maintenir pour enregistrer)"
                     >
-                        <Mic size={24} />
+                        <Mic size={20} />
                     </button>
-                    <div className="flex-1 relative">
+
+                    <div className="flex-1 relative group">
+                        <div className="absolute -inset-0.5 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-full opacity-20 group-focus-within:opacity-100 transition duration-300 blur-sm"></div>
                         <input
                             type="text"
                             value={input}
                             onChange={(e) => setInput(e.target.value)}
                             onKeyDown={(e) => e.key === 'Enter' && handleSend()}
-                            placeholder={isRecording ? "Écoute en cours..." : `Écrivez en ${getConfig(learningLanguage).label}...`}
-                            className="w-full bg-gray-800/50 text-white rounded-full pl-5 pr-12 py-3 focus:outline-none focus:ring-2 focus:ring-yellow-500 border border-transparent"
+                            placeholder={isRecording ? "Listening..." : "Type your message..."}
+                            className="relative w-full bg-gray-900 text-white placeholder:text-gray-500 rounded-full pl-6 pr-12 py-3.5 focus:outline-none focus:bg-gray-800 transition-colors border border-white/5"
                             disabled={loading}
                         />
                         <button
                             onClick={() => handleSend()}
                             disabled={loading || !input.trim()}
-                            className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-yellow-500 text-black rounded-full hover:bg-yellow-400 disabled:opacity-50 disabled:cursor-not-allowed transition"
+                            className="absolute right-2 top-1/2 -translate-y-1/2 p-2 bg-indigo-600 text-white rounded-full hover:bg-indigo-500 disabled:opacity-0 disabled:scale-75 transition-all shadow-lg shadow-indigo-500/20"
                         >
-                            <Send size={18} />
+                            <Send size={16} />
                         </button>
                     </div>
                 </div>
-            </footer>
+            </div>
         </div>
     );
 }

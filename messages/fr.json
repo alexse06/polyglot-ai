@@ -80,8 +80,16 @@
                 "desc": "Grammaire et vocabulaire structurés."
             },
             "pronounce": {
-                "title": "Coach Vocal",
-                "desc": "Perfectionnez votre accent."
+                "title": "Prononciation",
+                "desc": "Perfectionne ton accent"
+            },
+            "translator": {
+                "title": "Traducteur Instantané",
+                "desc": "Traduction vocale en temps réel"
+            },
+            "imitate": {
+                "title": "Doppelgänger",
+                "desc": "Clonez votre voix."
             },
             "progress": {
                 "title": "Progression",
@@ -90,6 +98,37 @@
             "characters": {
                 "title": "Symboles & Écriture",
                 "desc": "Apprenez l'alphabet ou les caractères spécifiques."
+            },
+            "chrono": {
+                "title": "Chrono Call",
+                "desc": "Appelle l'histoire. Discute avec des personnages historiques."
+            },
+            "podcast": {
+                "title": "MyCanadaRP Daily News",
+                "briefing": "Briefing Monde (2 min)",
+                "generating": "Génération...",
+                "listen": "Écouter le Briefing",
+                "pause": "Pause"
+            }
+        },
+        "intro": "Introduction",
+        "startSession": "Commencer la session",
+        "reco": {
+            "label": "Recommandé pour vous",
+            "start": {
+                "title": "Commencez votre voyage !",
+                "desc": "Apprenez les bases de {language} maintenant.",
+                "action": "Démarrer la Leçon 1"
+            },
+            "continue": {
+                "title": "Continuez sur votre lancée !",
+                "desc": "Vous avez terminé \"{lesson}\". Prêt pour la suite ?",
+                "action": "Leçon Suivante"
+            },
+            "resume": {
+                "title": "Reprenez l'apprentissage",
+                "desc": "Cela fait un moment. Une petite leçon de 5 minutes ?",
+                "action": "Reprendre"
             }
         }
     },

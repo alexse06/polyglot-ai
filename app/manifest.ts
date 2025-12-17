@@ -2,8 +2,8 @@ import { MetadataRoute } from 'next';
 
 export default function manifest(): MetadataRoute.Manifest {
     return {
-        name: 'Polyglot AI',
-        short_name: 'Polyglot',
+        name: 'MyCanadaRP',
+        short_name: 'MyCanadaRP',
         description: 'Apprenez l\'espagnol avec l\'intelligence artificielle.',
         start_url: '/',
         display: 'standalone',

@@ -80,8 +80,16 @@
                 "desc": "Gramática y vocabulario estructurado."
             },
             "pronounce": {
-                "title": "Entrenador Vocal",
-                "desc": "Perfecciona tu acento."
+                "title": "Pronunciación",
+                "desc": "Perfecciona tu acento"
+            },
+            "translator": {
+                "title": "Traductor en Vivo",
+                "desc": "Traducción de voz instantánea"
+            },
+            "imitate": {
+                "title": "Doppelgänger",
+                "desc": "Clona tu voz."
             },
             "progress": {
                 "title": "Progreso",
@@ -90,6 +98,37 @@
             "characters": {
                 "title": "Símbolos y Escritura",
                 "desc": "Aprende el alfabeto o caracteres específicos."
+            },
+            "chrono": {
+                "title": "Chrono Call",
+                "desc": "Llama a la historia. Habla con figuras históricas."
+            },
+            "podcast": {
+                "title": "MyCanadaRP Noticias Diarias",
+                "briefing": "Resumen Mundial (2 min)",
+                "generating": "Generando...",
+                "listen": "Escuchar Resumen",
+                "pause": "Pausa"
+            }
+        },
+        "intro": "Introducción",
+        "startSession": "Iniciar Sesión",
+        "reco": {
+            "label": "Recomendado para ti",
+            "start": {
+                "title": "¡Empieza tu viaje!",
+                "desc": "Aprende lo básico de {language} ahora.",
+                "action": "Empezar Lección 1"
+            },
+            "continue": {
+                "title": "¡Mantén el impulso!",
+                "desc": "Terminaste \"{lesson}\". ¿Listo para seguir?",
+                "action": "Siguiente Lección"
+            },
+            "resume": {
+                "title": "Reanudar el aprendizaje",
+                "desc": "Ha pasado un tiempo. ¿Una lección rápida?",
+                "action": "Reanudar"
             }
         }
     },

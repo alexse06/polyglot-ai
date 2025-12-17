@@ -43,5 +43,5 @@ export default auth((req) => {
 
 export const config = {
     // Matcher ignoring internal paths, static files, and PWA assets
-    matcher: ['/((?!api|_next/static|_next/image|favicon.ico|manifest.webmanifest|service-worker.js|workbox-.*.js).*)']
+    matcher: ['/((?!api|_next/static|_next/image|favicon.ico|manifest.webmanifest|service-worker.js|pcm-processor.js|workbox-.*.js).*)']
 };

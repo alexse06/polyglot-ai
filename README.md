@@ -1,4 +1,4 @@
-# 🌍 Polyglot AI - Next-Gen Language Tutor
+# 🌍 MyCanadaRP - AI Language Learning
 
 **Polyglot AI** is a cutting-edge language learning platform that adapts to **your native language** and helps you master **any target language**. Powered by **Google Gemini Multimodal Live API**, it offers real-time voice conversations, personalized daily podcasts, and immersive roleplay scenarios.
 

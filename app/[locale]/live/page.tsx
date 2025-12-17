@@ -13,7 +13,18 @@ export default async function LivePage({ params }: { params: Promise<{ locale: s
     const learningLanguageCookie = cookieStore.get('learningLanguage');
     const learningLanguage = learningLanguageCookie?.value || 'ES';
 
-    console.log(`[LivePage] Locale: ${locale}, Cookie: ${learningLanguageCookie?.value}, Resolved: ${learningLanguage}`);
+    // Fetch User Level
+    const { getOrCreateUser } = await import('@/lib/auth');
+    const user = await getOrCreateUser();
+
+    // Find matching progress
+    let userLevel = 'A1';
+    if (user && user.languageProgress) {
+        const progress = user.languageProgress.find((p: any) => p.language === learningLanguage);
+        if (progress) userLevel = progress.level;
+    }
+
+    console.log(`[LivePage] Locale: ${locale}, Lang: ${learningLanguage}, Level: ${userLevel}`);
 
     const sourceLanguage = locale || 'en';
 
@@ -44,6 +55,7 @@ export default async function LivePage({ params }: { params: Promise<{ locale: s
                 targetLang={learningLanguage}
                 sourceLang={sourceLanguage}
                 uiLabels={uiLabels}
+                userLevel={userLevel}
             />
         </div>
     );

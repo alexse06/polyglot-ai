@@ -6,6 +6,7 @@ export function useTTS() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
+    const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null); // Persistence to prevent GC
 
     const stop = useCallback(() => {
         if (audioRef.current) {
@@ -14,6 +15,7 @@ export function useTTS() {
         }
         if ('speechSynthesis' in window) {
             window.speechSynthesis.cancel();
+            utteranceRef.current = null;
         }
         setIsPlaying(false);
         setIsLoading(false);
@@ -24,24 +26,41 @@ export function useTTS() {
         if ('speechSynthesis' in window) {
             console.warn(`TTS: Fallback to Browser Audio for ${language}`);
             window.speechSynthesis.cancel();
+
+            // Create and PERSIST utterance
             const utterance = new SpeechSynthesisUtterance(text);
+            utteranceRef.current = utterance;
 
             // STRICTER Locale Selection
-            const targetLocale = language === "EN" ? "en-US" : "es-ES";
+            const localeMap: Record<string, string> = {
+                'EN': 'en-US',
+                'ES': 'es-ES',
+                'FR': 'fr-FR',
+                'DE': 'de-DE',
+                'IT': 'it-IT',
+                'PT': 'pt-BR',
+                'RU': 'ru-RU',
+                'JA': 'ja-JP',
+                'ZH': 'zh-CN',
+                'VI': 'vi-VN',
+                'AR': 'ar-XA',
+                'KO': 'ko-KR'
+            };
+            const targetLocale = localeMap[language] || 'es-ES';
             utterance.lang = targetLocale;
 
             const voices = window.speechSynthesis.getVoices();
-
-            // Debug available voices
-            // console.log("Available Browser Voices:", voices.map(v => v.name + " " + v.lang));
-
             let voice = null;
 
-            // 1. Try to find a high-quality Google/Microsoft voice matching the logic
+            // 1. Try to find a high-quality Voice
             if (language === "EN") {
                 voice = voices.find(v => (v.name.includes("Google US English") || v.name.includes("Microsoft Zira") || v.lang === "en-US"));
+            } else if (language === "AR") {
+                voice = voices.find(v => (v.name.includes("Arabic") || v.lang.startsWith("ar")));
+            } else if (language === "KO") {
+                voice = voices.find(v => (v.name.includes("Korean") || v.lang.startsWith("ko")));
             } else {
-                voice = voices.find(v => (v.name.includes("Google español") || v.lang === "es-ES" || v.lang === "es-MX"));
+                voice = voices.find(v => v.lang === targetLocale || v.lang.startsWith(targetLocale.split('-')[0]));
             }
 
             if (voice) {
@@ -50,10 +69,14 @@ export function useTTS() {
             }
 
             utterance.onstart = () => setIsPlaying(true);
-            utterance.onend = () => setIsPlaying(false);
+            utterance.onend = () => {
+                setIsPlaying(false);
+                utteranceRef.current = null; // Release
+            };
             utterance.onerror = (e) => {
                 console.error("Browser TTS error", e);
                 setIsPlaying(false);
+                utteranceRef.current = null;
                 setError("TTS Failed");
             };
 
@@ -77,8 +100,16 @@ export function useTTS() {
         try {
             console.log(`TTS: Fetching Server Audio (${language}) for: "${text.substring(0, 20)}..."`);
 
-            // Server Action Call
-            const response = await getAudio(text, language);
+            // Race Server Action with 5s Timeout
+            const serverAudioPromise = getAudio(text, language);
+            const timeoutPromise = new Promise<{ data: string, mimeType: string } | null>((_, reject) =>
+                setTimeout(() => reject(new Error("Timeout")), 5000)
+            );
+
+            const response = await Promise.race([serverAudioPromise, timeoutPromise]).catch(e => {
+                console.warn("Server TTS timed out or failed:", e);
+                return null;
+            }) as any;
 
             if (response && response.data) {
                 console.log("TTS: Playing Server Audio");
@@ -103,7 +134,7 @@ export function useTTS() {
                 await audio.play();
                 return;
             } else {
-                console.warn("TTS: Server returned empty audio. Using fallback.");
+                console.warn("TTS: Server returned empty audio or timed out. Using fallback.");
                 playBrowserTTS(text, language);
             }
         } catch (e) {

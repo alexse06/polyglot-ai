@@ -54,12 +54,13 @@ export async function generateConversationResponse(
     history: { role: "user" | "model"; parts: { text: string }[] }[],
     userMessage: string,
     systemInstruction?: string,
-    learningLanguage: string = "ES"
+    learningLanguage: string = "ES",
+    userLevel: string = "A1"
 ) {
     if (!apiKey) throw new Error("API Key missing");
 
     const start = Date.now();
-    logger.info('Generating conversation response', { role: 'gemini', context: 'chat', historyLength: history.length, userMessageLength: userMessage.length });
+    logger.info('Generating conversation response', { role: 'gemini', context: 'chat', historyLength: history.length, userMessageLength: userMessage.length, userLevel });
 
     try {
         const model = await getGeminiModel();
@@ -73,6 +74,11 @@ export async function generateConversationResponse(
         
         ${systemInstruction ? `ROLEPLAY CONTEXT: ${systemInstruction}\nStay in character.` : config.aiPrompt.tutorPersona}
         ${config.aiPrompt.negativeConstraint}
+        
+        IMPORTANT: The user is at level ${userLevel} in ${config.aiPrompt.targetLanguage}.
+        - If A1/A2 (Beginner): Speak simply, use basic vocabulary, short sentences.
+        - If B1/B2 (Intermediate): Speak naturally but clearly.
+        - If C1/C2 (Advanced): Speak fluently with idioms and complex grammar.
         
         1. Respond naturally to the user in ${config.aiPrompt.targetLanguage} (as your character).
         2. Analyze their message for grammatical errors.
@@ -405,7 +411,7 @@ export async function evaluateConversation(history: any[], language: string = "E
     };
 }
 
-export async function generateAudio(text: string, language: string = "ES") {
+export async function generateAudio(text: string, language: string = "ES", voiceOverride?: string) {
     if (!apiKey) throw new Error("API Key missing");
 
     // Strategy: Gemini 2.5 Flash TTS (Native Audio Generation)
@@ -427,7 +433,7 @@ export async function generateAudio(text: string, language: string = "ES") {
             speechConfig: {
                 voiceConfig: {
                     prebuiltVoiceConfig: {
-                        voiceName: config.tts.voiceName
+                        voiceName: voiceOverride || config.tts.voiceName
                     }
                 }
             }
@@ -657,7 +663,7 @@ export async function generateNewsScript(headlines: { title: string, snippet: st
 
     const headlinesText = headlines.map(h => `- ${h.title}: ${h.snippet}`).join("\n");
 
-    const prompt = `You are a professional News Anchor for a podcast called "Polyglot Daily".
+    const prompt = `You are a professional News Anchor for a podcast called "MyCanadaRP Daily".
     The listener is learning ${targetLang} (Level A2/B1 - Intermediate).
     
     Task: Create a short 2-minute news briefing script based on these real headlines:
@@ -667,7 +673,7 @@ export async function generateNewsScript(headlines: { title: string, snippet: st
     1. Language: Speak ONLY in ${targetLang}.
     2. Tone: Professional, clear, engaging, slighty simplified vocabulary for learners.
     3. Structure:
-       - Intro: "Welcome to Polyglot Daily. Here represents the world news for today."
+       - Intro: "Welcome to MyCanadaRP Daily. Here represents the world news for today."
        - Body: Cover the 3 most important stories from the list. Summarize them in 2-3 sentences each.
        - Outro: "That's all for today. Keep learning!"
     4. Do not include "[Scene start]" or other stage directions. Just the spoken text.
@@ -676,6 +682,52 @@ export async function generateNewsScript(headlines: { title: string, snippet: st
 
     const result = await model.generateContent(prompt);
     return result.response.text();
+}
+
+export async function correctUserAudio(audioBase64: string, language: string = "ES") {
+    if (!apiKey) throw new Error("API Key missing");
+
+    // Use gemini-2.0-flash for speed and multimodal capabilities
+    const model = await getGeminiModel("gemini-2.0-flash");
+    const config = getConfig(language);
+    const targetLang = config.aiPrompt.targetLanguage;
+
+    const prompt = `Listen to this student speaking ${targetLang}.
+    
+    1. Transcribe EXACTLY what they said.
+    2. Correct the sentence to be grammatically perfect and natural in ${targetLang}.
+    
+    Return a VALID JSON object:
+    {
+       "transcript": "Exact transcription of user speech",
+       "correction": "Corrected version (or same if already perfect)"
+    }
+    
+    ONLY RETURN JSON.`;
+
+    try {
+        console.log("Sending audio to Gemini for Mirror Mode...");
+        const result = await model.generateContent([
+            {
+                inlineData: {
+                    mimeType: "audio/webm",
+                    data: audioBase64
+                }
+            },
+            { text: prompt }
+        ]);
+
+        const responseText = result.response.text();
+        const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+        if (jsonMatch) return JSON.parse(jsonMatch[0]);
+        return JSON.parse(responseText);
+    } catch (e) {
+        console.error("Gemini Mirror Error", e);
+        return {
+            transcript: "(Error analyzing audio)",
+            correction: "Hola, ¿cómo estás?" // Fallback
+        };
+    }
 }
 
 

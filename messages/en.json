@@ -83,6 +83,14 @@
                 "title": "Vocal Coach",
                 "desc": "Perfect your accent."
             },
+            "translator": {
+                "title": "Live Translator",
+                "desc": "Instant speech translation"
+            },
+            "imitate": {
+                "title": "Doppelgänger",
+                "desc": "Clone your voice."
+            },
             "progress": {
                 "title": "Progress",
                 "desc": "Details of acquired skills and history."
@@ -90,6 +98,37 @@
             "characters": {
                 "title": "Symbols & Script",
                 "desc": "Learn the alphabet or specific characters."
+            },
+            "chrono": {
+                "title": "Chrono Call",
+                "desc": "Call history back. Talk with historical figures."
+            },
+            "podcast": {
+                "title": "MyCanadaRP Daily News",
+                "briefing": "World Briefing (2 min)",
+                "generating": "Generating...",
+                "listen": "Listen Briefing",
+                "pause": "Pause"
+            }
+        },
+        "intro": "Introduction",
+        "startSession": "Start Session",
+        "reco": {
+            "label": "Recommended for you",
+            "start": {
+                "title": "Start your journey!",
+                "desc": "Learn the basics of {language} now.",
+                "action": "Start Lesson 1"
+            },
+            "continue": {
+                "title": "Keep up the momentum!",
+                "desc": "You finished \"{lesson}\". Ready for next?",
+                "action": "Next Lesson"
+            },
+            "resume": {
+                "title": "Resume learning",
+                "desc": "It's been a while. A quick 5-min lesson?",
+                "action": "Resume"
             }
         }
     },

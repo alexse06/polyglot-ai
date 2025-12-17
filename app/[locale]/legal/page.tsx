@@ -45,6 +45,33 @@ export default function LegalPage() {
                     </div>
                 </section>
 
+                {/* CGU */}
+                <section className="space-y-4">
+                    <div className="flex items-center gap-3 text-2xl font-bold text-pink-500">
+                        <Lock />
+                        <h2>Conditions Générales d'Utilisation (CGU)</h2>
+                    </div>
+                    <div className="glass-card p-6 rounded-2xl space-y-4 text-gray-300 leading-relaxed">
+                        <p>
+                            En utilisant MyCanadaRP, vous acceptez les présentes conditions générales d'utilisation.
+                        </p>
+                        <ul className="list-disc pl-5 space-y-2">
+                            <li>
+                                <strong className="text-white">Accès au service :</strong> L'accès à MyCanadaRP est réservé à un usage personnel et non commercial. Nous nous réservons le droit de suspendre l'accès en cas d'abus.
+                            </li>
+                            <li>
+                                <strong className="text-white">Propriété Intellectuelle :</strong> Tous les contenus (textes, logos, code) sont la propriété exclusive de MyCanadaRP Inc. ou de ses concédants. Toute reproduction est interdite sans autorisation.
+                            </li>
+                            <li>
+                                <strong className="text-white">Responsabilité :</strong> MyCanadaRP ne peut être tenu responsable des interruptions de service ou des erreurs générées par l'intelligence artificielle (hallucinations). L'apprentissage des langues reste de la responsabilité de l'utilisateur.
+                            </li>
+                            <li>
+                                <strong className="text-white">Droit Applicable :</strong> Ces conditions sont régies par le droit français. En cas de litige, les tribunaux français seront seuls compétents.
+                            </li>
+                        </ul>
+                    </div>
+                </section>
+
                 {/* License */}
                 <section className="space-y-4">
                     <div className="flex items-center gap-3 text-2xl font-bold text-yellow-400">
@@ -53,7 +80,7 @@ export default function LegalPage() {
                     </div>
                     <div className="glass-card p-6 rounded-2xl space-y-4 font-mono text-sm bg-black/30 border border-gray-800 text-gray-400">
                         <p>MIT License</p>
-                        <p>Copyright (c) 2025 Polyglot AI</p>
+                        <p>Copyright (c) 2025 MyCanadaRP</p>
                         <p>
                             Permission is hereby granted, free of charge, to any person obtaining a copy
                             of this software and associated documentation files (the "Software"), to deal
@@ -79,7 +106,7 @@ export default function LegalPage() {
                 </section>
 
                 <div className="text-center text-gray-500 text-sm pt-8">
-                    Fait avec ❤️ par l'équipe Polyglot AI
+                    Fait avec ❤️ par l'équipe MyCanadaRP
                 </div>
             </div>
         </div>

@@ -21,6 +21,7 @@ export async function analyzeCareerDocs(formData: FormData) {
     const cvFile = formData.get('cv') as File | null;
     const jobDescription = formData.get('jobDescription') as string || '';
     const interviewType = formData.get('type') as string || 'HR';
+    const targetLanguage = formData.get('targetLanguage') as string || 'English';
 
     if (!cvFile) {
         throw new Error("CV file is required");
@@ -29,6 +30,13 @@ export async function analyzeCareerDocs(formData: FormData) {
     try {
         const cvPart = await fileToGenerativePart(cvFile);
 
+        const languageMap: Record<string, string> = {
+            'EN': 'English', 'ES': 'Spanish', 'FR': 'French', 'DE': 'German', 'IT': 'Italian',
+            'PT': 'Portuguese', 'RU': 'Russian', 'JA': 'Japanese', 'ZH': 'Chinese', 'VI': 'Vietnamese',
+            'AR': 'Arabic', 'KO': 'Korean'
+        };
+        const fullTargetLanguage = languageMap[targetLanguage] || targetLanguage;
+
         const prompt = `
         ACT AS AN EXPERT RECRUITER ANALYST.
         
@@ -36,6 +44,7 @@ export async function analyzeCareerDocs(formData: FormData) {
         Your goal is to prepare a "Recruiter Briefing" for a Live AI Interviewer.
         
         INTERVIEW TYPE: ${interviewType} (Focus on ${interviewType === 'TECHNICAL' ? 'Hard skills, coding, technical depth' : 'Soft skills, culture fit, behavioral questions'}).
+        TARGET LANGUAGE: ${fullTargetLanguage}
         
         JOB DESCRIPTION:
         "${jobDescription}"
@@ -57,8 +66,13 @@ export async function analyzeCareerDocs(formData: FormData) {
         - Be [Tone: e.g. Challenging but fairness for Tech, Warm but inquisitive for HR].
         - If they struggle with [Topic], dig deeper.
         
-        Language: Keep the conversation in the language of the CV or local language (likely French or English)."
-        `;
+        Language: The interview MUST be conducted in ${fullTargetLanguage}. Do not use English unless the candidate is applying for an English-speaking role or prompts you to."
+        
+        CRITICAL OUTPUT RULES:
+        1. Output ONLY the System Instruction block above. 
+        2. DO NOT include any conversational text like "Here is the instruction" or "I have analyzed the CV".
+        3. DO NOT use Markdown formatting. Pure text only.
+        4. START DIRECTLY with "You are an expert..."`;
 
         const response = await genAI.models.generateContent({
             model: "gemini-2.5-flash",

@@ -13,10 +13,13 @@ export default async function CareerPagePage({ params }: { params: Promise<{ loc
 
     const userNativeLanguageName = locale === 'fr' ? 'French' : locale === 'es' ? 'Spanish' : 'English';
 
+    const userTargetLanguage = user.learningLanguage || 'EN';
+
     return (
         <CareerPageClient
             apiKey={process.env.GEMINI_API_KEY || ''}
             userNativeLanguageName={userNativeLanguageName}
+            userTargetLanguage={userTargetLanguage}
         />
     );
 }

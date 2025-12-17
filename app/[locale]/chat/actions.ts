@@ -11,8 +11,17 @@ export async function sendMessage(history: { role: "user" | "model"; parts: { te
         // 1. Get or Create Conversation
         let conversationId: string | undefined;
 
-        // Default to ES if anything fails (though user should exist)
-        const learningLanguage = (await prisma.user.findUnique({ where: { id: userId || "" } }))?.learningLanguage || "ES";
+        // Fetch User and their progress for the current learning language
+        const user = await prisma.user.findUnique({
+            where: { id: userId || "" },
+            include: { languageProgress: true }
+        });
+
+        const learningLanguage = user?.learningLanguage || "ES";
+
+        // Find progress or default to A1
+        const progress = user?.languageProgress.find(p => p.language === learningLanguage);
+        const userLevel = progress?.level || "A1";
 
         if (userId) {
             // Find the most recent active conversation or create one
@@ -38,13 +47,19 @@ export async function sendMessage(history: { role: "user" | "model"; parts: { te
             });
 
             // Award small XP for chatting (e.g. 1 XP per message)
-            const crypto = require('crypto'); // simple import if needed or just use import at top
             try {
-                await import('@/lib/progress').then(p => p.addXP(userId, learningLanguage, 1));
-            } catch (e) { console.error("XP Error", e); }
+                // Ensure import works (sometimes dynamic imports can be tricky in server actions, 
+                // but direct import is better if not causing circular deps. We'll stick to dynamic for safety if it was working)
+                // Actually, let's use direct import if possible, but for now keep existing pattern if it works.
+                // Reverting to existing pattern for XP to avoid breakage.
+                const { addXP } = await import('@/lib/progress');
+                await addXP(userId, learningLanguage, 1);
+            } catch (e) {
+                console.error("XP Error", e);
+            }
         }
 
-        const response = await generateConversationResponse(history, message, undefined, learningLanguage);
+        const response = await generateConversationResponse(history, message, undefined, learningLanguage, userLevel);
 
         // response is now { text, correction, suggestions } or a fallback object
 

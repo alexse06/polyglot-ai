@@ -4,18 +4,23 @@ import { useState, useRef, useEffect } from 'react';
 import { generateDailyPodcast } from '@/app/actions/podcast';
 import { Loader2, Play, Pause, Radio, Globe } from 'lucide-react';
 
-export default function PodcastCard({ language }: { language: string }) {
+export default function PodcastCard({
+    language,
+    translations
+}: {
+    language: string;
+    translations: {
+        title: string;
+        briefing: string;
+        generating: string;
+        listen: string;
+        pause: string;
+    };
+}) {
     const [isLoading, setIsLoading] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
     const [audioSrc, setAudioSrc] = useState<string | null>(null);
     const audioRef = useRef<HTMLAudioElement | null>(null);
-
-    // Reset state when language changes
-    useState(() => {
-        setAudioSrc(null);
-        setIsPlaying(false);
-        setIsLoading(false);
-    });
 
     // Or better, use useEffect
     useEffect(() => {
@@ -79,8 +84,8 @@ export default function PodcastCard({ language }: { language: string }) {
                         <Radio size={24} />
                     </div>
                     <div>
-                        <h3 className="text-lg font-bold text-white">Polyglot Daily News</h3>
-                        <p className="text-xs text-gray-400">Briefing Monde (2 min)</p>
+                        <h3 className="text-lg font-bold text-white">{translations.title}</h3>
+                        <p className="text-xs text-gray-400">{translations.briefing}</p>
                     </div>
                 </div>
 
@@ -93,7 +98,7 @@ export default function PodcastCard({ language }: { language: string }) {
                                 className="flex-1 bg-white text-black font-bold py-3 px-4 rounded-xl hover:bg-gray-200 transition flex items-center justify-center gap-2 disabled:opacity-50"
                             >
                                 {isLoading ? <Loader2 className="animate-spin" /> : <Play fill="currentColor" />}
-                                {isLoading ? 'Generating...' : 'Listen Briefing'}
+                                {isLoading ? translations.generating : translations.listen}
                             </button>
                         ) : (
                             <button
@@ -101,7 +106,7 @@ export default function PodcastCard({ language }: { language: string }) {
                                 className="flex-1 bg-red-500/20 text-red-500 border border-red-500/50 font-bold py-3 px-4 rounded-xl hover:bg-red-500/30 transition flex items-center justify-center gap-2"
                             >
                                 <Pause fill="currentColor" />
-                                Pause
+                                {translations.pause}
                             </button>
                         )}
                     </div>
